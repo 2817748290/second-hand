@@ -1,0 +1,33 @@
+server:
+  port: 8087
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost/bookmanager?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    ip: localhost
+    port: 3306
+    database: bookmanager
+
+  thymeleaf:
+    cache: false
+    check-template: false
+    mode: LEGACYHTML5
+
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.liangliang.bookmanager.mapper
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+com:
+  liangliang:
+    custom:
+      windows-path: d:/liangliang
