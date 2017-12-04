@@ -31,3 +31,5 @@ com:
   liangliang:
     custom:
       windows-path: d:/liangliang
+      linux-path: /liangliang
+
