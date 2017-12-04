@@ -15,19 +15,22 @@ public class Book {
 
     private Date borrowDate;
 
+    private Date returnDate;
+
     private Integer type;
 
     private String isbn;
 
     private Integer state;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Integer type, String isbn, Integer state) {
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer type, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
         this.borrowDate = borrowDate;
+        this.returnDate = returnDate;
         this.type = type;
         this.isbn = isbn;
         this.state = state;
@@ -83,6 +86,14 @@ public class Book {
 
     public void setBorrowDate(Date borrowDate) {
         this.borrowDate = borrowDate;
+    }
+
+    public Date getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
     }
 
     public Integer getType() {
