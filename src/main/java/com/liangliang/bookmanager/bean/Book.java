@@ -1,5 +1,8 @@
 package com.liangliang.bookmanager.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.liangliang.bookmanager.config.CustomJsonDateDeserializer;
+
 import java.util.Date;
 
 public class Book {
@@ -13,8 +16,10 @@ public class Book {
 
     private String location;
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date borrowDate;
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date returnDate;
 
     private Integer type;

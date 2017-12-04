@@ -4,5 +4,10 @@ import com.liangliang.bookmanager.service.AdminService;
 import org.springframework.stereotype.Component;
 
 @Component
-public enum AdminServiceImpl implements AdminService {
+public class AdminServiceImpl implements AdminService {
+
+    @Override
+    public String say() {
+        return null;
+    }
 }

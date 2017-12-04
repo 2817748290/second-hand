@@ -20,12 +20,12 @@ public class CommonUtil {
     public static String WINDOWS_PATH;
     public static String LINUX_PATH;
 
-    @Value("${com.sxito.custom.windows-path}")
+    @Value("${com.liangliang.custom.windows-path}")
     public void setWindowsPath(String path) {
         WINDOWS_PATH = path;
     }
 
-    @Value("${com.sxito.custom.linux-path}")
+    @Value("${com.liangliang.custom.linux-path}")
     public void setLinuxPath(String path) {
         LINUX_PATH = path;
     }
