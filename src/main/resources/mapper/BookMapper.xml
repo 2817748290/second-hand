@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangliang.bookmanager.mapper.BookMapper">
+    <resultMap id="BookMap" type="Book">
+        <id column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="author" property="author"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="location" property="location"/>
+        <result column="borrow_date" property="borrowDate"/>
+        <result column="return_date" property="returnDate"/>
+        <result column="type" property="type"/>
+        <result column="isbn" property="isbn"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <!--<insert id="addClassGroup" parameterType="ClassGroup">-->
+        <!--INSERT INTO class_group (group_name,groups,class_id)-->
+        <!--VALUES (#{groupName},#{groups},#{classId})-->
+    <!--</insert>-->
+
+    <!--<select id="getClassGroupByGroupId" parameterType="int" resultMap="ClassGroupMap">-->
+        <!--SELECT * FROM class_group-->
+        <!--WHERE id = #{groupId}-->
+    <!--</select>-->
+
+    <select id="getBookList"  resultMap="BookMap">
+        SELECT * FROM book b
+    </select>
+
+</mapper>
