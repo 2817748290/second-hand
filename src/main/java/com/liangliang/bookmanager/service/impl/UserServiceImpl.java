@@ -3,6 +3,7 @@ package com.liangliang.bookmanager.service.impl;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,24 +26,52 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
             return null;
         }
-
         return userList;
     }
 
     @Override
-    public User selectById(Integer id) throws Exception {
-        User user = userMapper.selectById(id);
+    public User getUserById(Integer id) {
+        User user = new User();
+
+        try {
+            user = userMapper.getUserById(id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
         return user;
     }
 
     @Override
-    public boolean add(User user) throws Exception {
-        return userMapper.insert(user) == 1;
+    public boolean addUser(User user){
+        boolean state = false;
+        try {
+            state = userMapper.addUser(user) == 1 ? true : false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return state;
     }
 
     @Override
-    public boolean modify(User user) throws Exception {
-        return userMapper.update(user) == 1;
+    public boolean updateUser(User user){
+        boolean state = false;
+        try {
+            state = userMapper.updateUser(user) == 1 ? true : false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return state;
+    }
+
+    @Override
+    public boolean deleteUser(Integer id) {
+        boolean state = false;
+        try {
+            state = userMapper.deleteUser(id) == 1 ? true : false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return state;
     }
 
 
