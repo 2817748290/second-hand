@@ -95,4 +95,19 @@ public class User {
     public void seteMail(String eMail) {
         this.eMail = eMail == null ? null : eMail.trim();
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", points=" + points +
+                ", group=" + group +
+                ", userState=" + userState +
+                ", eMail='" + eMail + '\'' +
+                '}';
+    }
+
 }
