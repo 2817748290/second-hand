@@ -88,12 +88,12 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
-    public List<Book> searchBook(TableMessage tableMessage){
+    public TableMessage searchBook(TableMessage tableMessage){
 
         List<Book> bookList = new ArrayList<>();
 
         try {
-            bookList = bookMapper.searchBook(tableMessage);
+            bookList = bookMapper.getBookList();
 
             for (Book book: bookList) {
                 int userId = book.getUserId();
@@ -106,6 +106,6 @@ public class BookServiceImpl implements BookService{
         }
 
 
-        return bookList;
+        return tableMessage;
     }
 }

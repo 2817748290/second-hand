@@ -16,14 +16,9 @@ public class TableMessage {
     private int total;      //table需要后台返回两个值，total表示总数
     private Object rows;    //rows放返回数据
     private int status;
-    private int classId;    //这个是课程班级管理特别需要的，其他人不用管，忽略这个
-    private int nodeId;     //章节ID
 
     private int tags;
 
-
-    private int courseId;
-    private int teacherId;
 
     public Map result(){
         Map map = new HashMap();
@@ -45,11 +40,7 @@ public class TableMessage {
                 ", total=" + total +
                 ", rows=" + rows +
                 ", status=" + status +
-                ", classId=" + classId +
-                ", nodeId=" + nodeId +
                 ", tags=" + tags +
-                ", courseId=" + courseId +
-                ", teacherId=" + teacherId +
                 '}';
     }
 
@@ -132,33 +123,5 @@ public class TableMessage {
     public void setStatus(int status) {
         this.status = status;
     }
-
-    public int getClassId() {
-        return classId;
-    }
-
-    public void setClassId(int classId) {
-        this.classId = classId;
-    }
-
-    public int getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
-    }
-
-    public int getTeacherId() {
-        return teacherId;
-    }
-
-    public void setTeacherId(int teacherId) {
-        this.teacherId = teacherId;
-    }
-
-    public int getNodeId() { return nodeId; }
-
-    public void setNodeId(int nodeId) { this.nodeId = nodeId; }
 
 }

@@ -18,6 +18,6 @@ public interface BookService {
 
     public Book getBookInfoById(int bookId) throws Exception;
 
-    public List<Book> searchBook(TableMessage tableMessage) throws Exception;
+    public TableMessage searchBook(TableMessage tableMessage) throws Exception;
 
 }
