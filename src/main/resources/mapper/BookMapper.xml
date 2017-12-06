@@ -16,18 +16,60 @@
         <result column="state" property="state"/>
     </resultMap>
 
-    <!--<insert id="addClassGroup" parameterType="ClassGroup">-->
-        <!--INSERT INTO class_group (group_name,groups,class_id)-->
-        <!--VALUES (#{groupName},#{groups},#{classId})-->
-    <!--</insert>-->
+    <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
+        INSERT INTO book (book_name,author,image_url,location,borrow_date,return_date,type,isbn)
+        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{borrowDate},#{returnDate},#{type},#{isbn})
+    </insert>
 
-    <!--<select id="getClassGroupByGroupId" parameterType="int" resultMap="ClassGroupMap">-->
-        <!--SELECT * FROM class_group-->
-        <!--WHERE id = #{groupId}-->
-    <!--</select>-->
+    <update id="updateBook" parameterType="com.liangliang.bookmanager.bean.Book">
+        UPDATE book
+        <set>
+            <if test="bookName != null">
+                book_name = #{bookName}
+            </if>
+            <if test="author != null">
+                author = #{author}
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl}
+            </if>
+            <if test="location != null">
+                location = #{location}
+            </if>
+            <if test="borrowDate != null">
+                borrow_date = #{borrowDate}
+            </if>
+            <if test="returnDate != null">
+                return_date = #{returnDate}
+            </if>
+            <if test="type != null">
+                type = #{type}
+            </if>
+            <if test="isbn != null">
+                isbn = #{isbn}
+            </if>
+        </set>
+    </update>
+
+    <select id="searchBook" resultMap="BookMap">
+        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        AND ${searchName} LIKE #{search}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
 
     <select id="getBookList"  resultMap="BookMap">
         SELECT * FROM book b
     </select>
 
+    <delete id="deleteBook" parameterType="int">
+        DELETE FROM book
+        WHERE book_id=#{bookId}
+    </delete>
+
+    <select id="getBookInfoById" parameterType="int" resultMap="BookMap">
+        SELECT * FROM book b
+        WHERE book_id=#{bookId}
+    </select>
 </mapper>

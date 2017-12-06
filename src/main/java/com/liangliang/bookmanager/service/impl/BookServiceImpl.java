@@ -1,6 +1,7 @@
 package com.liangliang.bookmanager.service.impl;
 
 import com.liangliang.bookmanager.bean.Book;
+import com.liangliang.bookmanager.bean.TableMessage;
 import com.liangliang.bookmanager.mapper.BookMapper;
 import com.liangliang.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,83 @@ public class BookServiceImpl implements BookService{
         }
 
         return bookList;
+    }
+
+    @Override
+    public Integer addBook(Book book){
+
+        int state = 0;
+        try {
+            state = bookMapper.addBook(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return state;
+    }
+
+    @Override
+    public Integer updateBook(Book book){
+
+        int state = 0;
+        try {
+            state = bookMapper.updateBook(book);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return state;
+    }
+
+    @Override
+    public Integer deleteBook(int bookId) throws Exception {
+
+        int state = 0;
+        try {
+            state = bookMapper.deleteBook(bookId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+
+        return state;
+    }
+
+    @Override
+    public Book getBookInfoById(int bookId) {
+
+        Book book = new Book();
+
+        try {
+            book = bookMapper.getBookInfoById(bookId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return book;
+    }
+
+    @Override
+    public TableMessage searchBook(TableMessage tableMessage){
+
+        List<Book> bookList = new ArrayList<>();
+
+        try {
+            bookList = bookMapper.getBookList();
+
+            for (Book book: bookList) {
+                int userId = book.getUserId();
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+        return tableMessage;
     }
 }

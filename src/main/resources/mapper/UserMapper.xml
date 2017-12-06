@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangliang.bookmanager.mapper.UserMapper">
+    <resultMap id="UserMap" type="com.liangliang.bookmanager.bean.User">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="points" property="points"/>
+        <result column="group" property="group"/>
+        <result column="user_state" property="userState"/>
+        <result column="e-mail" property="eMail"/>
+    </resultMap>
+
+    <select id="getUserList"  resultMap="UserMap">
+        SELECT * FROM `user` u
+    </select>
+    <select id="selectById"  resultMap="UserMap">
+        SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
+    </select>
+    <insert id="insert" parameterType="com.liangliang.bookmanager.bean.Book">
+        INSERT INTO `user` (`user_id`,`username`,`password`,`nickname`,`points`,`group`,`user_state`,`e-mail`)
+        VALUES (#{userId},#{username},#{password},#{nickname},#{points},#{group},#{userState},#{eMail})
+    </insert>
+    <update id="update" parameterType="com.liangliang.bookmanager.bean.Book">
+        UPDATE `user` SET `username`=#{username},`password`=#{password}
+        ,`nickname`=#{nickname},`points`=#{points},`group`=#{group}
+        ,`user_state`=#{userState},`e-mail`=#{eMail} WHERE `user_id`=#{userId}
+    </update>
+</mapper>

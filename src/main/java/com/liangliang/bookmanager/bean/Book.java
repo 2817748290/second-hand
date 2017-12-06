@@ -28,6 +28,10 @@ public class Book {
 
     private Integer state;
 
+    private Integer userId;
+
+    private User user;
+
     public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer type, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
@@ -123,5 +127,21 @@ public class Book {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
