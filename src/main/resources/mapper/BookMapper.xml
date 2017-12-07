@@ -49,6 +49,7 @@
                 isbn = #{isbn}
             </if>
         </set>
+
     </update>
 
     <select id="searchBook" resultMap="BookMap">
