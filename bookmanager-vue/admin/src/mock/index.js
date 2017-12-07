@@ -1,6 +1,8 @@
 import Mock from 'mockjs'
 import loginAPI from './login'
 import articleAPI from './article'
+import userAPI from './user'
+import bookAPI from './book'
 import remoteSearchAPI from './remoteSearch'
 import transactionAPI from './transaction'
 
@@ -12,6 +14,18 @@ import transactionAPI from './transaction'
 Mock.mock(/\/login\/login/, 'post', loginAPI.loginByUsername)
 Mock.mock(/\/login\/logout/, 'post', loginAPI.logout)
 Mock.mock(/\/user\/info\.*/, 'get', loginAPI.getUserInfo)
+// 用户相关
+Mock.mock(/\/user\/list/, 'get', userAPI.getList)
+Mock.mock(/\/user\/detail/, 'get', userAPI.getUser)
+Mock.mock(/\/user\/pv/, 'get', userAPI.getPv)
+Mock.mock(/\/user\/create/, 'post', userAPI.createUser)
+Mock.mock(/\/user\/update/, 'post', userAPI.updateUser)
+// 书籍相关
+Mock.mock(/\/book\/list/, 'get', bookAPI.getList)
+Mock.mock(/\/book\/detail/, 'get', bookAPI.getBook)
+Mock.mock(/\/book\/pv/, 'get', bookAPI.getPv)
+Mock.mock(/\/book\/create/, 'post', bookAPI.createBook)
+Mock.mock(/\/book\/update/, 'post', bookAPI.updateBook)
 
 // 文章相关
 Mock.mock(/\/article\/list/, 'get', articleAPI.getList)

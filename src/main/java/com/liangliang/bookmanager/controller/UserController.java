@@ -101,7 +101,7 @@ public class UserController {
     @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
     @ResponseBody
     public Message deleteUser(@RequestParam(value = "userId") Integer id){
-        try {
+                try {
             if(userService.deleteUser(id)){
                 return new Message(Message.SUCCESS,"删除用户成功！",null);
             }else{
