@@ -17,16 +17,48 @@
     <select id="getUserList"  resultMap="UserMap">
         SELECT * FROM `user` u
     </select>
-    <select id="selectById"  resultMap="UserMap">
+    <select id="getUserById"  resultMap="UserMap">
         SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
     </select>
-    <insert id="insert" parameterType="com.liangliang.bookmanager.bean.Book">
-        INSERT INTO `user` (`user_id`,`username`,`password`,`nickname`,`points`,`group`,`user_state`,`e-mail`)
-        VALUES (#{userId},#{username},#{password},#{nickname},#{points},#{group},#{userState},#{eMail})
+    <insert id="addUser" parameterType="com.liangliang.bookmanager.bean.User">
+        INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`e-mail`)
+        SELECT #{username},#{password},#{nickname},#{points},#{group},#{userState},#{eMail} FROM DUAL
+        WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `user` WHERE `username`=#{username})a)
     </insert>
-    <update id="update" parameterType="com.liangliang.bookmanager.bean.Book">
-        UPDATE `user` SET `username`=#{username},`password`=#{password}
-        ,`nickname`=#{nickname},`points`=#{points},`group`=#{group}
-        ,`user_state`=#{userState},`e-mail`=#{eMail} WHERE `user_id`=#{userId}
+    <update id="updateUser" parameterType="com.liangliang.bookmanager.bean.User">
+        UPDATE `user`
+        <set>
+            <if test="username != null">
+                `username` = #{username},
+            </if>
+            <if test="password != null">
+                `password`=#{password},
+            </if>
+            <if test="nickname != null">
+                `nickname` = #{nickname},
+            </if>
+            <if test="group != null">
+                `group` = #{group},
+            </if>
+            <if test="points != null">
+                `points`= #{points},
+            </if>
+            <if test="userState != null">
+                `user_state` = #{userState},
+            </if>
+            <if test="eMail != null">
+                `e-mail` = #{eMail}
+            </if>
+        </set>
+        where user_id=#{userId}
+        <if test="username != null">
+            and not exists(select 1 from(select 1 from `user` where `username`=#{username})a)
+        </if>
     </update>
+
+    <delete id="deleteUser">
+        DELETE FROM `user`
+        WHERE `user_id`=#{_parameter}
+    </delete>
+
 </mapper>

@@ -65,7 +65,7 @@ public class BookController {
 
     @RequestMapping(value = "/deleteBook", method = RequestMethod.POST)
     @ResponseBody
-    public Message deleteBook(@RequestParam(value = "bookId") int bookId){
+    public Message deleteBook(@RequestParam("bookId") int bookId){
 
         int state = 0;
 
@@ -80,7 +80,7 @@ public class BookController {
 
     @RequestMapping(value = "/getBookInfoById", method = RequestMethod.POST)
     @ResponseBody
-    public Message getBookInfoById(@RequestParam(value = "bookId") int bookId){
+    public Message getBookInfoById(@RequestParam("bookId") int bookId){
 
         Book book = new Book();
 
@@ -95,9 +95,8 @@ public class BookController {
 
     @RequestMapping(value = "/getInitSearchBook", method = RequestMethod.POST)
     @ResponseBody
-    public Map searchBook(@RequestBody TableMessage tableMessage){
-
-        return null;
+    public Map searchBook(@RequestBody TableMessage tableMessage) throws Exception {
+        return bookService.searchBook(tableMessage).result();
     }
 
 }

@@ -18,7 +18,7 @@ public interface UserService {
      * @return
      * @throws Exception
      */
-    public User selectById(Integer id) throws Exception;
+    public User getUserById(Integer id) throws Exception;
 
     /**
      * 新增一个用户
@@ -26,13 +26,21 @@ public interface UserService {
      * @return
      * @throws Exception
      */
-    public boolean add(User user) throws Exception;
+    public boolean addUser(User user);
     /**
      * 修改一个用户
      * @param user
      * @return
      * @throws Exception
      */
-    public boolean modify(User user) throws Exception;
+    public boolean updateUser(User user);
+
+    /**
+     * 删除一个用户
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean deleteUser(Integer id);
 
 }

@@ -20,18 +20,22 @@ public interface UserMapper {
      * @return
      * @throws Exception
      */
-    public User selectById(Integer id) throws Exception;
+    public User getUserById(Integer id) throws Exception;
 
     /**
      * 新增一个用户
      * @param user
      * @return
      */
-    public int insert(User user) throws Exception;
+    public int addUser(User user) throws Exception;
 
     /**
      * 修改一个用户
      */
-    public int update(User user) throws Exception;
+    public int updateUser(User user) throws Exception;
 
+    /**
+     * 修改一个用户
+     */
+    public int deleteUser(Integer id) throws Exception;
 }

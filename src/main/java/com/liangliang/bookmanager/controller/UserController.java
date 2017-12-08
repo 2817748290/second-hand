@@ -20,7 +20,7 @@ public class UserController {
      * 获取用户列表
      * @return
      */
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserList", method = RequestMethod.POST)
     @ResponseBody
     public Message getUserList(){
 
@@ -40,17 +40,17 @@ public class UserController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getUserById", method = RequestMethod.POST)
     @ResponseBody
-    public Message getUserById(@PathVariable("userId") Integer id){
+    public Message getUserById(@RequestParam("userId") Integer id){
         User user = new User();
         try {
-            user = userService.selectById(id);
+            user = userService.getUserById(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Message(Message.ERROR,"获取用户成功！",null);
+            return new Message(Message.ERROR,"获取用户失败！", null);
         }
-        return new Message(Message.SUCCESS,"获取用户失败！",null);
+        return new Message(Message.SUCCESS,"获取用户成功！",user);
     }
 
     /**
@@ -58,12 +58,12 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public Message add(@RequestBody User user){
+    public Message addUser(@RequestBody User user){
 
         try {
-            if(userService.add(user)){
+            if(userService.addUser(user)){
                 return new Message(Message.SUCCESS,"新增用户成功！",null);
             }else{
                 return new Message(Message.ERROR,"新增用户失败！",null);
@@ -79,11 +79,11 @@ public class UserController {
      * @param user
      * @return
      */
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public Message modify(@RequestBody User user){
+    public Message updateUser(@RequestBody User user){
         try {
-            if(userService.modify(user)){
+            if(userService.updateUser(user)){
                 return new Message(Message.SUCCESS,"修改用户成功！",null);
             }else{
                 return new Message(Message.ERROR,"修改用户失败！",null);
@@ -93,5 +93,23 @@ public class UserController {
             return new Message(Message.ERROR,"修改用户失败！",null);
         }
     }
-
+    /**
+     * 删除用户
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/deleteUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Message deleteUser(@RequestParam(value = "userId") Integer id){
+                try {
+            if(userService.deleteUser(id)){
+                return new Message(Message.SUCCESS,"删除用户成功！",null);
+            }else{
+                return new Message(Message.ERROR,"删除用户失败！",null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(Message.ERROR,"删除用户失败！",null);
+        }
+    }
 }

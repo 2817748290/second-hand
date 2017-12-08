@@ -1,6 +1,9 @@
 export default {
   route: {
     dashboard: '首页',
+    user: '用户管理',
+    book: '书籍管理',
+    order: '借书管理',
     introduction: '简述',
     documentation: '文档',
     permission: '权限测试页',
