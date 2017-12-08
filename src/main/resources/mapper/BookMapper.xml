@@ -49,7 +49,7 @@
                 isbn = #{isbn}
             </if>
         </set>
-
+        WHERE book_id = #{bookId}
     </update>
 
     <select id="searchBook" resultMap="BookMap">
@@ -60,9 +60,32 @@
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
+    <select id="searchBookCount" resultMap="BookMap">
+        SELECT COUNT(*) FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        AND ${searchName} LIKE #{search}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
     <select id="getBookList"  resultMap="BookMap">
         SELECT * FROM book b
     </select>
+
+    <select id="getBookAndUserList"  resultMap="BookMap">
+        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="bookCount" >
+        SELECT COUNT(*) FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
 
     <delete id="deleteBook" parameterType="int">
         DELETE FROM book
