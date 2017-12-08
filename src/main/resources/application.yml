@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost/bookmanager?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://101.132.140.132/bookmanager?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
     ip: localhost
     port: 3306
     database: bookmanager
@@ -31,3 +31,5 @@ com:
   liangliang:
     custom:
       windows-path: d:/liangliang
+      linux-path: /liangliang
+
