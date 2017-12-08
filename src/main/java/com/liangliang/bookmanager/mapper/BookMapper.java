@@ -21,4 +21,10 @@ public interface BookMapper {
 
     public List<Book> searchBook(TableMessage tableMessage) throws Exception;
 
+    public Integer searchBookCount(TableMessage tableMessage) throws Exception;
+
+    public List<Book> getBookAndUserList(TableMessage tableMessage) throws Exception;
+
+    public Integer bookCount(TableMessage tableMessage) throws Exception;
+
 }
