@@ -1,5 +1,6 @@
 package com.liangliang.bookmanager.mapper;
 
+import com.liangliang.bookmanager.bean.TableMessage;
 import com.liangliang.bookmanager.bean.User;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -22,6 +23,13 @@ public interface UserMapper {
      */
     public User getUserById(Integer id) throws Exception;
 
+    /**
+     * 根据TableMessage和用户组别查询用户
+     * @param tableMessage
+     * @param group
+     * @return
+     */
+    public List<User> searchUser(TableMessage tableMessage, int group);
     /**
      * 新增一个用户
      * @param user

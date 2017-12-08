@@ -7,20 +7,12 @@ const count = 100
 for (let i = 0; i < count; i++) {
   List.push(Mock.mock({
     id: '@increment',
-    timestamp: +Mock.Random.date('T'),
     username: '@cname',
     nickname: '@cname',
-    title: '@ctitle(10, 20)',
-    forecast: '@float(0, 100, 2, 2)',
-    importance: '@integer(1, 3)',
     points: '@integer(0,50)',
     'group|1': ['超级管理员', '普通管理员', '普通用户'],
-    'type|1': ['CN', 'US', 'JP', 'EU'],
-    'status|1': ['published', 'draft', 'deleted'],
     'userState|1': ['在线', '离线'],
-    email: '@email',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
+    email: '@email'
   }))
 }
 
