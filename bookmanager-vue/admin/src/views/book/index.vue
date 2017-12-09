@@ -25,7 +25,7 @@
       style="width: 100%">
       <el-table-column align="center" label="序号" width="65">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{scope.row.bookId}}</span>
         </template>
       </el-table-column>
       <el-table-column width="180px" align="center" label="书名">
@@ -48,16 +48,15 @@
           <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.author}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" label="图片">
+      <el-table-column width="110px" align="center" label="位置">
         <template slot-scope="scope">
-          <span>{{scope.row.imageUrl}}</span>
+          <span>{{scope.row.location}}</span>
         </template>
       </el-table-column>
-      <el-table-column width="110px" align="center" label="库存">
+      <el-table-column width="110px" align="center" label="状态">
         <template slot-scope="scope">
-          <span>{{scope.row.stock}}</span>
+          <span>{{scope.row.state}}</span>
         </template>
-      </el-table-column>
       </el-table-column>
       <el-table-column width="110px" v-if='showAuditor' align="center" label="审核人">
         <template slot-scope="scope">
@@ -158,12 +157,9 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        page: 1,
+        offset: 1,
         limit: 20,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
-        sort: '+id'
+        sort: 'id'
       },
       importanceOptions: [1, 2, 3],
       calendarTypeOptions,
@@ -214,7 +210,7 @@ export default {
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
+        this.list = response.data.result
         this.total = response.data.total
         this.listLoading = false
       })

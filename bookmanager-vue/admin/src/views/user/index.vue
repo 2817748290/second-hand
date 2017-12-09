@@ -25,7 +25,7 @@
       style="width: 100%">
       <el-table-column align="center" label="序号" width="65">
         <template slot-scope="scope">
-          <span>{{scope.row.id}}</span>
+          <span>{{result.bookId}}</span>
         </template>
       </el-table-column>
       <el-table-column width="180px" align="center" label="用户名">

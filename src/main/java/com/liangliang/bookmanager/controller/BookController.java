@@ -93,7 +93,7 @@ public class BookController {
         return new Message(Message.SUCCESS,"获取对应id图书信息成功！",book);
     }
 
-    @RequestMapping(value = "/getInitSearchBook", method = RequestMethod.POST)
+    @RequestMapping(value = "/getInitBookList", method = RequestMethod.POST)
     @ResponseBody
     public Map searchBook(@RequestBody TableMessage tableMessage) throws Exception {
         return bookService.searchBook(tableMessage).result();

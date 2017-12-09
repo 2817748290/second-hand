@@ -22,7 +22,7 @@ public class Book {
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date returnDate;
 
-    private Integer type;
+    private Integer typeId;
 
     private String isbn;
 
@@ -32,7 +32,9 @@ public class Book {
 
     private User user;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer type, String isbn, Integer state) {
+    private Type type;
+
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer typeId, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
@@ -40,7 +42,7 @@ public class Book {
         this.location = location;
         this.borrowDate = borrowDate;
         this.returnDate = returnDate;
-        this.type = type;
+        this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
     }
@@ -105,12 +107,12 @@ public class Book {
         this.returnDate = returnDate;
     }
 
-    public Integer getType() {
-        return type;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public String getIsbn() {
@@ -143,5 +145,13 @@ public class Book {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }
