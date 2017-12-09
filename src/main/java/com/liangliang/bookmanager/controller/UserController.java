@@ -1,6 +1,7 @@
 package com.liangliang.bookmanager.controller;
 
 import com.liangliang.bookmanager.bean.Message;
+import com.liangliang.bookmanager.bean.TableMessage;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -53,6 +55,16 @@ public class UserController {
         return new Message(Message.SUCCESS,"获取用户成功！",user);
     }
 
+    /**
+     * 根据
+     * @param tableMessage
+     * @return
+     */
+    @RequestMapping(value = "/getSearchUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map getSearchUser(@RequestBody TableMessage tableMessage) throws Exception{
+        return userService.searchUser(tableMessage,0).result();
+    }
     /**
      * 新增用户
      * @param user
