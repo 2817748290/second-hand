@@ -16,7 +16,6 @@ public class TableMessage {
     private int total;      //table需要后台返回两个值，total表示总数
     private Object rows;    //rows放返回数据
     private int status;
-
     private int tags;
 
 

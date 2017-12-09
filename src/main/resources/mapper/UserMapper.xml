@@ -20,6 +20,20 @@
     <select id="getUserById"  resultMap="UserMap">
         SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
     </select>
+    <select id="searchUser" resultMap="UserMap">
+        SELECT u.*,g.`user_group_info` FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
+        <where>
+            <if test="group != null">
+                AND u.`group` = #{group}
+            </if>
+            <if test="searchName != null">
+                AND #{searchName} LIKE #{search}
+            </if>
+        </where>
+        ORDER BY #{sort} #{order} LIMIT #{offset},#{limit}
+    </select>
+
     <insert id="addUser" parameterType="com.liangliang.bookmanager.bean.User">
         INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`e-mail`)
         SELECT #{username},#{password},#{nickname},#{points},#{group},#{userState},#{eMail} FROM DUAL

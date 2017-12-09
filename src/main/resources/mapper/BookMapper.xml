@@ -11,14 +11,14 @@
         <result column="location" property="location"/>
         <result column="borrow_date" property="borrowDate"/>
         <result column="return_date" property="returnDate"/>
-        <result column="type" property="type"/>
+        <result column="type_id" property="typeId"/>
         <result column="isbn" property="isbn"/>
         <result column="state" property="state"/>
     </resultMap>
 
     <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
-        INSERT INTO book (book_name,author,image_url,location,borrow_date,return_date,type,isbn)
-        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{borrowDate},#{returnDate},#{type},#{isbn})
+        INSERT INTO book (book_name,author,image_url,location,borrow_date,return_date,type_id,isbn)
+        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{borrowDate},#{returnDate},#{typeId},#{isbn})
     </insert>
 
     <update id="updateBook" parameterType="com.liangliang.bookmanager.bean.Book">
@@ -42,8 +42,8 @@
             <if test="returnDate != null">
                 return_date = #{returnDate}
             </if>
-            <if test="type != null">
-                type = #{type}
+            <if test="typeId != null">
+                type_id = #{typeId}
             </if>
             <if test="isbn != null">
                 isbn = #{isbn}

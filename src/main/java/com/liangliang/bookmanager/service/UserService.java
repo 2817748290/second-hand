@@ -1,5 +1,6 @@
 package com.liangliang.bookmanager.service;
 
+import com.liangliang.bookmanager.bean.TableMessage;
 import com.liangliang.bookmanager.bean.User;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public interface UserService {
      */
     public User getUserById(Integer id) throws Exception;
 
+    public TableMessage searchUser(TableMessage tableMessage, int group) throws Exception;
     /**
      * 新增一个用户
      * @param user

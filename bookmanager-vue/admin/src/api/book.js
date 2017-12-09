@@ -2,9 +2,11 @@ import request from '@/utils/request'
 
 export function fetchList(query) {
   return request({
-    url: '/book/list',
-    method: 'get',
-    params: query
+    // url: 'api/book/getInitBookList',
+    // method: 'post',
+    // params: query
+    url: 'api/book/getBookList',
+    method: 'post'
   })
 }
 
