@@ -157,37 +157,37 @@ export const asyncRouterMap = [
   //   ]
   // },
 
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table/complex-table',
-  //   name: 'example',
-  //   meta: {
-  //     title: 'example',
-  //     icon: 'example'
-  //   },
-  //   children: [
-  //     {
-  //       path: '/example/table',
-  //       component: _import('example/table/index'),
-  //       redirect: '/example/table/complex-table',
-  //       name: 'Table',
-  //       meta: {
-  //         title: 'Table',
-  //         icon: 'table'
-  //       },
-  //       children: [
-  //         { path: 'dynamic-table', component: _import('example/table/dynamicTable/index'), name: 'dynamicTable', meta: { title: 'dynamicTable' }},
-  //         { path: 'drag-table', component: _import('example/table/dragTable'), name: 'dragTable', meta: { title: 'dragTable' }},
-  //         { path: 'inline-edit-table', component: _import('example/table/inlineEditTable'), name: 'inlineEditTable', meta: { title: 'inlineEditTable' }},
-  //         { path: 'complex-table', component: _import('example/table/complexTable'), name: 'complexTable', meta: { title: 'complexTable' }}
-  //       ]
-  //     },
-  //     { path: 'tab/index', icon: 'tab', component: _import('example/tab/index'), name: 'tab', meta: { title: 'tab' }}
-  //   ]
-  // },
+  {
+    path: '/example',
+    component: Layout,
+    redirect: '/example/table/complex-table',
+    name: 'example',
+    meta: {
+      title: 'example',
+      icon: 'example'
+    },
+    children: [
+      {
+        path: '/example/table',
+        component: _import('example/table/index'),
+        redirect: '/example/table/complex-table',
+        name: 'Table',
+        meta: {
+          title: 'Table',
+          icon: 'table'
+        },
+        children: [
+          { path: 'dynamic-table', component: _import('example/table/dynamicTable/index'), name: 'dynamicTable', meta: { title: 'dynamicTable' }},
+          { path: 'drag-table', component: _import('example/table/dragTable'), name: 'dragTable', meta: { title: 'dragTable' }},
+          { path: 'inline-edit-table', component: _import('example/table/inlineEditTable'), name: 'inlineEditTable', meta: { title: 'inlineEditTable' }},
+          { path: 'complex-table', component: _import('example/table/complexTable'), name: 'complexTable', meta: { title: 'complexTable' }}
+        ]
+      },
+      { path: 'tab/index', icon: 'tab', component: _import('example/tab/index'), name: 'tab', meta: { title: 'tab' }}
+    ]
+  }
 
-  // {
+  // ,{
   //   path: '/form',
   //   component: Layout,
   //   redirect: 'noredirect',

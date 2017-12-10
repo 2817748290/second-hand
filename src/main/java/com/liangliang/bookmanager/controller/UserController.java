@@ -2,6 +2,7 @@ package com.liangliang.bookmanager.controller;
 
 import com.liangliang.bookmanager.bean.Message;
 import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,8 +63,8 @@ public class UserController {
      */
     @RequestMapping(value = "/getSearchUser", method = RequestMethod.POST)
     @ResponseBody
-    public Map getSearchUser(@RequestBody TableMessage tableMessage) throws Exception{
-        return userService.searchUser(tableMessage,0).result();
+    public Map getSearchUser(@RequestBody TableMessageForUser tableMessage) throws Exception{
+        return userService.searchUser(tableMessage).result();
     }
     /**
      * 新增用户

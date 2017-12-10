@@ -1,6 +1,8 @@
 package com.liangliang.bookmanager.service.impl;
 
+import com.liangliang.bookmanager.bean.Book;
 import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.UserService;
@@ -41,13 +43,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TableMessage searchUser(TableMessage tableMessage, int group) throws Exception {
+    public TableMessage searchUser(TableMessageForUser tableMessage) throws Exception {
         List<User> userList = new ArrayList<>();
         //1.判断你昵称和用户组搜索条件是否为空,若为空则返回所有数据
         try {
-            userList = userMapper.searchUser(tableMessage,group);
+            tableMessage.setSearch("%"+tableMessage.getSearch()+"%");
+            userList = userMapper.searchUser(tableMessage);
             System.out.println(userList);
-
+            userList = userMapper.searchUser(tableMessage);
+            tableMessage.setRows(userList);
+            tableMessage.setTotal(userList.size());
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -87,6 +92,20 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return state;
+    }
+
+    @Override
+    public boolean validate(User user) {
+        try {
+            User result = userMapper.getByEmailAndPwd(user);
+            if(result != null){
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 
 

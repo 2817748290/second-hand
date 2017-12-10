@@ -25,7 +25,7 @@
       style="width: 100%">
       <el-table-column align="center" label="序号" width="65">
         <template slot-scope="scope">
-          <span>{{result.bookId}}</span>
+          <span>{{scope.row.userId}}</span>
         </template>
       </el-table-column>
       <el-table-column width="180px" align="center" label="用户名">
@@ -136,12 +136,14 @@ export default {
       total: null,
       listLoading: true,
       listQuery: {
-        page: 1,
+        offset: 1,
         limit: 20,
-        group: undefined,
+        groupValue: 0,
+        searchName: 'nickname',
+        search: '',
         username: undefined,
         nickname: undefined,
-        sort: '+id'
+        sort: '+user_id'
       },
       group: ['超级管理员', '普通管理员', '普通用户'],
       sortOptions: [{ label: '按ID升序列', key: '+id' }, { label: '按ID降序', key: '-id' }],
@@ -190,7 +192,7 @@ export default {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
         console.log(response.data)
-        this.list = response.data.items
+        this.list = response.data.result
         this.total = response.data.total
         this.listLoading = false
       })
