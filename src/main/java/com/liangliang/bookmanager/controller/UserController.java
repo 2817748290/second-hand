@@ -64,6 +64,7 @@ public class UserController {
     @RequestMapping(value = "/getSearchUser", method = RequestMethod.POST)
     @ResponseBody
     public Map getSearchUser(@RequestBody TableMessageForUser tableMessage) throws Exception{
+        System.out.println(tableMessage);
         return userService.searchUser(tableMessage).result();
     }
     /**
