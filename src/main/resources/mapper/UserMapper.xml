@@ -20,19 +20,6 @@
     <select id="getUserById"  resultMap="UserMap">
         SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
     </select>
-    <select id="searchUser" resultMap="UserMap">
-        SELECT u.*,g.`user_group_info` FROM `user` u
-        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
-        <where>
-            <if test="#{groupValue} != null">
-                AND u.`group` = #{groupValue}
-            </if>
-            <if test="searchName != null">
-                AND #{searchName} LIKE #{search}
-            </if>
-        </where>
-        ORDER BY #{sort} LIMIT #{offset},#{limit}
-    </select>
     <select id="getByEmailAndPwd" resultMap="UserMap">
         select u.`user_id`,u.`email`,u.`nickname` from `user` u
         <where>
@@ -44,18 +31,31 @@
             </if>
         </where>
     </select>
-    <select id="searchUserCount">
-        SELECT COUNT(*) FROM `user` u
+    <select id="searchUser" resultMap="UserMap">
+        SELECT u.*,g.`user_group_info` FROM `user` u
         LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
         <where>
             <if test="groupValue != null">
                 AND u.`group` = #{groupValue}
             </if>
             <if test="searchName != null">
-                AND #{searchName} LIKE #{search}
+                AND ${searchName} LIKE #{search}
             </if>
         </where>
-        ORDER BY #{sort} LIMIT #{offset},#{limit}
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
+    </select>
+    <select id="searchUserCount">
+        SELECT COUNT(*) FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
+       <where>
+            <if test="groupValue != null">
+                AND u.`group` = #{groupValue}
+            </if>
+            <if test="searchName != null and search != null">
+                AND ${searchName} LIKE #{search}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
     <insert id="addUser" parameterType="com.liangliang.bookmanager.bean.User">
         INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`email`)

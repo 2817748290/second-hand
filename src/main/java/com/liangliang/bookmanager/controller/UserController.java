@@ -75,7 +75,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
     public Message addUser(@RequestBody User user){
-
+        System.out.println(user.toString());
         try {
             if(userService.addUser(user)){
                 return new Message(Message.SUCCESS,"新增用户成功！",null);

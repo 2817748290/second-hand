@@ -4,7 +4,7 @@
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="姓名"></el-input>
+					<el-input v-model="filters.search" placeholder="昵称"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getUsers">查询</el-button>
@@ -22,13 +22,13 @@
 				</el-table-column>
 				<el-table-column prop="username" label="用户名" width="120" sortable>
 				</el-table-column>
-				<el-table-column prop="nickname" label="昵称" width="100" :formatter="formatSex" sortable>
+				<el-table-column prop="nickname" label="昵称" width="100" sortable>
 				</el-table-column>
 				<el-table-column prop="points" label="积分" width="100" sortable>
 				</el-table-column>
 				<el-table-column prop="group" label="用户组" width="120" sortable>
 				</el-table-column>
-				<el-table-column prop="state" label="状态" min-width="180" sortable>
+				<el-table-column prop="userState" label="状态" min-width="180" sortable>
 				</el-table-column>
 				<el-table-column prop="email" label="邮箱" min-width="180" sortable>
 				</el-table-column>
@@ -51,19 +51,25 @@
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
 		<el-form-item label="用户名" prop="username">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+			<el-input v-model="editForm.username" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="昵称" prop="nickname">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+			<el-input v-model="editForm.nickname" auto-complete="off"></el-input>
+		</el-form-item>
+		<el-form-item label="密码" prop="password">
+			<el-input type="password" v-model="editForm.password" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="用户组">
-			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-						<el-option label="男" :value="1"></el-option>
-						<el-option label="女" :value="0"></el-option>
-					</el-select>-->
 			<el-radio-group v-model="editForm.group">
-				<el-radio class="radio" :label="0">管理员</el-radio>
-				<el-radio class="radio" :label="1">普通用户</el-radio>
+				<el-radio class="radio" :label="0">超级管理员</el-radio>
+				<el-radio class="radio" :label="1">普通管理员</el-radio>
+				<el-radio class="radio" :label="2">普通用户</el-radio>
+			</el-radio-group>
+		</el-form-item>
+		<el-form-item label="用户状态">
+			<el-radio-group v-model="editForm.userState">
+				<el-radio class="radio" :label="0">离线</el-radio>
+				<el-radio class="radio" :label="1">在线</el-radio>
 			</el-radio-group>
 		</el-form-item>
 		<el-form-item label="积分">
@@ -94,31 +100,38 @@
 			return {
 				filters: {
 					searchName: 'nickname',
-					search:''
+					search:'a'
 				},
 				users: [],
 				total: 0,
-				page: 1,
-				offset: 1,
-				order: '+user_id',
-				limit: 5,
+				offset: 0,
+				sort: '+user_id',
+				limit: 20,
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
 				editFormTtile: '编辑',//编辑界面标题
 				//编辑界面数据
 				editForm: {
-					id: 0,
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
+					id:0,  //0为添加表单 1为修改表单
+					username: '',
+					nickname: '',
+					password: '',
+					group: 0,
+					userState:0,
+					points: '',
+					email: ''
 				},
 				editLoading: false,
 				btnEditText: '提 交',
 				editFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
+					username: [
+						{ required: true, message: '请输入用户名', trigger: 'blur' }
+					],
+					nickname: [
+						{ required: true, message: '请输入昵称', trigger: 'blur' }
+					],
+					password: [
+						{ required: true, message: '请输入密码', trigger: 'blur' }
 					]
 				}
 
@@ -139,30 +152,31 @@
 			//获取用户列表
 			getUsers() {
 				let para = {
+					sort: this.sort,
 					offset: this.offset,
+					limit: this.limit,
 					search: this.filters.search,
-					searchName: this.filters.searchName
+					searchName: this.filters.searchName,
 				};
 				this.listLoading = true;
 				NProgress.start();
 				getUserListPage(para).then((res) => {
-					console.log(res.data)
 					this.total = res.data.total;
-					this.users = res.data.row;
+					this.users = res.data.rows;
 					this.listLoading = false;
 					NProgress.done();
 				});
 			},
 			//删除
 			handleDel: function (row) {
-				//console.log(row);
 				var _this = this;
 				this.$confirm('确认删除该记录吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
 					_this.listLoading = true;
 					NProgress.start();
-					let para = { id: row.id };
+					let para = new FormData();
+					para.append('userId',row.userId);
 					removeUser(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
@@ -177,17 +191,6 @@
 				}).catch(() => {
 
 				});
-			},
-			//显示编辑界面
-			handleEdit: function (row) {
-				this.editFormVisible = true;
-				this.editFormTtile = '编辑';
-				this.editForm.id = row.id;
-				this.editForm.name = row.name;
-				this.editForm.sex = row.sex;
-				this.editForm.age = row.age;
-				this.editForm.birth = row.birth;
-				this.editForm.addr = row.addr;
 			},
 			//编辑 or 新增
 			editSubmit: function () {
@@ -204,13 +207,16 @@
 							if (_this.editForm.id == 0) {
 								//新增
 								let para = {
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
-									addr: _this.editForm.addr,
+									username: _this.editForm.username,
+									nickname: _this.editForm.nickname,
+									password: _this.editForm.password,
+									group: _this.editForm.group,
+									userState: _this.editForm.userState,
+									points: _this.editForm.points,
+									email: _this.editForm.email
 								};
 								addUser(para).then((res) => {
+									console.log(res.data)
 									_this.editLoading = false;
 									NProgress.done();
 									_this.btnEditText = '提 交';
@@ -224,13 +230,16 @@
 								});
 							} else {
 								//编辑
+								console.log(_this.editForm)
 								let para = {
-									id: _this.editForm.id,
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
-									addr: _this.editForm.addr,
+									userId: _this.editForm.id,
+									username: _this.editForm.username,
+									nickname: _this.editForm.nickname,
+									password: _this.editForm.password,
+									group: _this.editForm.group,
+									userState: _this.editForm.userState,
+									points: _this.editForm.points,
+									email: _this.editForm.email
 								};
 								editUser(para).then((res) => {
 									_this.editLoading = false;
@@ -259,15 +268,29 @@
 
 				this.editFormVisible = true;
 				this.editFormTtile = '新增';
-
 				this.editForm.id = 0;
-				this.editForm.name = '';
-				this.editForm.sex = 1;
-				this.editForm.age = 0;
-				this.editForm.birth = '';
-				this.editForm.addr = '';
+				this.editForm.username = '';
+				this.editForm.nickname = '';
+				this.editForm.password = '';
+				this.editForm.group = '';
+				this.editForm.points = '';
+				this.editForm.email = '';
+			},
+			//显示编辑界面
+			handleEdit: function (row) {
+				console.log(row)
+				this.editFormVisible = true;
+				this.editFormTtile = '编辑';
+				this.editForm.id = row.userId;
+				this.editForm.username = row.username;
+				this.editForm.nickname = row.nickname;
+				this.editForm.password = row.password;
+				this.editForm.group = row.group;
+				this.editForm.points = row.points;
+				this.editForm.email = row.email;
 			}
 		}
+		
 	}
 </script>
 

@@ -5,12 +5,12 @@ let base = '';
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
 // export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }); };
-export const getUserList = params => { return axios.post(`${base}/api/user/getSearchUser`, { params: params }); };
+export const getUserList = params => { return axios.post(`/api/user/getSearchUser`, params); };
 
-export const getUserListPage = params => { return axios.post(`${base}/api/user/getSearchUser`, { params: params }); };
+export const getUserListPage = params => { return axios.post(`/api/user/getSearchUser`, params); };
 
-export const removeUser = params => { return axios.get(`${base}/user/remove`, { params: params }); };
+export const removeUser = params => { return axios.post(`api/user/deleteUser`, params); };
 
-export const editUser = params => { return axios.get(`${base}/user/edit`, { params: params }); };
+export const editUser = params => { return axios.post(`api/user/updateUser`, params); };
 
-export const addUser = params => { return axios.get(`${base}/user/add`, { params: params }); };
+export const addUser = params => { return axios.post(`/api/user/addUser`, params); };
