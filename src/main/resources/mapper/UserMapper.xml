@@ -44,7 +44,7 @@
         </where>
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
-    <select id="searchUserCount">
+    <select id="searchUserCount" resultType="Integer">
         SELECT COUNT(*) FROM `user` u
         LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
        <where>
@@ -55,7 +55,6 @@
                 AND ${searchName} LIKE #{search}
             </if>
         </where>
-        ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
     <insert id="addUser" parameterType="com.liangliang.bookmanager.bean.User">
         INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`email`)

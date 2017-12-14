@@ -21,6 +21,7 @@ import Page6 from './pages/nav3/Page6.vue'
 import echarts from './pages/charts/echarts.vue'
 import User from './pages/user/index.vue'
 import Book from './pages/book/index.vue'
+import Order from './pages/order/index.vue'
 
 // start mock
 // import Mock from './mock';
@@ -56,6 +57,15 @@ const routes = [
     iconCls: 'el-icon-message',//图标样式class
     children: [
       { path: '/book', component: Book, name: '书籍管理' }
+    ]
+  },{
+    path: '/',
+    component: Home,
+    name: '借阅记录管理',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-message',//图标样式class
+    children: [
+      { path: '/order', component: Order, name: '借阅记录管理' }
     ]
   },
   //{ path: '/main', component: Main },
