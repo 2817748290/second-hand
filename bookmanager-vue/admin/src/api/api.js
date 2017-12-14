@@ -14,3 +14,8 @@ export const removeUser = params => { return axios.post(`api/user/deleteUser`, p
 export const editUser = params => { return axios.post(`api/user/updateUser`, params); };
 
 export const addUser = params => { return axios.post(`/api/user/addUser`, params); };
+
+/* order */
+export const getOrderList = params => { return axios.post(`/api/order/getOrderList`, params); };
+
+export const getOrderListPage = params => { return axios.post(`/api/order/getSearchOrder`, params); };
