@@ -1,6 +1,8 @@
 package com.liangliang.bookmanager.controller;
 
 import com.liangliang.bookmanager.bean.Message;
+import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
@@ -54,6 +57,17 @@ public class UserController {
     }
 
     /**
+     * 根据
+     * @param tableMessage
+     * @return
+     */
+    @RequestMapping(value = "/getSearchUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map getSearchUser(@RequestBody TableMessageForUser tableMessage) throws Exception{
+        System.out.println(tableMessage);
+        return userService.searchUser(tableMessage).result();
+    }
+    /**
      * 新增用户
      * @param user
      * @return
@@ -61,7 +75,7 @@ public class UserController {
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
     public Message addUser(@RequestBody User user){
-
+        System.out.println(user.toString());
         try {
             if(userService.addUser(user)){
                 return new Message(Message.SUCCESS,"新增用户成功！",null);

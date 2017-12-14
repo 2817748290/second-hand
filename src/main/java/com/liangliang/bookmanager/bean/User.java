@@ -15,9 +15,26 @@ public class User {
 
     private Integer userState;
 
-    private String eMail;
+    private String email;
 
-    public User(Integer userId, String username, String password, String nickname, Integer points, Integer group, Integer userState, String eMail) {
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", points=" + points +
+                ", group=" + group +
+                ", userState=" + userState +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public User() {
+    }
+
+    public User(Integer userId, String username, String password, String nickname, Integer points, Integer group, Integer userState, String email) {
         this.userId = userId;
         this.username = username;
         this.password = password;
@@ -25,11 +42,7 @@ public class User {
         this.points = points;
         this.group = group;
         this.userState = userState;
-        this.eMail = eMail;
-    }
-
-    public User() {
-        super();
+        this.email = email;
     }
 
     public Integer getUserId() {
@@ -45,7 +58,7 @@ public class User {
     }
 
     public void setUsername(String username) {
-        this.username = username == null ? null : username.trim();
+        this.username = username;
     }
 
     public String getPassword() {
@@ -53,7 +66,7 @@ public class User {
     }
 
     public void setPassword(String password) {
-        this.password = password == null ? null : password.trim();
+        this.password = password;
     }
 
     public String getNickname() {
@@ -61,7 +74,7 @@ public class User {
     }
 
     public void setNickname(String nickname) {
-        this.nickname = nickname == null ? null : nickname.trim();
+        this.nickname = nickname;
     }
 
     public Integer getPoints() {
@@ -88,26 +101,11 @@ public class User {
         this.userState = userState;
     }
 
-    public String geteMail() {
-        return eMail;
+    public String getEmail() {
+        return email;
     }
 
-    public void seteMail(String eMail) {
-        this.eMail = eMail == null ? null : eMail.trim();
+    public void setEmail(String email) {
+        this.email = email;
     }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", points=" + points +
-                ", group=" + group +
-                ", userState=" + userState +
-                ", eMail='" + eMail + '\'' +
-                '}';
-    }
-
 }
