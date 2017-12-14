@@ -1,9 +1,9 @@
 package com.liangliang.bookmanager.service.impl;
 
-import com.liangliang.bookmanager.bean.Book;
-import com.liangliang.bookmanager.bean.TableMessage;
-import com.liangliang.bookmanager.bean.User;
+import com.liangliang.bookmanager.bean.*;
 import com.liangliang.bookmanager.mapper.BookMapper;
+import com.liangliang.bookmanager.mapper.StateMapper;
+import com.liangliang.bookmanager.mapper.TypeMapper;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,12 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TypeMapper typeMapper;
+
+    @Autowired
+    private StateMapper stateMapper;
 
     @Override
     public List<Book> getBookList() {
@@ -100,22 +106,35 @@ public class BookServiceImpl implements BookService{
         try {
             bookList = bookMapper.getBookAndUserList(tableMessage);
 
-            for (Book book: bookList) {
-                int userId = book.getUserId();
-                User user = userMapper.getUserById(userId);
-                book.setUser(user);
-            }
             if(tableMessage.getSearch()!=null){
                 if(tableMessage.getSearch().equals("")){
-                    tableMessage.setRows(bookMapper.getBookAndUserList(tableMessage));
+                    bookList = bookMapper.getBookAndUserList(tableMessage);
+                    for (Book book : bookList) {
+                        Type type = typeMapper.getTypeById(book.getTypeId());
+                        book.setType(type);
+                        User user = userMapper.getUserById(book.getUserId());
+                        book.setUser(user);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
+                    }
+                    tableMessage.setRows(bookList);
+                    tableMessage.setTotal(bookMapper.bookCount(tableMessage));
                 }else {
                     tableMessage.setSearch("%"+tableMessage.getSearch()+"%");
                     List<Book> searchBookList = bookMapper.searchBook(tableMessage);
                     tableMessage.setRows(searchBookList);
                     for (Book book : searchBookList) {
                         int userId = book.getUserId();
+                        System.out.println(userId);
+                        int typeId = book.getTypeId();
+                        System.out.println(typeId);
+                        Type type = typeMapper.getTypeById(typeId);
+                        System.out.println(type);
+                        book.setType(type);
                         User user = userMapper.getUserById(userId);
                         book.setUser(user);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
                     }
                     tableMessage.setTotal(bookMapper.searchBookCount(tableMessage));
                 }

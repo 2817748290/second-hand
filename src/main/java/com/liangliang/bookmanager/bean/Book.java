@@ -34,6 +34,8 @@ public class Book {
 
     private Type type;
 
+    private State stateInfo;
+
     public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer typeId, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
@@ -153,5 +155,13 @@ public class Book {
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public State getStateInfo() {
+        return stateInfo;
+    }
+
+    public void setStateInfo(State stateInfo) {
+        this.stateInfo = stateInfo;
     }
 }
