@@ -52,7 +52,8 @@ public class UserServiceImpl implements UserService {
             System.out.println(userList);
             userList = userMapper.searchUser(tableMessage);
             tableMessage.setRows(userList);
-            tableMessage.setTotal(userList.size());
+            Integer total = userMapper.searchUserCount(tableMessage);
+            tableMessage.setTotal(total);
         } catch (Exception e) {
             e.printStackTrace();
             return null;

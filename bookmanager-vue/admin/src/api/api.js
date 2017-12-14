@@ -26,3 +26,9 @@ export const updateBook = params => { return axios.post(`/api/book/updateBook`, 
 
 export const getBookInfoById = params => { return axios.post(`/api/book/getBookInfoById`, params); };
 
+
+
+/* order */
+export const getOrderList = params => { return axios.post(`/api/order/getOrderList`, params); };
+
+export const getOrderListPage = params => { return axios.post(`/api/order/getSearchOrder`, params); };
