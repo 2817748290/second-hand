@@ -17,3 +17,12 @@ export const addUser = params => { return axios.post(`/api/user/addUser`, params
 
 //book
 export const getInitBookList = params => { return axios.post(`/api/book/getInitBookList`, params); };
+
+export const deleteBook = params => { return axios.post(`/api/book/deleteBook`, params); };
+
+export const addBook = params => { return axios.post(`/api/book/addBook`, params); };
+
+export const updateBook = params => { return axios.post(`/api/book/updateBook`, params); };
+
+export const getBookInfoById = params => { return axios.post(`/api/book/getBookInfoById`, params); };
+

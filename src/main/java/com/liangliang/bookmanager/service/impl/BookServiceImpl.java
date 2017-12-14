@@ -1,10 +1,8 @@
 package com.liangliang.bookmanager.service.impl;
 
-import com.liangliang.bookmanager.bean.Book;
-import com.liangliang.bookmanager.bean.TableMessage;
-import com.liangliang.bookmanager.bean.Type;
-import com.liangliang.bookmanager.bean.User;
+import com.liangliang.bookmanager.bean.*;
 import com.liangliang.bookmanager.mapper.BookMapper;
+import com.liangliang.bookmanager.mapper.StateMapper;
 import com.liangliang.bookmanager.mapper.TypeMapper;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.BookService;
@@ -26,6 +24,9 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private TypeMapper typeMapper;
+
+    @Autowired
+    private StateMapper stateMapper;
 
     @Override
     public List<Book> getBookList() {
@@ -113,6 +114,8 @@ public class BookServiceImpl implements BookService{
                         book.setType(type);
                         User user = userMapper.getUserById(book.getUserId());
                         book.setUser(user);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
                     }
                     tableMessage.setRows(bookList);
                     tableMessage.setTotal(bookMapper.bookCount(tableMessage));
@@ -130,6 +133,8 @@ public class BookServiceImpl implements BookService{
                         book.setType(type);
                         User user = userMapper.getUserById(userId);
                         book.setUser(user);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
                     }
                     tableMessage.setTotal(bookMapper.searchBookCount(tableMessage));
                 }
