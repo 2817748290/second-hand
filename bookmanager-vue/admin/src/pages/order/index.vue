@@ -4,7 +4,13 @@
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
 				<el-form-item>
-					<el-input v-model="filters.search" placeholder="昵称"></el-input>
+					<el-input v-model="filters.search" placeholder="借阅记录号"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-input v-model="filters.username" placeholder="借阅者用户名"></el-input>
+				</el-form-item>
+				<el-form-item>
+					<el-input v-model="filters.bookName" placeholder="借阅书籍名"></el-input>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getOrderList">查询</el-button>
@@ -66,14 +72,17 @@
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
 	import moment from 'moment'
-	import { getOrderList, getOrderListPage  } from '../../api/api';
+	import { getOrderList, getOrderListPage,updateOrder,deleteOrder  } from '../../api/api';
 
 	export default {
 		data() {
 			return {
 				filters: {
-					searchName: 'nickname',
-					search:'a'
+					//第一个记录
+					searchName: 'order_id',
+					search:'',
+					username: '',
+					bookName: ''
 				},
 				orderList: [],
 				total: 0,
@@ -86,13 +95,7 @@
 				//编辑界面数据
 				editForm: {
 					id:0,  //0为添加表单 1为修改表单
-					orderId: '',
-					username: '',
-					nickname: '',
-					bookName: '',
 					status: '',
-					createDate: '',
-					updateDate: ''
 				},
 				editLoading: false,
 				btnEditText: '提 交',
@@ -130,6 +133,8 @@
 					limit: this.limit,
 					search: this.filters.search,
 					searchName: this.filters.searchName,
+					usernameValue: this.filters.username,
+					bookNameValue: this.filters.bookName
 				};
 				this.listLoading = true;
 				NProgress.start();
@@ -150,15 +155,25 @@
 					_this.listLoading = true;
 					NProgress.start();
 					let para = new FormData();
-					para.append('userId',row.userId);
-					removeOrder(para).then((res) => {
+					console.log("id:"+row.orderId)
+					para.append('orderId',row.orderId);
+					deleteOrder(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
-						_this.$notify({
-							title: '成功',
-							message: '删除成功',
-							type: 'success'
-						});
+						if(res.data.status===1){
+							_this.$notify({
+								title: '成功',
+								message: '删除成功',
+								type: 'success'
+							});
+						}else{
+							_this.$notify({
+								title: '成功',
+								message: '删除失败',
+								type: 'success'
+							});
+						}
+						_this.editFormVisible = false;
 						_this.getOrderList();
 					});
 
@@ -172,7 +187,6 @@
 
 				_this.$refs.editForm.validate((valid) => {
 					if (valid) {
-
 						_this.$confirm('确认提交吗？', '提示', {}).then(() => {
 							_this.editLoading = true;
 							NProgress.start();
@@ -190,40 +204,46 @@
 									email: _this.editForm.email
 								}
 								addOrder(para).then((res) => {
-									console.log(res.data)
-									_this.editLoading = false;
+									_this.listLoading = false;
 									NProgress.done();
-									_this.btnEditText = '提 交';
-									_this.$notify({
-										title: '成功',
-										message: '提交成功',
-										type: 'success'
-									});
+									if(res.data.status===1){
+										_this.$notify({
+											title: '成功',
+											message: '添加成功',
+											type: 'success'
+										});
+									}else{
+										_this.$notify({
+											title: '成功',
+											message: '添加失败',
+											type: 'success'
+										});
+									}
 									_this.editFormVisible = false;
 									_this.getOrderList();
 								});
 							} else {
 								//编辑
-								console.log(_this.editForm)
 								let para = {
-									userId: _this.editForm.id,
-									username: _this.editForm.username,
-									nickname: _this.editForm.nickname,
-									password: _this.editForm.password,
-									group: _this.editForm.group,
-									userState: _this.editForm.userState,
-									points: _this.editForm.points,
-									email: _this.editForm.email
+									orderId: _this.editForm.id,
+									status: _this.editForm.status
 								};
-								editOrder(para).then((res) => {
-									_this.editLoading = false;
+								updateOrder(para).then((res) => {
+									_this.listLoading = false;
 									NProgress.done();
-									_this.btnEditText = '提 交';
-									_this.$notify({
-										title: '成功',
-										message: '提交成功',
-										type: 'success'
-									});
+									if(res.data.status===1){
+										_this.$notify({
+											title: '成功',
+											message: '修改成功',
+											type: 'success'
+										});
+									}else{
+										_this.$notify({
+											title: '成功',
+											message: '修改失败',
+											type: 'success'
+										});
+									}
 									_this.editFormVisible = false;
 									_this.getOrderList();
 								});
@@ -238,17 +258,10 @@
 			},
 			//显示编辑界面
 			handleEdit: function (row) {
-				console.log(row)
 				this.editFormVisible = true;
 				this.editFormTtile = '编辑';
-				this.editForm.id = row.userId;
-				this.editForm.username = row.username;
-				this.editForm.nickname = row.nickname;
-				this.editForm.password = row.password;
-				this.editForm.group = row.group;
-				this.editForm.userState = row.userState;
-				this.editForm.points = row.points;
-				this.editForm.email = row.email;
+				this.editForm.id = row.orderId;
+				this.editForm.status = row.status;
 			},
 			dateFormatter(row,column){
             var date = row['createDate'];  

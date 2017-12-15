@@ -112,8 +112,6 @@
 				},
 				editLoading: false,
 				btnEditText: '提 交',
-				
-
 			}
 		},		
 		mounted() {

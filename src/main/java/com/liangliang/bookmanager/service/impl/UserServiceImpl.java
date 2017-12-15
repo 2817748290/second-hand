@@ -6,6 +6,7 @@ import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.UserService;
+import com.liangliang.bookmanager.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+
     @Override
     public List<User> getUserList() {
 
@@ -66,9 +69,14 @@ public class UserServiceImpl implements UserService {
     public boolean addUser(User user){
         boolean state = false;
         try {
-            state = userMapper.addUser(user) == 1 ? true : false;
+            if(user.getAvatarImageFile() != null && user.getAvatarImageFile().getSize() > 0) {
+                String fileName = FileUtil.save(user.getAvatarImageFile(), FileUtil.WINDOWS_PATH);
+                user.setAvatarImage(fileName);
+                state = userMapper.addUser(user) == 1;
+            }
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
         return state;
     }
@@ -77,9 +85,14 @@ public class UserServiceImpl implements UserService {
     public boolean updateUser(User user){
         boolean state = false;
         try {
-            state = userMapper.updateUser(user) == 1 ? true : false;
+            if(user.getAvatarImageFile() != null && user.getAvatarImageFile().getSize() > 0) {
+                String fileName = FileUtil.save(user.getAvatarImageFile(), FileUtil.WINDOWS_PATH);
+                user.setAvatarImage(fileName);
+                state = userMapper.updateUser(user) == 1;
+            }
         }catch (Exception e){
             e.printStackTrace();
+            return false;
         }
         return state;
     }

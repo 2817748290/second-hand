@@ -11,7 +11,7 @@ export const getUserListPage = params => { return axios.post(`/api/user/getSearc
 
 export const removeUser = params => { return axios.post(`api/user/deleteUser`, params); };
 
-export const editUser = params => { return axios.post(`api/user/updateUser`, params); };
+export const updateUser = params => { return axios.post(`api/user/updateUser`, params); };
 
 export const addUser = params => { return axios.post(`/api/user/addUser`, params); };
 
@@ -32,3 +32,7 @@ export const getBookInfoById = params => { return axios.post(`/api/book/getBookI
 export const getOrderList = params => { return axios.post(`/api/order/getOrderList`, params); };
 
 export const getOrderListPage = params => { return axios.post(`/api/order/getSearchOrder`, params); };
+
+export const updateOrder = params => { return axios.post(`/api/order/updateOrder`, params); };
+
+export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params); };
