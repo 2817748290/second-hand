@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -116,6 +118,11 @@ public class BookServiceImpl implements BookService{
                         book.setUser(user);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
+                        if(book.getState()==0&&book.getState()==2){
+                            SimpleDateFormat defaultTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+                            book.setBorrowDate(defaultTime.parse("0000-00-00 00:00:00"));
+                            book.setReturnDate(defaultTime.parse("0000-00-00 00:00:00"));
+                        }
                     }
                     tableMessage.setRows(bookList);
                     tableMessage.setTotal(bookMapper.bookCount(tableMessage));

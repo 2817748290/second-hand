@@ -90,7 +90,7 @@ public class BookController {
             e.printStackTrace();
             return new Message(Message.ERROR,"获取对应id图书信息失败！",null);
         }
-        return new Message(Message.SUCCESS,"获取对应id图书信息成功！",book);
+        return new Message(Message.SUCCESS,"获取对应id图书信息成功！！",book);
     }
 
     @RequestMapping(value = "/getInitBookList", method = RequestMethod.POST)

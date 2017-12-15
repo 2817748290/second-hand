@@ -3,11 +3,19 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
+				<el-select v-model="filters.searchName" placeholder="请选择">
+					<el-option
+					v-for="item in options"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+					</el-option>
+				</el-select>
 				<el-form-item>
 					<el-input v-model="filters.search" placeholder="请输入查询内容"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" v-on:click="">查询</el-button>
+					<el-button type="primary" v-on:click="getBookList">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
@@ -60,8 +68,8 @@
 		<el-form-item label="图书位置" prop="location">
 			<el-input v-model="editForm.location" auto-complete="off"></el-input>
 		</el-form-item>
-		<el-form-item label="图书类型" prop="type">
-			<el-input v-model="editForm.type" auto-complete="off"></el-input>
+		<el-form-item label="图书类型" prop="typeId">
+			<el-input v-model="editForm.typeId" auto-complete="off"></el-input>
 		</el-form-item>
 		<el-form-item label="状态" prop="state">
 			<el-input v-model="editForm.state" auto-complete="off"></el-input>
@@ -69,9 +77,6 @@
 		<el-form-item label="图书编码" prop="isbn">
 			<el-input v-model="editForm.isbn" auto-complete="off"></el-input>
 		</el-form-item>
-		<!-- <el-form-item label="借书人" prop="user.username">
-			<el-input v-model="editForm.user.username" auto-complete="off"></el-input>
-		</el-form-item> -->
 	</el-form>
 	<div slot="footer" class="dialog-footer">
 		<el-button @click.native="editFormVisible = false">取 消</el-button>
@@ -90,7 +95,7 @@
 		data() {
 			return {
 				filters: {
-					searchName: 'book_name',
+					searchName: '',
 					search:''
 				},
 				books: [],
@@ -104,15 +109,28 @@
 				//编辑界面数据
 				editForm: {
 					id:0,  //0为添加表单 1为修改表单
-					// username: '',
-					// group: 0,
-					// userState:0,
-					// points: '',
-					// email: ''
 				},
 				editLoading: false,
 				btnEditText: '提 交',
-				
+				options: [{
+					value: 'book_name',
+					label: '图书名称'
+					}, {
+					value: 'author',
+					label: '作者姓名'
+					}, {
+					value: 'location',
+					label: '图书位置'
+					}, {
+					value: 'type_Id',
+					label: '图书类型'
+					}, {
+					value: 'isbn',
+					label: '国际标准书号(ISBN)'
+					}, {
+					value: 'state',
+					label: '图书状态'
+					}],
 
 			}
 		},		
@@ -245,11 +263,13 @@
 				this.editFormTtile = '新增';
 				this.editForm.id = 0;
 				this.editForm.bookName = '';
-				// this.editForm.nickname = '';
-				// this.editForm.password = '';
-				// this.editForm.group = '';
-				// this.editForm.points = '';
-				// this.editForm.email = '';
+				this.editForm.author = '';
+				this.editForm.imageUrl = row.imageUrl;
+				this.editForm.location = row.location;
+				this.editForm.isbn = row.isbn;
+				this.editForm.typeId = row.typeId;
+				this.editForm.userId = row.userId;
+				this.editForm.state = row.state;
 			},
 			//显示编辑界面
 			handleEdit: function (row) {
@@ -259,10 +279,12 @@
 				this.editForm.id = row.bookId;
 				this.editForm.bookName = row.bookName;
 				this.editForm.author = row.author;
-				// this.editForm.password = row.password;
-				// this.editForm.group = row.group;
-				// this.editForm.points = row.points;
-				// this.editForm.email = row.email;
+				this.editForm.imageUrl = row.imageUrl;
+				this.editForm.location = row.location;
+				this.editForm.isbn = row.isbn;
+				this.editForm.typeId = row.typeId;
+				this.editForm.userId = row.userId;
+				this.editForm.state = row.state;
 			}
 		}
 		
