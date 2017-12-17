@@ -114,15 +114,8 @@ public class BookServiceImpl implements BookService{
                     for (Book book : bookList) {
                         Type type = typeMapper.getTypeById(book.getTypeId());
                         book.setType(type);
-                        User user = userMapper.getUserById(book.getUserId());
-                        book.setUser(user);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
-                        if(book.getState()==0&&book.getState()==2){
-                            SimpleDateFormat defaultTime = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-                            book.setBorrowDate(defaultTime.parse("0000-00-00 00:00:00"));
-                            book.setReturnDate(defaultTime.parse("0000-00-00 00:00:00"));
-                        }
                     }
                     tableMessage.setRows(bookList);
                     tableMessage.setTotal(bookMapper.bookCount(tableMessage));
@@ -131,15 +124,11 @@ public class BookServiceImpl implements BookService{
                     List<Book> searchBookList = bookMapper.searchBook(tableMessage);
                     tableMessage.setRows(searchBookList);
                     for (Book book : searchBookList) {
-                        int userId = book.getUserId();
-                        System.out.println(userId);
                         int typeId = book.getTypeId();
                         System.out.println(typeId);
                         Type type = typeMapper.getTypeById(typeId);
                         System.out.println(type);
                         book.setType(type);
-                        User user = userMapper.getUserById(userId);
-                        book.setUser(user);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
                     }

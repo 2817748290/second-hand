@@ -16,34 +16,22 @@ public class Book {
 
     private String location;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date borrowDate;
-
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date returnDate;
-
     private Integer typeId;
 
     private String isbn;
 
     private Integer state;
 
-    private Integer userId;
-
-    private User user;
-
     private Type type;
 
     private State stateInfo;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer typeId, String isbn, Integer state) {
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
         this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
@@ -93,22 +81,6 @@ public class Book {
         this.location = location == null ? null : location.trim();
     }
 
-    public Date getBorrowDate() {
-        return borrowDate;
-    }
-
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
     public Integer getTypeId() {
         return typeId;
     }
@@ -131,22 +103,6 @@ public class Book {
 
     public void setState(Integer state) {
         this.state = state;
-    }
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Type getType() {
