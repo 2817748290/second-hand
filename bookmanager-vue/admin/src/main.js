@@ -8,6 +8,8 @@ import store from './vuex/store'
 import Vuex from 'vuex'
 import NProgress from 'nprogress'//页面顶部进度条
 import 'nprogress/nprogress.css'
+import axios from 'axios'
+
 
 import Login from './pages/Login.vue'
 import Home from './pages/Home.vue'

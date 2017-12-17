@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -112,8 +114,6 @@ public class BookServiceImpl implements BookService{
                     for (Book book : bookList) {
                         Type type = typeMapper.getTypeById(book.getTypeId());
                         book.setType(type);
-                        User user = userMapper.getUserById(book.getUserId());
-                        book.setUser(user);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
                     }
@@ -124,15 +124,11 @@ public class BookServiceImpl implements BookService{
                     List<Book> searchBookList = bookMapper.searchBook(tableMessage);
                     tableMessage.setRows(searchBookList);
                     for (Book book : searchBookList) {
-                        int userId = book.getUserId();
-                        System.out.println(userId);
                         int typeId = book.getTypeId();
                         System.out.println(typeId);
                         Type type = typeMapper.getTypeById(typeId);
                         System.out.println(type);
                         book.setType(type);
-                        User user = userMapper.getUserById(userId);
-                        book.setUser(user);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
                     }
