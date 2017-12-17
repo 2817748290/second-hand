@@ -49,7 +49,7 @@ module.exports = {
 				pathRewrite: {
 					'^/public': '/public'
 				}
-			}
+      },
 		},
 		cssSourceMap: false
 	  }

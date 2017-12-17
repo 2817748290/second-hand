@@ -53,11 +53,11 @@
 <!--分页-->
 <el-col :span="24" class="toolbar" style="padding-bottom:10px;">
 <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-</el-pagination> 
+</el-pagination>
 </el-col>
 
  <!-- 图片上传 -->
-            
+
 <!-- 编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" ref="editForm">
@@ -91,7 +91,7 @@
 				<el-radio :label="2">已销毁</el-radio>
 			</el-radio-group>
 		</el-form-item>
-		 
+
 		<el-form-item label="图书编码" prop="isbn">
 			<el-input v-model="editForm.isbn" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
@@ -184,9 +184,9 @@
 			this.getTypes();
 		},
 		methods: {
-			
+
 			opendialog:function(){    //代开模态框
-			this.dialogVisible = false 
+			this.dialogVisible = false
 			},
 
 			isModelShow (...data) {

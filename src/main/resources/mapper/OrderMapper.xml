@@ -21,10 +21,33 @@
     <select id="searchOrder" resultMap="OrderMap">
         SELECT o.*,u.`username`,b.`book_name` FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`
         LEFT JOIN `book` b ON b.`book_id` = o.`book_id`
+        <where>
+            <if test="searchName != null and searchName != '' and search != null and search != ''">
+                AND ${searchName} LIKE #{search}
+            </if>
+            <if test="usernameValue != null and usernameValue != ''">
+                AND ${USERNAME} LIKE #{usernameValue}
+            </if>
+            <if test="bookNameValue != null and bookNameValue != ''">
+                AND ${BOOKNAME} LIKE #{bookNameValue}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
     <select id="searchOrderCount" resultType="Integer">
         SELECT COUNT(*) FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`
         LEFT JOIN `book` b ON b.`book_id` = o.`book_id`
+        <where>
+            <if test="searchName != null and searchName != '' and search != null and search != ''">
+                AND ${searchName} LIKE #{search}
+            </if>
+            <if test="usernameValue != null and usernameValue != ''">
+                AND ${USERNAME} LIKE #{usernameValue}
+            </if>
+            <if test="bookNameValue != null and bookNameValue != ''">
+                AND ${BOOKNAME} LIKE #{bookNameValue}
+            </if>
+        </where>
     </select>
     <insert id="addOrder" parameterType="com.liangliang.bookmanager.bean.Order">
         INSERT INTO `order` (`ordername`,`password`,`nickname`,`points`,`group`,`order_state`,`email`)
@@ -34,32 +57,11 @@
     <update id="updateOrder" parameterType="com.liangliang.bookmanager.bean.Order">
         UPDATE `order`
         <set>
-            <if test="ordername != null">
-                `ordername` = #{ordername},
-            </if>
-            <if test="password != null">
-                `password`=#{password},
-            </if>
-            <if test="nickname != null">
-                `nickname` = #{nickname},
-            </if>
-            <if test="group != null">
-                `group` = #{group},
-            </if>
-            <if test="points != null">
-                `points`= #{points},
-            </if>
-            <if test="orderState != null">
-                `order_state` = #{orderState},
-            </if>
-            <if test="email != null">
-                `email` = #{email}
+            <if test="status != null">
+                `status` = #{status},
             </if>
         </set>
         where order_id=#{orderId}
-        <if test="ordername != null">
-            and not exists(select 1 from(select 1 from `order` where `ordername`=#{ordername})a)
-        </if>
     </update>
 
     <delete id="deleteOrder">

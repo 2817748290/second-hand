@@ -88,6 +88,8 @@ public class OrderServiceImpl implements OrderService{
         //1.判断你昵称和用户组搜索条件是否为空,若为空则返回所有数据
         try {
             tableMessage.setSearch("%"+tableMessage.getSearch()+"%");
+            tableMessage.setUsernameValue("%"+tableMessage.getUsernameValue()+"%");
+            tableMessage.setBookNameValue("%"+tableMessage.getBookNameValue()+"%");
             orderList = orderMapper.searchOrder(tableMessage);
             for (Order order: orderList){
                 Integer userId = order.getBorrowerId();
@@ -98,7 +100,6 @@ public class OrderServiceImpl implements OrderService{
             }
             tableMessage.setRows(orderList);
             Integer total = orderMapper.searchOrderCount(tableMessage);
-            System.out.println("total:"+total);
             tableMessage.setTotal(total);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.liangliang.bookmanager.bean;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class User {
     private Integer userId;
 
@@ -9,6 +11,11 @@ public class User {
 
     private String nickname;
 
+    /**
+     * 传给数据库的头像图片名
+     */
+    private String avatarImage;
+
     private Integer points;
 
     private Integer group;
@@ -17,6 +24,13 @@ public class User {
 
     private String email;
 
+    /**
+     * 传输给前台的头像图片名
+     */
+    private String imageName;
+
+    private MultipartFile avatarImageFile;
+
     @Override
     public String toString() {
         return "User{" +
@@ -24,25 +38,31 @@ public class User {
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", nickname='" + nickname + '\'' +
+                ", avatarImage='" + avatarImage + '\'' +
                 ", points=" + points +
                 ", group=" + group +
                 ", userState=" + userState +
                 ", email='" + email + '\'' +
+                ", imageName='" + imageName + '\'' +
+                ", avatarImageFile=" + avatarImageFile +
                 '}';
     }
 
     public User() {
     }
 
-    public User(Integer userId, String username, String password, String nickname, Integer points, Integer group, Integer userState, String email) {
+    public User(Integer userId, String username, String password, String nickname, String avatarImage, Integer points, Integer group, Integer userState, String email, String imageName, MultipartFile avatarImageFile) {
         this.userId = userId;
         this.username = username;
         this.password = password;
         this.nickname = nickname;
+        this.avatarImage = avatarImage;
         this.points = points;
         this.group = group;
         this.userState = userState;
         this.email = email;
+        this.imageName = imageName;
+        this.avatarImageFile = avatarImageFile;
     }
 
     public Integer getUserId() {
@@ -77,6 +97,14 @@ public class User {
         this.nickname = nickname;
     }
 
+    public String getAvatarImage() {
+        return avatarImage;
+    }
+
+    public void setAvatarImage(String avatarImage) {
+        this.avatarImage = avatarImage;
+    }
+
     public Integer getPoints() {
         return points;
     }
@@ -107,5 +135,21 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public MultipartFile getAvatarImageFile() {
+        return avatarImageFile;
+    }
+
+    public void setAvatarImageFile(MultipartFile avatarImageFile) {
+        this.avatarImageFile = avatarImageFile;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
     }
 }

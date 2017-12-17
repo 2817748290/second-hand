@@ -15,6 +15,7 @@
     "moment": "^2.19.4",
     "nprogress": "^0.2.0",
     "vue": "^2.1.10",
+    "vue-cropper": "^0.2.7",
     "vuex": "^2.0.0-rc.6"
   },
   "devDependencies": {
