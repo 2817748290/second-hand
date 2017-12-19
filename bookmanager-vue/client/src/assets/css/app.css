@@ -1,0 +1,74 @@
+/* reset global styles */
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+h1 {
+	font-size: 1.8rem;
+	color: #555;
+}
+h2 {
+	font-size: 1.3rem;
+	color: #000;
+}
+h3 {
+	font-size: 1.2rem;
+	color: #000;
+}
+p {
+	font-size: 1rem;
+}
+a {
+	text-decoration: none;
+	font-size: 1rem;
+	color: rgb(97, 63, 35);
+}
+
+
+/* app styles */
+#app {
+	background: #fff;
+}
+#app .container {
+	position: relative;
+	width: 1200px;
+	margin: 0 auto;
+	background: rgb(251, 250, 248);
+}
+.page-nav {
+	padding-left: .5rem;
+	background: rgb(255, 122, 32);
+}
+.page-nav ul {
+	display: flex;
+	list-style-type: none;
+	margin-left: 240px;
+}
+.page-nav li a {
+	display: block;
+}
+.page-nav div {
+	color: #fff;
+	padding: .5rem 1rem;
+}
+.page-nav .active {
+	background: rgb(241, 99, 0);
+}
+
+/* back top button styles */
+#back-top {
+	position: fixed;
+	right: 26px;
+	bottom: 75px;
+}
+#back-top a,
+#back-top img {
+	width: 40px;
+	height: 40px;
+}
+#back-top a {
+	display: inline-block;
+}
+
+

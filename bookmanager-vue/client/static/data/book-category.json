@@ -1,0 +1,40 @@
+{
+  "categoryList": [
+    {
+      "category": "计算机"
+    },
+    {
+      "category": "小说"
+    },
+    {
+      "category": "文学"
+    },
+    {
+      "category": "历史"
+    },
+    {
+      "category": "艺术"
+    },
+    {
+      "category": "经济学"
+    },
+    {
+      "category": "法律"
+    },
+    {
+      "category": "教育"
+    },
+    {
+      "category": "生活"
+    },
+    {
+      "category": "旅游"
+    },
+    {
+      "category": "英语"
+    },
+    {
+      "category": "政治"
+    }
+  ]
+}

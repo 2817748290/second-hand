@@ -1,0 +1,62 @@
+#subject-nav .title {
+  display: flex;
+  padding: .5rem 1rem;
+  border-bottom: 1px solid rgb(176, 176, 176);
+}
+#subject-nav .more {
+  margin-left: auto;
+  font-size: .8rem;
+  color: rgb(97, 63, 35);
+}
+#subject-nav .more:hover {
+  color: rgb(255, 122, 32);
+}
+
+#subject-nav .books {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+#subject-nav .book {
+  display: flex;
+  width: 140px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: .5rem;
+}
+#subject-nav .cover {
+  width: 140px;
+  height: 180px;
+}
+#subject-nav .name {
+  font-weight: bold;
+  font-size: .9rem;
+  padding: .5rem 0;
+}
+#subject-nav .book .book > p {
+  display: flex;
+  align-items: center;
+}
+#subject-nav .book .book span {
+  margin-right: .3rem;
+}
+#subject-nav .book .sale {
+  text-decoration: line-through;
+  color: gray;
+}
+#subject-nav .book .sale-price {
+  color: #f00;
+}
+#subject-nav .buy {
+  font-size: .8rem;
+  color: #666;
+  padding: .3rem 1rem;
+  margin-left: auto;
+  border: 1px solid rgb(176, 176, 176);
+  border-radius: 4px;
+}
+#subject-nav .buy:hover {
+  color: #fff;
+  border: 1px solid #3d76de;
+  background: #4d87de;
+}

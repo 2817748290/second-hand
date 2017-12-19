@@ -33,18 +33,17 @@
 				</el-table-column>
 				<el-table-column prop="nickname" label="昵称" width="100" sortable>
 				</el-table-column>
-				<el-table-column prop="avatarImage" label="头像" width="100" sortable>
-				</el-table-column>
 				<el-table-column prop="points" label="积分" width="100" sortable>
 				</el-table-column>
 				<el-table-column prop="group" label="用户组" width="120" :formatter="groupFormatter" sortable>
 				</el-table-column>
-				<el-table-column prop="userState" label="状态" min-width="180" :formatter="statusFormatter" sortable>
+				<el-table-column prop="userState" label="状态" width="80" :formatter="statusFormatter" sortable>
 				</el-table-column>
-				<el-table-column prop="email" label="邮箱" min-width="180" sortable>
+				<el-table-column prop="email" label="邮箱" width="180" sortable>
 				</el-table-column>
-				<el-table-column inline-template :context="_self" label="操作" width="150">
+				<el-table-column inline-template :context="_self" label="操作" min-width="180">
 				<span>
+					<el-button size="small" @click="handleQuery(row)">查看</el-button>
 					<el-button size="small" @click="handleEdit(row)">编辑</el-button>
 					<el-button type="danger" size="small" @click="handleDel(row)">删除</el-button>
 				</span>
@@ -62,88 +61,54 @@
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
 	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
 		<el-form-item label="用户名" prop="username">
-			<el-input v-model="editForm.username" auto-complete="off"></el-input>
+			<el-input v-model="editForm.username" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
 		<el-form-item label="昵称" prop="nickname">
-			<el-input v-model="editForm.nickname" auto-complete="off"></el-input>
+			<el-input v-model="editForm.nickname" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
 		<el-form-item label="密码" prop="password">
-			<el-input type="password" v-model="editForm.password" auto-complete="off"></el-input>
+			<el-input type="password" v-model="editForm.password" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
-		<el-form-item label="头像" prop="avatarImage">
-			<div class="test-button">
-				<button class="btn" style="margin:0px;" @click="editForm.isCropperShow=!editForm.isCropperShow">选择头像</button>
-			</div>
-			<div class="wrapper" v-show="editForm.isCropperShow">
-				<div class="model" v-show="model" @click="model = false">
-					<div class="model-show">
-						<img :src="modelSrc" alt="">
-					</div>
-				</div>
-				<div class="content">
-					<div class="show-info">
-						<div class="test test1">
-							<vueCropper
-								ref="cropper"
-								:img="option.img"
-								:outputSize="option.size"
-								:outputType="option.outputType"
-								:info="true"
-								:full="option.full"
-								:canMove="option.canMove"
-								:canMoveBox="option.canMoveBox"
-								:fixedBox="option.fixedBox"
-								:original="option.original"
-								@realTime="realTime"
-								:autoCrop="true"
-								:autoCropWidth="250"
-								:autoCropHeight="250"
-							></vueCropper>
-						</div>
-						<div class="test-button">
-							<label class="btn" for="uploads">upload</label>
-							<input type="file" id="uploads" style="position:absolute; clip:rect(0 0 0 0);" accept="image/png, image/jpeg, image/gif, image/jpg" @change="uploadImg($event, 1)">
-							<button @click="startCrop" v-if="!crap" class="btn">start</button>
-							<button @click="stopCrop" v-else class="btn">stop</button>
-							<button @click="clearCrop" class="btn">clear</button>
-							<button @click="finish('base64')" class="btn">preview(base64)</button>
-							<button @click="finish('blob')" class="btn">preview(blob)</button>
-						</div>
-						<div class="show-preview" :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden', 'margin': '5px'}">
-							<div :style="previews.div">
-								<img :src="previews.url" :style="previews.img">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+		<el-form-item label="头像" prop="avatarImage" v-bind:disabled="disabledChange">
+			<img v-bind:src="editForm.avatarImage"  width="200px" height="200px"><br>
+  			<el-button type="primary" v-show="btnChooseShow" @click="choose" style="margin-top:1%">选择用户头像</el-button>
 		</el-form-item>
 		<el-form-item label="用户组">
-			<el-radio-group v-model="editForm.group">
-				<el-radio class="radio" :label="0">超级管理员</el-radio>
-				<el-radio class="radio" :label="1">普通管理员</el-radio>
-				<el-radio class="radio" :label="2">普通用户</el-radio>
+			<el-radio-group v-model="editForm.group" v-bind:disabled="disabledChange">
+				<el-radio :label="0">超级管理员</el-radio>
+				<el-radio :label="1">普通管理员</el-radio>
+				<el-radio :label="2">普通用户</el-radio>
 			</el-radio-group>
 		</el-form-item>
 		<el-form-item label="用户状态">
-			<el-radio-group v-model="editForm.userState">
-				<el-radio class="radio" :label="0">审核中</el-radio>
-				<el-radio class="radio" :label="1">通过</el-radio>				
-				<el-radio class="radio" :label="2">封禁</el-radio>
+			<el-radio-group v-model="editForm.userState" v-bind:disabled="disabledChange">
+				<el-radio :label="0">审核中</el-radio>
+				<el-radio :label="1">通过</el-radio>				
+				<el-radio :label="2">封禁</el-radio>
 			</el-radio-group>
 		</el-form-item>
-		<el-form-item label="积分">
-			<el-input-number v-model="editForm.points" :min="0" :max="200"></el-input-number>
+		
+		<el-form-item label="积分"> 
+			<el-input-number v-model="editForm.points" :min="0" :max="200"  v-bind:disabled="disabledChange"></el-input-number>
 		</el-form-item>
 		<el-form-item label="邮箱" prop="email">
-			<el-input v-model="editForm.email"></el-input>
+			<el-input v-model="editForm.email" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
-		
 	</el-form>
 	<div slot="footer" class="dialog-footer">
 		<el-button @click.native="editFormVisible = false">取 消</el-button>
 		<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{btnEditText}}</el-button>
 	</div>
+</el-dialog>
+<el-dialog
+	title="选择用户头像"
+	:visible.sync="dialogVisible"
+	width="1000"
+	>
+	<cropper ref="c" :img="this.editForm.avatarImage" @transfer="transfer" @isModelShow="isModelShow"></cropper>
+	<span slot="footer" class="dialog-footer">
+		<el-button id="model-close" type="primary" @click="dialogVisible = false" style="display:none">确 定</el-button>
+	</span>
 </el-dialog>
 </section>
 </template>
@@ -152,7 +117,7 @@
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
 	import { getUserListPage, removeUser, updateUser, addUser } from '../../api/api';
-	import vueCropper from 'vue-cropper'
+	import cropper from './cropper'
 
 	export default {
 		data() {
@@ -160,19 +125,7 @@
 				model: false,
 				modelSrc: '',
 				crap: false,
-				previews: {},
-				option: {
-					img: '',
-					size: 1,
-					full: false,
-					outputType: 'jpg',
-					canMove: true,
-					fixedBox: false,
-					original: false,
-					canMoveBox: true
-				},
 				downImg: '#',
-				img:'/upload/avatar.jpg',
 				filters: {
 					searchName: 'nickname',
 					search:'a',
@@ -186,6 +139,7 @@
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
 				editFormTtile: '编辑',//编辑界面标题
+				disabledChange: false,
 				//编辑界面数据
 				editForm: {
 					id:0,  //0为添加表单 1为修改表单
@@ -201,6 +155,8 @@
 				},
 				editLoading: false,
 				btnEditText: '提 交',
+				dialogVisible: false,
+				btnChooseShow: false,
 				editFormRules: {
 					username: [
 						{ required: true, message: '请输入用户名', trigger: 'blur' }
@@ -229,7 +185,7 @@
 			}
 		},	
 		components: {
-			vueCropper
+			cropper
 		},
 		mounted() {
 			this.getUsers();
@@ -302,7 +258,7 @@
 
 							if (_this.editForm.id == 0) {
 								//新增
-								if(_this.option.img==''){
+								if(_this.editForm.img==''){
 
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
@@ -317,7 +273,7 @@
 									para.append('userState', _this.editForm.userState);
 									para.append('points', _this.editForm.points);
 									para.append('email', _this.editForm.email);
-									this.$refs.cropper.getCropBlob((data) => {
+									this.$refs.c.$refs.cropper.getCropBlob((data) => {
 										// do something
 										para.append('avatarImage',data);
 										console.log(data)  
@@ -346,7 +302,7 @@
 								
 							} else {
 								//编辑
-								if(_this.option.img==''){
+								if(_this.editForm.img==''){
 
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
@@ -362,10 +318,12 @@
 									para.append('userState', _this.editForm.userState);
 									para.append('points', _this.editForm.points);
 									para.append('email', _this.editForm.email);
-									this.$refs.cropper.getCropBlob((data) => {
+									console.log(this.$refs.c)
+									console.log(this.$refs.c2)
+
+									this.$refs.c.$refs.cropper.getCropBlob((data) => {
 										// do something
 										para.append('avatarImage',data);
-										console.log(data)  
 										updateUser(para).then((res) => {
 											_this.editLoading = false;
 											NProgress.done();
@@ -396,10 +354,27 @@
 				});
 
 			},
+			//显示查看界面
+			handleQuery: function (row) {
+				this.disabledChange = true;
+				this.editFormVisible = true;
+				this.editFormTtile = '查看';
+				this.editForm.id = row.userId;
+				this.editForm.username = row.username;
+				this.editForm.nickname = row.nickname;
+				this.editForm.password = row.password;
+				this.editForm.group = row.group;
+				this.editForm.userState = row.userState;
+				this.editForm.points = row.points;
+				this.editForm.email = row.email;
+				this.editForm.isCropperShow = true;
+				this.editForm.avatarImage = `public/${row.avatarImage}`;
+				this.btnEditText = '确 定'
+				this.btnChooseShow = false
+			},
 			//显示新增界面
 			handleAdd: function () {
 				var _this = this;
-
 				this.editFormVisible = true;
 				this.editFormTtile = '新增';
 				this.editForm.id = 0;
@@ -412,23 +387,25 @@
 				this.editForm.points = '';
 				this.editForm.email = '';
 				this.editForm.isCropperShow = false;
-				this.option.img = ''
+				this.editForm.img = ''
+				this.btnChooseShow = true
 			},
 			//显示编辑界面
 			handleEdit: function (row) {
+				this.disabledChange = false;
 				this.editFormVisible = true;
 				this.editFormTtile = '编辑';
 				this.editForm.id = row.userId;
 				this.editForm.username = row.username;
 				this.editForm.nickname = row.nickname;
 				this.editForm.password = row.password;
-				this.editForm.avatarImage = row.avatarImage;
 				this.editForm.group = row.group;
 				this.editForm.userState = row.userState;
 				this.editForm.points = row.points;
 				this.editForm.email = row.email;
 				this.editForm.isCropperShow = true;
-				this.option.img = `/public/${row.avatarImage}`
+				this.editForm.avatarImage = `public/${row.avatarImage}`;
+				this.btnChooseShow = true
 			},
 			groupFormatter(row, column) {
 				var g = row['group'];
@@ -450,115 +427,21 @@
 			,
 			handleRemove(){},
 			handleExceed(){},
-			startCrop () {
-			// start
-			this.crap = true
-			this.$refs.cropper.startCrop()
-		},
-		stopCrop () {
-			//  stop
-			this.crap = false
-			this.$refs.cropper.stopCrop()
-		},
-		clearCrop () {
-			// clear
-			this.$refs.cropper.clearCrop()
-		},
-		refreshCrop () {
-			// clear
-			this.$refs.cropper.refresh()
-		},
-		changeScale (num) {
-			num = num || 1
-			this.$refs.cropper.changeScale(num)
-		},
-		finish (type) {
-			// 输出
-			// var test = window.open('about:blank')
-			// test.document.body.innerHTML = '图片生成中..'
-			if (type === 'blob') {
-				this.$refs.cropper.getCropBlob((data) => {
-					var img = window.URL.createObjectURL(data)
-					this.model = true
-					this.modelSrc = img
-				})
-			} else {
-				this.$refs.cropper.getCropData((data) => {
-					this.model = true
-					this.modelSrc = data
-				})
-			}
-		},
-		// 实时预览函数
-		realTime (data) {
-			this.previews = data
-		},
-		finish2 (type) {
-			this.$refs.cropper2.getCropData((data) => {
-				this.model = true
-				this.modelSrc = data
-			})
-		},
-		finish3 (type) {
-			this.$refs.cropper3.getCropData((data) => {
-				this.model = true
-				this.modelSrc = data
-			})
-		},
-		down (type) {
-			// event.preventDefault()
-			var aLink = document.createElement('a')
-			aLink.download = 'demo'
-			// 输出
-			if (type === 'blob') {
-				this.$refs.cropper.getCropBlob((data) => {
-					this.downImg = window.URL.createObjectURL(data)
-					aLink.href = window.URL.createObjectURL(data)
-					aLink.click()
-				})
-			} else {
-				this.$refs.cropper.getCropData((data) => {
-					this.downImg = data
-					aLink.href = data
-					aLink.click()
-				})
-			}
-		},
-		uploadImg (e, num) {
-			//上传图片
-			// this.option.img
-			var file = e.target.files[0]
-			if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
-				 alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
-				 return false
-			 }
-			var reader = new FileReader()
-			reader.onload = (e) => {
-				let data
-				if (typeof e.target.result === 'object') {
-					// 把Array Buffer转化为blob 如果是base64不需要
-					data = window.URL.createObjectURL(new Blob([e.target.result]))
-				} else {
-					data = e.target.result
+			choose(){
+				this.dialogVisible = true
+				if(this.$refs.c !== undefined){
+					console.log(this.$refs.c)
+					console.log("dhudashdjas")
+					this.$refs.c.$refs.cropper.clearCrop()
 				}
-				if (num === 1) {
-					this.option.img = data
-				} else if (num === 2) {
-					this.example2.img = data
-				}
+			},
+			transfer (...data) {
+				this.editForm.avatarImage = data[0]
+			},
+			isModelShow (...data) {
+				this.dialogVisible = data[0]
 			}
-			// 转化为base64
-			// reader.readAsDataURL(file)
-			// 转化为blob
-			reader.readAsArrayBuffer(file)
-			this.$refs.cropper.changeScale(200)
-			this.startCrop()
-		},
-		realTime (data) {
-			this.previews = data
 		}
-		}
-		
 	}
 </script>
 

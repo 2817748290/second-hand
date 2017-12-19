@@ -1,0 +1,95 @@
+{
+  "title": "特价图书",
+  "bookList": [
+    {
+			"id": 1003,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1003.jpg",
+			"price": 65,
+			"salePrice": 35,
+			"name": "C++ Templates（中文版）",
+			"author": "【美】David Vandevoorde 【德】Nicolai M.Josuttis",
+			"abstruct": "C++模板奥秘，一览无余！"
+		},
+		{
+			"id": 1004,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1004.jpg",
+			"price": 30,
+			"salePrice": 26,
+			"name": "“笨办法”学Python（第3版）",
+			"author": "【美】Zed A.Shaw",
+			"abstruct": "跟着数十万人的Python导师学Python！"
+		},
+    {
+			"id": 2003,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2003.jpg",
+			"price": 198,
+			"salePrice": 107,
+			"name": "松本清张经典推理大全集（共10册）",
+			"author": "【日】松本清张",
+			"abstruct": "撕开现代社会层层包裹的和服，让您窥见人性的千姿百态！"
+		},
+		{
+			"id": 2004,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2004.jpg",
+			"price": 18,
+			"salePrice": 9.99,
+			"name": "罪与罚（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部深刻刻画犯罪心理的小说,一部倡导有罪忏悔的小说卡拉马佐夫兄弟（全二册 陀思妥耶夫斯基文集）"
+		},
+		{
+			"id": 1003,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1003.jpg",
+			"price": 65,
+			"salePrice": 35,
+			"name": "C++ Templates（中文版）",
+			"author": "【美】David Vandevoorde 【德】Nicolai M.Josuttis",
+			"abstruct": "C++模板奥秘，一览无余！"
+		},
+		{
+			"id": 1004,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1004.jpg",
+			"price": 30,
+			"salePrice": 26,
+			"name": "“笨办法”学Python（第3版）",
+			"author": "【美】Zed A.Shaw",
+			"abstruct": "跟着数十万人的Python导师学Python！"
+		},
+    {
+			"id": 2003,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2003.jpg",
+			"price": 198,
+			"salePrice": 107,
+			"name": "松本清张经典推理大全集（共10册）",
+			"author": "【日】松本清张",
+			"abstruct": "撕开现代社会层层包裹的和服，让您窥见人性的千姿百态！"
+		},
+		{
+			"id": 2004,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2004.jpg",
+			"price": 18,
+			"salePrice": 9.99,
+			"name": "罪与罚（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部深刻刻画犯罪心理的小说,一部倡导有罪忏悔的小说卡拉马佐夫兄弟（全二册 陀思妥耶夫斯基文集）"
+		},
+		{
+			"id": 2003,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2003.jpg",
+			"price": 198,
+			"salePrice": 107,
+			"name": "松本清张经典推理大全集（共10册）",
+			"author": "【日】松本清张",
+			"abstruct": "撕开现代社会层层包裹的和服，让您窥见人性的千姿百态！"
+		}
+  ]
+}

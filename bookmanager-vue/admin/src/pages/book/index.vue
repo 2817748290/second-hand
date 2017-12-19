@@ -91,7 +91,6 @@
 				<el-radio :label="2">已销毁</el-radio>
 			</el-radio-group>
 		</el-form-item>
-
 		<el-form-item label="图书编码" prop="isbn">
 			<el-input v-model="editForm.isbn" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
