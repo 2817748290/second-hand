@@ -20,14 +20,14 @@ export const setNewBooks = ({commit}, requestURL) => {
 }
 
 export const setAllBooks = ({commit}, requestURL) => {
-	axios.get(requestURL).then(res=> {
-		commit(types.SET_ALL_BOOKS, res.data.bookList);
+	axios.post(requestURL).then(res=> {
+		commit(types.SET_ALL_BOOKS, res.data.result);
 	});
 }
 
 export const setCategoryList = ({commit}, requestURL) => {
-	axios.get(requestURL).then(res=> {
-		commit(types.SET_CATEGORY_LIST, res.data.categoryList);
+	axios.post(requestURL).then(res=> {
+		commit(types.SET_CATEGORY_LIST, res.data.result);
 	});
 }
 

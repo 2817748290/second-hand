@@ -11,6 +11,7 @@ export const getNewBooks = state => {
 }
 
 export const getAllBookList = state => {
+	console.log(state.allBooks.allBooks)
 	return state.allBooks.allBooks;
 }
 

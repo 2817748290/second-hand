@@ -45,7 +45,7 @@
     name: 'cart',
     data () {
       return {
-        title: '购物车状态',
+        title: '借阅状态',
         isCheckedAll: true,
         totalCount: 0,
         totalPrices: 0

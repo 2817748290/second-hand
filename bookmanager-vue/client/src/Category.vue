@@ -9,7 +9,7 @@
 				</dt>
 				<dd v-for="category in categoryList">
 					<router-link :to="{name: 'Category', params: {category: category.category}}">
-						<span class="category-name"> {{ category.category }} </span>
+						<span class="category-name"> {{ category.typeName }} </span>
 					</router-link>
 				</dd>
 			</dl>
@@ -32,7 +32,9 @@
 			categoryList() {
 				let categories = this.$store.getters.getCategoryList;
 				if (categories.length === 0) {
-					this.$store.dispatch('setCategoryList', 'static/data/book-category.json');
+					// this.$store.dispatch('setCategoryList', 'static/data/book-category.json');
+					this.$store.dispatch('setCategoryList', '/api/type/getTypeList');
+					console.log(categories)
 				}
 				return categories;
 			},

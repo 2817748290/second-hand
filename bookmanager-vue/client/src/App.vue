@@ -21,7 +21,7 @@
           </li>
           <li>
             <router-link :to="{name: 'Cart'}">
-              <div>购物车</div>
+              <div>我的借阅</div>
             </router-link>
           </li>
         </ul>

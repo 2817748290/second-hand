@@ -45,11 +45,11 @@
 		},
 		methods: {
 			initBooksData() {
-				this.$store.dispatch('setCategoryList', 'static/data/book-category.json');
+				this.$store.dispatch('setCategoryList', '/api/type/getTypeList');
 				this.$store.dispatch('setHotBooks', 'static/data/books/hot-books.json');
 				this.$store.dispatch('setDiscountBooks', 'static/data/books/discount-books.json');
 				this.$store.dispatch('setNewBooks', 'static/data/books/new-books.json');
-				this.$store.dispatch('setAllBooks', 'static/data/books/all-books.json');
+				this.$store.dispatch('setAllBooks', '/api/book/getBookList');
 			}
 		}
 	}

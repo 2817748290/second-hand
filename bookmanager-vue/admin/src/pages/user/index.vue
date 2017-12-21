@@ -70,7 +70,7 @@
 			<el-input type="password" v-model="editForm.password" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
 		<el-form-item label="头像" prop="avatarImage" v-bind:disabled="disabledChange">
-			<img v-bind:src="editForm.avatarImage"  width="200px" height="200px"><br>
+			<img v-bind:src="editForm.avatarImage"  onerror='this.src="../../../static/default-avatar.jpg"' width="200px" height="200px"><br>
   			<el-button type="primary" v-show="btnChooseShow" @click="choose" style="margin-top:1%">选择用户头像</el-button>
 		</el-form-item>
 		<el-form-item label="用户组">

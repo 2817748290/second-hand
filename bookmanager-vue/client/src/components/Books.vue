@@ -4,18 +4,18 @@
 			<div class="book" v-for="(book, index) in books">
 		        <div class="cover">
 			    	<router-link :to="{name: 'Book', params: {id: book.id}}">
-		            <img class="cover" v-bind:src="book.cover">
+		            <img class="cover" v-bind:src="'/public/'+book.imageUrl">
 			      	</router-link>
 		        </div>
 		        <div class="book-info">
 		          <router-link :to="{name: 'Book', params: {id: book.id}}">
-		            <p class="name"> {{ book.name }} </p>
+		            <p class="name"> {{ book.bookName }} </p>
 		          </router-link>
 		          <p class="author"> {{ book.author }} </p>
-		          <p class="abstruct"> {{ book.abstruct }} </p>
+		          <p class="abstruct"> {{ book.abstruct || '这是一本书这是一本书这是一本书'}} </p>
 		          <div class="act">
-		            <span class="price"> ￥{{ book.price | formatPrice }} </span>
-		            <button class="buy" @click="addToCart(book)">购买</button>
+		            <span class="price"> ￥{{ book.price || 100 | formatPrice }} </span>
+		            <button class="buy" @click="addToCart(book)">借阅</button>
 		          </div>
 		        </div>
 		      </div>

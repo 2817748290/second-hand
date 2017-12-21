@@ -4,7 +4,7 @@
 	        <img class="cover" v-bind:src="book.cover">
 	        <div class="book-info">
 	          <h3 class="name">
-	          	{{ book.name }} 
+	          	{{ book.bookName }} 
 	          </h3>
 	          <p class="author">
 	          	<span>作者：</span>
@@ -12,14 +12,14 @@
 	          </p>
 	          <p class="abstruct">
 	          	<span>简介：</span>
-	          	<span> {{ book.abstruct }} </span>
+	          	<span> {{ book.abstruct || '这是一本书'}} </span>
 	          </p>
 	          <div class="act">
 	          	<p class="price">
 			        	<span>价格：</span>
-			        	<span> ￥{{ book.price }} </span>
+			        	<span> ￥{{ book.price || 100}} </span>
 			        </p>
-	            <button class="buy" @click="addToCart(book)">购买</button>
+	            <button class="buy" @click="addToCart(book)">借阅</button>
 	          </div>
 	        </div>
         </div>

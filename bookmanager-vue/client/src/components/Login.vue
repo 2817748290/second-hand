@@ -1,7 +1,7 @@
 <template>
   <div class="login">
-    <h2>Hi 欢迎进入在线书店</h2>
-    <p>登录在线书店，购买你喜欢的书籍</p>
+    <h2>Hi 欢迎进入在线图书馆</h2>
+    <p>登录在线图书馆，借阅你喜欢的书籍</p>
     <a class="login-btn" @click="login"> {{ loginState }} </a>
     <div class="login-ui" v-if="isLogined">
     	<header>

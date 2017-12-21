@@ -4,7 +4,7 @@
     <ul>
       <li v-for="(category, index) in categoryList">
         <router-link :to="{name: 'Category', params:{category: category.category}}">
-          {{ category.category }} 
+          {{ category.typeName }} 
         </router-link>
       </li>
     </ul>
@@ -21,7 +21,7 @@
     },
     mounted: function() {
       this.$nextTick(function() {
-        this.$store.dispatch('setCategoryList','static/data/book-category.json');
+					this.$store.dispatch('setCategoryList', '/api/type/getTypeList');
       });
     }
   }

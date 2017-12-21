@@ -19,7 +19,7 @@
         <p>
           <span class="original-price" v-bind:class="{sale: isSale}"> {{ book.price | formatPrice }} </span>
           <span class="sale-price"> {{ book.salePrice }} </span>
-          <button class="buy" @click="addToCart(book)">购买</button>
+          <button class="buy" @click="addToCart(book)">借阅</button>
         </p>
       </div>
     </div>

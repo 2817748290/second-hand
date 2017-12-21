@@ -3,7 +3,7 @@
 		<h1>
 			<a href="#" class="logo">
 				<img src="../../static/icons/logo.png">
-				<span>在线书店</span>
+				<span>在线图书馆</span>
 			</a>
 		</h1>
 		<div class="search">
