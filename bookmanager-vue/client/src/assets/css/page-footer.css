@@ -1,0 +1,14 @@
+#page-footer {
+	margin: .2rem;
+	padding: 2rem 0;
+	border-top: 1px solid rgb(176, 176, 176);
+}
+#page-footer p {
+	text-align: center;
+}
+#page-footer a {
+	font-size: inherit;
+}
+#page-footer a:hover {
+	text-decoration: underline;
+}

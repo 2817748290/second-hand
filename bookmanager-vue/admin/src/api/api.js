@@ -39,3 +39,9 @@ export const updateOrder = params => { return axios.post(`/api/order/updateOrder
 export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params); };
 
 export const addOrder = params => { return axios.post(`/api/order/addOrder`, params); };
+/* borrow */
+export const getOrderListPage1 = params => { return axios.post(`/api/order/getSearchOrder`, params); };
+
+export const updateOrde1r = params => { return axios.post(`/api/order/updateOrder`, params); };
+
+export const deleteOrder1 = params => { return axios.post(`/api/order/deleteOrder`, params); };
