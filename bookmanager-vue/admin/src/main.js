@@ -59,7 +59,7 @@ const routes = [
     component: Home,
     name: '书籍管理',
     leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-document',//图标样式class
     children: [
       { path: '/book', component: Book, name: '书籍管理' }
     ]
@@ -68,28 +68,28 @@ const routes = [
     component: Home,
     name: '借阅记录管理',
     leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-search',//图标样式class
     children: [
       { path: '/order', component: Order, name: '借阅记录管理' }
     ]
   },{
     path: '/',
     component: Home,
-    name: '借书',
+    name: '借书审核',
     leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-edit',//图标样式class
     children: [
-      { path: '/borrow', component: BorrowBook, name: '借书' }
+      { path: '/borrow', component: BorrowBook, name: '借书审核' }
     ]
   },
   {
     path: '/',
     component: Home,
-    name: '还书',
+    name: '还书审核',
     leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-view',//图标样式class
     children: [
-      { path: '/return', component: ReturnBook, name: '还书' }
+      { path: '/return', component: ReturnBook, name: '还书审核' }
     ]
   },{
     path: '/',

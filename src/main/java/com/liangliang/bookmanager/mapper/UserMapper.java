@@ -60,4 +60,14 @@ public interface UserMapper {
      */
     public User getByEmailAndPwd(User user) throws Exception;
 
+    /**
+     *用户登录
+     */
+    public User userLogin(String username, String password) throws Exception;
+
+    /**
+     *用户退出
+     */
+    public int userLoginOut() throws Exception;
+
 }

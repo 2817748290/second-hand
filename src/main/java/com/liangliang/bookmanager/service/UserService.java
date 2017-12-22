@@ -3,6 +3,7 @@ package com.liangliang.bookmanager.service;
 import com.liangliang.bookmanager.bean.TableMessage;
 import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
+import sun.security.util.Password;
 
 import java.util.List;
 
@@ -51,8 +52,13 @@ public interface UserService {
      * @throws Exception
      */
     public boolean deleteUser(Integer id);
+
     /**
      * 用户登录验证
      */
     public boolean validate(User user);
+
+    public Integer userLogin(User user) throws Exception;
+
+    public void userLoginOut() throws Exception;
 }

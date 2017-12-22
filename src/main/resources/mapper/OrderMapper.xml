@@ -34,6 +34,7 @@
         </where>
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
+    
     <select id="searchOrderCount" resultType="Integer">
         SELECT COUNT(*) FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`
         LEFT JOIN `book` b ON b.`book_id` = o.`book_id`
@@ -49,11 +50,12 @@
             </if>
         </where>
     </select>
+
     <insert id="addOrder" parameterType="com.liangliang.bookmanager.bean.Order">
-        INSERT INTO `order` (`ordername`,`password`,`nickname`,`points`,`group`,`order_state`,`email`)
-        SELECT #{ordername},#{password},#{nickname},#{points},#{group},#{orderState},#{email} FROM DUAL
-        WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `order` WHERE `ordername`=#{ordername})a)
+        INSERT INTO order (borrower_id, book_id, status, create_date, update_date)
+        VALUES (#{borrowerId},#{bookId},#{status},#{createDate},#{updateDate})
     </insert>
+
     <update id="updateOrder" parameterType="com.liangliang.bookmanager.bean.Order">
         UPDATE `order`
         <set>

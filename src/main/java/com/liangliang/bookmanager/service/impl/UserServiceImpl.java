@@ -122,5 +122,26 @@ public class UserServiceImpl implements UserService {
         return false;
     }
 
+    @Override
+    public Integer userLogin(User user) {
+
+        int userId = 0;
+
+        try {
+            User user1 = userMapper.userLogin(user.getUsername(), user.getPassword());
+            userId = user1.getUserId();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        return userId;
+    }
+
+    @Override
+    public void userLoginOut() {
+
+    }
+
 
 }
