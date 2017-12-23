@@ -147,4 +147,21 @@ public class BookServiceImpl implements BookService{
 
         return tableMessage;
     }
+
+    @Override
+    public TableMessageForClient getBookListByType(TableMessageForClient tableMessageForClient) {
+
+        List<Book> bookListForClient = new ArrayList<>();
+
+        try {
+            bookListForClient = bookMapper.getBookListByType(tableMessageForClient);
+            for (Book book :bookListForClient) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }
