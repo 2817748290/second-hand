@@ -75,11 +75,11 @@ const routes = [
   },{
     path: '/',
     component: Home,
-    name: '借书审核',
+    name: '预约/借书审核',
     leaf: true,//只有一个节点    
     iconCls: 'el-icon-edit',//图标样式class
     children: [
-      { path: '/borrow', component: BorrowBook, name: '借书审核' }
+      { path: '/borrow', component: BorrowBook, name: '预约/借书审核' }
     ]
   },
   {
