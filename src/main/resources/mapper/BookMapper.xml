@@ -12,6 +12,7 @@
         <result column="type_id" property="typeId"/>
         <result column="isbn" property="isbn"/>
         <result column="state" property="state"/>
+        <result column="book_date" property="bookDate"/>
     </resultMap>
 
     <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
@@ -48,14 +49,16 @@
     </update>
 
     <select id="searchBook" resultMap="BookMap">
-        SELECT b.* FROM book b
+        SELECT b.*, t.type_name FROM book b, type t
         WHERE ${searchName} LIKE #{search}
+        AND b.type_id = t.type_id
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
     <select id="searchBookCount" resultType="int">
-        SELECT COUNT(*) FROM book b
+        SELECT COUNT(*) FROM book b, type t
         WHERE ${searchName} LIKE #{search}
+        AND b.type_id = t.type_id
     </select>
 
     <select id="getBookList"  resultMap="BookMap">
@@ -81,4 +84,17 @@
         SELECT * FROM book b
         WHERE book_id=#{bookId}
     </select>
+
+    <select id="getBookListByType" resultMap="BookMap">
+        SELECT * FROM book b
+        WHERE type_id=#{typeId}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="getBookListByTypeCount" resultType="int">
+        SELECT COUNT(*) FROM book b
+        WHERE type_id=#{typeId}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
 </mapper>

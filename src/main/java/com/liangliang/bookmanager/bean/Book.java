@@ -18,6 +18,8 @@ public class Book {
 
     private Integer typeId;
 
+    private Date bookDate;
+
     private String isbn;
 
     private Integer state;
@@ -26,7 +28,7 @@ public class Book {
 
     private State stateInfo;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state) {
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state, Date bookDate ) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
@@ -35,6 +37,7 @@ public class Book {
         this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
+        this.bookDate = bookDate;
     }
 
     public Book() {
@@ -119,5 +122,13 @@ public class Book {
 
     public void setStateInfo(State stateInfo) {
         this.stateInfo = stateInfo;
+    }
+
+    public Date getBookDate() {
+        return bookDate;
+    }
+
+    public void setBookDate(Date bookDate) {
+        this.bookDate = bookDate;
     }
 }

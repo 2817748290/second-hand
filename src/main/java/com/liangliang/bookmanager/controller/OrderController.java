@@ -6,6 +6,7 @@ import com.liangliang.bookmanager.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -72,8 +73,9 @@ public class OrderController {
      */
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     @ResponseBody
-    public Message addOrder(@RequestBody Order order){
-        System.out.println(order.toString());
+    public Message addOrder(HttpServletRequest request, @RequestBody Order order){
+        int userId = (int)request.getSession().getAttribute("userId");
+        order.setBorrowerId(userId);
         try {
             if(orderService.addOrder(order)){
                 return new Message(Message.SUCCESS,"新增借阅记录成功！",null);

@@ -166,7 +166,7 @@
 					value: 'location',
 					label: '图书位置'
 					}, {
-					value: 'type_Id',
+					value: 'type_name',
 					label: '图书类型'
 					}, {
 					value: 'isbn',

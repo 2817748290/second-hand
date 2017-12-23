@@ -29,7 +29,7 @@ export const getBookInfoById = params => { return axios.post(`/api/book/getBookI
 //type
 export const getTypeList = params => { return axios.post(`/api/type/getTypeList`, params); };
 
-/* order */
+//order
 export const getOrderList = params => { return axios.post(`/api/order/getOrderList`, params); };
 
 export const getOrderListPage = params => { return axios.post(`/api/order/getSearchOrder`, params); };
@@ -38,6 +38,7 @@ export const updateOrder = params => { return axios.post(`/api/order/updateOrder
 
 export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params); };
 
+export const addOrder = params => { return axios.post(`/api/order/addOrder`, params); };
 /* borrow */
 export const getOrderListPage1 = params => { return axios.post(`/api/order/getSearchOrder`, params); };
 
