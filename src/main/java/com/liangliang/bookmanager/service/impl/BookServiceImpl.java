@@ -9,6 +9,7 @@ import com.liangliang.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -101,6 +102,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public TableMessage searchBook(TableMessage tableMessage){
 
         List<Book> bookList = new ArrayList<>();

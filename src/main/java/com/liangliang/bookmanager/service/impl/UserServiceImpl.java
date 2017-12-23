@@ -9,6 +9,7 @@ import com.liangliang.bookmanager.service.UserService;
 import com.liangliang.bookmanager.utils.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public TableMessage searchUser(TableMessageForUser tableMessage) throws Exception {
         List<User> userList = new ArrayList<>();
         //1.判断你昵称和用户组搜索条件是否为空,若为空则返回所有数据

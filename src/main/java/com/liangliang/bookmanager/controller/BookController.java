@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class BookController {
         int state = 0;
 
         try {
+            book.setBookDate(new Date());
             state = bookService.addBook(book);
         } catch (Exception e) {
             e.printStackTrace();
