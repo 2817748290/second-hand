@@ -38,6 +38,9 @@ public class LoginController {
             int userId = 0;
         try {
             userId = userService.userLogin(user);
+            if(userId == -1){
+                return new Message(Message.ERROR,"登录失败！",null);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return new Message(Message.ERROR,"登录失败！",null);

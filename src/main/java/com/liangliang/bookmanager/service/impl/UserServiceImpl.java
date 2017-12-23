@@ -126,10 +126,14 @@ public class UserServiceImpl implements UserService {
     public Integer userLogin(User user) {
 
         int userId = 0;
-
+        User user1 = new User();
         try {
-            User user1 = userMapper.userLogin(user.getUsername(), user.getPassword());
-            userId = user1.getUserId();
+            user1 = userMapper.userLogin(user);
+            if(user1 == null) {
+                return -1;
+            }else{
+                userId = user1.getUserId();
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return -1;

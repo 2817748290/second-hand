@@ -63,7 +63,7 @@ public interface UserMapper {
     /**
      *用户登录
      */
-    public User userLogin(String username, String password) throws Exception;
+    public User userLogin(User user) throws Exception;
 
     /**
      *用户退出
