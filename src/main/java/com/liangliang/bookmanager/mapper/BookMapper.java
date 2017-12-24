@@ -2,6 +2,7 @@ package com.liangliang.bookmanager.mapper;
 
 import com.liangliang.bookmanager.bean.Book;
 import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.TableMessageForClient;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface BookMapper {
 
     public Integer bookCount(TableMessage tableMessage) throws Exception;
 
+    public List<Book> getBookListByType(TableMessageForClient tableMessageForClient) throws Exception;
+
+    public Integer getBookListByTypeCount(TableMessageForClient tableMessageForClient) throws Exception;
 }

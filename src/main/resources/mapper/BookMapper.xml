@@ -9,63 +9,56 @@
         <result column="author" property="author"/>
         <result column="image_url" property="imageUrl"/>
         <result column="location" property="location"/>
-        <result column="borrow_date" property="borrowDate"/>
-        <result column="return_date" property="returnDate"/>
         <result column="type_id" property="typeId"/>
         <result column="isbn" property="isbn"/>
         <result column="state" property="state"/>
+        <result column="book_date" property="bookDate"/>
     </resultMap>
 
     <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
-        INSERT INTO book (book_name,author,image_url,location,borrow_date,return_date,type_id,isbn)
-        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{borrowDate},#{returnDate},#{typeId},#{isbn})
+        INSERT INTO book (book_name,author,image_url,location,type_id,isbn,state)
+        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{typeId},#{isbn},#{state})
     </insert>
 
     <update id="updateBook" parameterType="com.liangliang.bookmanager.bean.Book">
         UPDATE book
         <set>
             <if test="bookName != null">
-                book_name = #{bookName}
+                book_name = #{bookName},
             </if>
             <if test="author != null">
-                author = #{author}
+                author = #{author},
             </if>
             <if test="imageUrl != null">
-                image_url = #{imageUrl}
+                image_url = #{imageUrl},
             </if>
             <if test="location != null">
-                location = #{location}
-            </if>
-            <if test="borrowDate != null">
-                borrow_date = #{borrowDate}
-            </if>
-            <if test="returnDate != null">
-                return_date = #{returnDate}
+                location = #{location},
             </if>
             <if test="typeId != null">
-                type_id = #{typeId}
+                type_id = #{typeId},
             </if>
             <if test="isbn != null">
-                isbn = #{isbn}
+                isbn = #{isbn},
+            </if>
+            <if test="state != null">
+                state = #{state}
             </if>
         </set>
         WHERE book_id = #{bookId}
     </update>
 
     <select id="searchBook" resultMap="BookMap">
-        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
-        WHERE b.book_id = r.book_id
-        AND r.user_id = u.user_id
-        AND ${searchName} LIKE #{search}
+        SELECT b.*, t.type_name FROM book b, type t
+        WHERE ${searchName} LIKE #{search}
+        AND b.type_id = t.type_id
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
-    <select id="searchBookCount" resultMap="BookMap">
-        SELECT COUNT(*) FROM book b, user_book r, user u
-        WHERE b.book_id = r.book_id
-        AND r.user_id = u.user_id
-        AND ${searchName} LIKE #{search}
-        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    <select id="searchBookCount" resultType="int">
+        SELECT COUNT(*) FROM book b, type t
+        WHERE ${searchName} LIKE #{search}
+        AND b.type_id = t.type_id
     </select>
 
     <select id="getBookList"  resultMap="BookMap">
@@ -73,17 +66,12 @@
     </select>
 
     <select id="getBookAndUserList"  resultMap="BookMap">
-        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
-        WHERE b.book_id = r.book_id
-        AND r.user_id = u.user_id
+        SELECT b.* FROM book b
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
-    <select id="bookCount" >
-        SELECT COUNT(*) FROM book b, user_book r, user u
-        WHERE b.book_id = r.book_id
-        AND r.user_id = u.user_id
-        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    <select id="bookCount" resultType="int">
+        SELECT COUNT(*) FROM book b
     </select>
 
 
@@ -96,4 +84,17 @@
         SELECT * FROM book b
         WHERE book_id=#{bookId}
     </select>
+
+    <select id="getBookListByType" resultMap="BookMap">
+        SELECT * FROM book b
+        WHERE type_id=#{typeId}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="getBookListByTypeCount" resultType="int">
+        SELECT COUNT(*) FROM book b
+        WHERE type_id=#{typeId}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
 </mapper>

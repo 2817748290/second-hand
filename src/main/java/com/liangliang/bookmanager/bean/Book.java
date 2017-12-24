@@ -16,35 +16,28 @@ public class Book {
 
     private String location;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date borrowDate;
-
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date returnDate;
-
     private Integer typeId;
+
+    private Date bookDate;
 
     private String isbn;
 
     private Integer state;
 
-    private Integer userId;
-
-    private User user;
-
     private Type type;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer typeId, String isbn, Integer state) {
+    private State stateInfo;
+
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state, Date bookDate ) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
         this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
+        this.bookDate = bookDate;
     }
 
     public Book() {
@@ -91,22 +84,6 @@ public class Book {
         this.location = location == null ? null : location.trim();
     }
 
-    public Date getBorrowDate() {
-        return borrowDate;
-    }
-
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
     public Integer getTypeId() {
         return typeId;
     }
@@ -131,27 +108,27 @@ public class Book {
         this.state = state;
     }
 
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Type getType() {
         return type;
     }
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    public State getStateInfo() {
+        return stateInfo;
+    }
+
+    public void setStateInfo(State stateInfo) {
+        this.stateInfo = stateInfo;
+    }
+
+    public Date getBookDate() {
+        return bookDate;
+    }
+
+    public void setBookDate(Date bookDate) {
+        this.bookDate = bookDate;
     }
 }

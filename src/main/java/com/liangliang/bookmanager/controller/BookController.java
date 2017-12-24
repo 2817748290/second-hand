@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,7 @@ public class BookController {
         int state = 0;
 
         try {
+            book.setBookDate(new Date());
             state = bookService.addBook(book);
         } catch (Exception e) {
             e.printStackTrace();
@@ -90,7 +92,7 @@ public class BookController {
             e.printStackTrace();
             return new Message(Message.ERROR,"获取对应id图书信息失败！",null);
         }
-        return new Message(Message.SUCCESS,"获取对应id图书信息成功！",book);
+        return new Message(Message.SUCCESS,"获取对应id图书信息成功！！",book);
     }
 
     @RequestMapping(value = "/getInitBookList", method = RequestMethod.POST)
