@@ -17,7 +17,7 @@ export const getBookInfoById = params => { return axios.post(`/api/book/getBookI
 //type
 export const getTypeList = params => { return axios.post(`/api/type/getTypeList`, params)};
 
-//order 
+//order
 export const getSearchOrder = params => { return axios.post(`/api/order/getSearchOrder`, params)};
 
 export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params)};

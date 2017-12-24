@@ -100,7 +100,7 @@
 			loginInit(){
 				if(this.loginState==='退出'){
 					localStorage.removeItem('user');
-					this.loginState = '登录'					
+					this.loginState = '登录'
 					return;
 				}
 				this.isLogined = true;

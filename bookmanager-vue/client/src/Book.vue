@@ -4,7 +4,7 @@
 	        <img class="cover" v-bind:src="'/public/'+book.imageUrl">
 	        <div class="book-info">
 	          <h3 class="name">
-	          	{{ book.bookName }} 
+	          	{{ book.bookName }}
 	          </h3>
 	          <p class="author">
 	          	<span>作者：</span>
@@ -53,9 +53,9 @@
 				//验证是否登录
 				if(this.user===null || this.user.userId==='' || this.user.userId===undefined){
 					alert("您还未登录,请先登录!")
-					return 
+					return
 				}
-				
+
 				let param = new FormData()
 				param.append('userId',this.user.userId)
 				getUserById(param).then(res=>{
@@ -91,10 +91,10 @@
 							})
 						})
 
-					}	
+					}
 				})
 
-				
+
       		}
 		}
 	}

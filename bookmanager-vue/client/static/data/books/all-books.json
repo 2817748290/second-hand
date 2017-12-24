@@ -1,0 +1,119 @@
+{
+	"title": "全部图书",
+	"bookList": [
+		{
+			"id": 1001,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1001.jpg",
+			"price": 60.00,
+			"name": "Python核心编程（第3版）",
+			"author": "【美】Wesley Chun",
+			"abstruct": "Python高手进阶之书，详解通用应用和Web开发！"
+		},
+		{
+			"id": 1002,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1002.jpg",
+			"price": 50.00,
+			"name": "掌握需求过程（第3版）",
+			"author": "【英】Suzanne Robertson，James Robertson",
+			"abstruct": "只有弄清楚真正的需求，才能得到创新的解决方案！"
+		},
+		{
+			"id": 1003,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1003.jpg",
+			"price": 65.00,
+			"name": "C++ Templates（中文版）",
+			"author": "【美】David Vandevoorde 【德】Nicolai M.Josuttis",
+			"abstruct": "C++模板奥秘，一览无余！"
+		},
+		{
+			"id": 1004,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1004.jpg",
+			"price": 30.00,
+			"name": "“笨办法”学Python（第3版）",
+			"author": "【美】Zed A.Shaw",
+			"abstruct": "跟着数十万人的Python导师学Python！"
+		},
+		{
+			"id": 1005,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1005.jpg",
+			"price": 50.00,
+			"name": "CSS揭秘",
+			"author": "【希】韦鲁",
+			"abstruct": "CSS一姐Lea Verou作品！"
+		},
+		{
+			"id": 1006,
+			"category": "计算机",
+			"cover": "static/data/books/book-cover/1006.jpg",
+			"price": 25.00,
+			"name": "CSS设计指南（第3版）",
+			"author": "【英】Charles Wyke-Smith",
+			"abstruct": "不容错过的CSS经典好书，涵盖响应式设计！"
+		},
+		{
+			"id": 2001,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2001.jpg",
+			"price": 348,
+			"name": "冰与火之歌（全15册）",
+			"author": "【美】乔治·R.R.马丁",
+			"abstruct": "HBO同名热播美剧原著小说，掀起全球性的“冰与火之歌”热潮！"
+		},
+		{
+			"id": 2002,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2002.jpg",
+			"price": 36.00,
+			"name": "三体（全三册）",
+			"author": "刘慈欣",
+			"abstruct": "他单枪匹马，把中国科幻提升到了世界水平。雷军力荐！"
+		},
+		{
+			"id": 2003,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2003.jpg",
+			"price": 198,
+			"name": "松本清张经典推理大全集（共10册）",
+			"author": "【日】松本清张",
+			"abstruct": "撕开现代社会层层包裹的和服，让您窥见人性的千姿百态！"
+		},
+		{
+			"id": 2004,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2004.jpg",
+			"price": 18.00,
+			"name": "罪与罚（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部深刻刻画犯罪心理的小说,一部倡导有罪忏悔的小说卡拉马佐夫兄弟（全二册 陀思妥耶夫斯基文集）"
+		},
+		{
+			"id": 2005,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2005.jpg",
+			"price": 18.00,
+			"name": "被伤害与侮辱的人们（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部描写小人物的力作！内附8幅精美黑白插图！"
+		},
+		{
+			"id": 2006,
+			"categoryId": 2,
+			"category": "小说",
+			"cover": "static/data/books/book-cover/2006.jpg",
+			"price": 12.00,
+			"name": "茶花女（译文名著精选）",
+			"author": "【法】小仲马",
+			"abstruct": "可可·香奈尔一生最爱的枕边书，小仲马笔下催人泪下的爱情传奇，舞台上长盛不衰的经典剧目月亮和六便士（毛姆文集）"
+		}
+	]
+}

@@ -68,11 +68,11 @@
 		},
 		components: {
 			'banner': Banner,
-			'subject-nav': SubjectNav 
+			'subject-nav': SubjectNav
 		},
 	}
 </script>
 
 <style>
-	
+
 </style>

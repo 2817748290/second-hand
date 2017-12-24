@@ -1,0 +1,80 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  width: 240px;
+  height: 240px;
+  padding: 1rem;
+  padding-bottom: 2rem;
+  background: #f4f2ef;
+}
+.login p {
+  font-size: .8rem;
+  margin-top: .8rem;
+  color: #a6978a;
+}
+.login .login-btn, .login-ui .login-btn {
+  display: block;
+  margin-top: auto;
+  text-align: center;
+  padding: .5rem 0;
+  border: 1px solid gray;
+  border-radius: .2rem;
+  background: #e7e2dd;
+  color: #613f23;
+  cursor: pointer;
+}
+.login .login-btn:hover {
+  text-decoration: none;
+}
+
+.login-ui {
+  z-index: 2;
+  position: fixed;
+  top: 30%;
+  left: 30%;
+  width: 500px;
+  border: 1px solid gray;
+  background: #f4f2ef;
+}
+.login-ui a:hover {
+  text-decoration: underline;
+}
+.login-ui header {
+  display: flex;
+  align-items: center;
+  background: #ef5b00;
+  padding: .5rem 1rem;
+}
+.login-ui h3 {
+  color: #fff;
+  font-size: 1rem;
+}
+.login-ui header a {
+  margin-left: auto;
+}
+.login-ui .form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+.login-ui .form a {
+  text-align: right;
+  font-size: .8rem;
+  margin: .4rem 0;
+}
+.login-ui input {
+  margin: .4rem 0;
+  padding: .5rem;
+  border: 1px solid gray;
+  border-radius: 4px;
+  background: inherit;
+}
+
+/* login-ui footer */
+.login-ui footer {
+  border-top: 1px solid gray;
+  padding: .5rem;
+  text-align: right;
+}

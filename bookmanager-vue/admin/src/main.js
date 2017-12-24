@@ -8,10 +8,11 @@ import store from './vuex/store'
 import Vuex from 'vuex'
 import NProgress from 'nprogress'//页面顶部进度条
 import 'nprogress/nprogress.css'
+import axios from 'axios'
+
 
 import Login from './pages/Login.vue'
 import Home from './pages/Home.vue'
-import Main from './pages/Main.vue'
 import Table from './pages/nav1/Table.vue'
 import Form from './pages/nav1/Form.vue'
 import user from './pages/nav1/user.vue'
@@ -19,8 +20,13 @@ import Page4 from './pages/nav2/Page4.vue'
 import Page5 from './pages/nav2/Page5.vue'
 import Page6 from './pages/nav3/Page6.vue'
 import echarts from './pages/charts/echarts.vue'
+import Index from './pages/index.vue'
 import User from './pages/user/index.vue'
 import Book from './pages/book/index.vue'
+import Order from './pages/order/index.vue'
+import BorrowBook from './pages/BorrowBook/index.vue'
+import ReturnBook from './pages/ReturnBook/index.vue'
+import vueCropper from './components/vueCropper.vue'
 
 // start mock
 // import Mock from './mock';
@@ -41,6 +47,15 @@ const routes = [
   {
     path: '/',
     component: Home,
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-message',//图标样式class
+    children: [
+      { path: '/', component: Index, name: '首页' }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
     name: '用户管理',
     leaf: true,//只有一个节点    
     iconCls: 'el-icon-message',//图标样式class
@@ -53,53 +68,91 @@ const routes = [
     component: Home,
     name: '书籍管理',
     leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-document',//图标样式class
     children: [
       { path: '/book', component: Book, name: '书籍管理' }
     ]
-  },
-  //{ path: '/main', component: Main },
-  {
+  },{
     path: '/',
     component: Home,
-    name: '导航一',
-    iconCls: 'el-icon-message',//图标样式class
+    name: '借阅记录管理',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-search',//图标样式class
     children: [
-      //{ path: '/main', component: Main },
-      { path: '/table', component: Table, name: 'Table' },
-      { path: '/form', component: Form, name: 'Form' },
-      { path: '/user', component: user, name: '列表' },
+      { path: '/order', component: Order, name: '借阅记录管理' }
+    ]
+  },{
+    path: '/',
+    component: Home,
+    name: '预约/借书审核',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-edit',//图标样式class
+    children: [
+      { path: '/borrow', component: BorrowBook, name: '预约/借书审核' }
     ]
   },
   {
     path: '/',
     component: Home,
-    name: '导航二',
-    iconCls: 'fa fa-id-card-o',
+    name: '还书审核',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-view',//图标样式class
     children: [
-      { path: '/page4', component: Page4, name: '页面4' },
-      { path: '/page5', component: Page5, name: '页面5' }
-    ]
-  },
-  {
-    path: '/',
-    component: Home,
-    name: '',
-    iconCls: 'fa fa-address-card',
-    leaf: true,//只有一个节点
-    children: [
-      { path: '/page6', component: Page6, name: '导航三' }
-    ]
-  },
-  {
-    path: '/',
-    component: Home,
-    name: 'Charts',
-    iconCls: 'fa fa-bar-chart',
-    children: [
-      { path: '/echarts', component: echarts, name: 'echarts' }
+      { path: '/return', component: ReturnBook, name: '还书审核' }
     ]
   }
+  // ,{
+  //   path: '/',
+  //   component: Home,
+  //   name: '图像裁剪',
+  //   leaf: true,//只有一个节点    
+  //   iconCls: 'el-icon-message',//图标样式class
+  //   children: [
+  //     { path: '/cropper', component: vueCropper, name: '图像裁剪' }
+  //   ]
+  // },
+  //{ path: '/main', component: Main },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: '导航一',
+  //   iconCls: 'el-icon-message',//图标样式class
+  //   children: [
+  //     //{ path: '/main', component: Main },
+  //     { path: '/table', component: Table, name: 'Table' },
+  //     { path: '/form', component: Form, name: 'Form' },
+  //     { path: '/user', component: user, name: '列表' },
+  //   ]
+  // },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: '导航二',
+  //   iconCls: 'fa fa-id-card-o',
+  //   children: [
+  //     { path: '/page4', component: Page4, name: '页面4' },
+  //     { path: '/page5', component: Page5, name: '页面5' }
+  //   ]
+  // },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: '',
+  //   iconCls: 'fa fa-address-card',
+  //   leaf: true,//只有一个节点
+  //   children: [
+  //     { path: '/page6', component: Page6, name: '导航三' }
+  //   ]
+  // },
+  // {
+  //   path: '/',
+  //   component: Home,
+  //   name: 'Charts',
+  //   iconCls: 'fa fa-bar-chart',
+  //   children: [
+  //     { path: '/echarts', component: echarts, name: 'echarts' }
+  //   ]
+  // }
 ]
 
 const router = new VueRouter({
@@ -108,7 +161,22 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  next()
+  // next();
+  if(to.fullPath==='/login'){
+    next()
+  }else{
+    var user = localStorage.getItem("user");
+    if(user!==null && user.username!==''){
+      next()
+    }else{
+      next({
+        path: '/login',
+      })
+    }
+  }
+  NProgress.done();   
+  
+
 })
 
 router.afterEach(transition => {
@@ -121,7 +189,7 @@ new Vue({
   router,
   store,
   components: { App }
-  //render: h => h(Login)
+  // render: h => h(Login)
 }).$mount('#app')
 
 //router.replace('/login')

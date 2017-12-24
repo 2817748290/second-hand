@@ -34,7 +34,7 @@
         <img src="static/icons/top.png">
       </a>
     </div>
-    
+
   </div>
 </template>
 

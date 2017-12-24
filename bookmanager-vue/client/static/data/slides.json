@@ -1,0 +1,20 @@
+{
+	"slides": [
+		{
+			"url": "#",
+			"img": "static/data/slide-images/1.jpg"
+		},
+		{
+			"url": "#",
+			"img": "static/data/slide-images/2.jpg"
+		},
+		{
+			"url": "#",
+			"img": "static/data/slide-images/3.jpg"
+		},
+		{
+			"url": "#",
+			"img": "static/data/slide-images/4.jpg"
+		}
+	]
+}

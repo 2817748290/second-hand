@@ -3,11 +3,19 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
+				<el-select v-model="filters.searchName" placeholder="请选择">
+					<el-option
+					v-for="item in options"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+					</el-option>
+				</el-select>
 				<el-form-item>
-					<el-input v-model="filters.name" placeholder="姓名"></el-input>
+					<el-input v-model="filters.search" placeholder="请输入查询内容"></el-input>
 				</el-form-item>
 				<el-form-item>
-					<el-button type="primary" v-on:click="getUsers">查询</el-button>
+					<el-button type="primary" v-on:click="getBookList">查询</el-button>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" @click="handleAdd">新增</el-button>
@@ -17,29 +25,30 @@
 
 		<!--列表-->
 		<template>
-			<el-table :data="users" highlight-current-row v-loading="listLoading" style="width: 100%;">
+			<el-table :data="books" highlight-current-row v-loading="listLoading" style="width: 100%;">
 				<el-table-column type="index" width="60">
 				</el-table-column>
-				<el-table-column prop="name" label="用户名" width="120" sortable>
+				<el-table-column prop="bookName" label="书名" width="180" sortable>
 				</el-table-column>
-				<el-table-column prop="sex" label="昵称" width="100" :formatter="formatSex" sortable>
+				<el-table-column prop="author" label="作者" width="120" sortable>
 				</el-table-column>
-				<el-table-column prop="age" label="积分" width="100" sortable>
+				<el-table-column prop="location" label="图书位置" width="150" sortable>
 				</el-table-column>
-				<el-table-column prop="birth" label="用户组" width="120" sortable>
+				<el-table-column prop="type.typeName" label="图书类型" width="150" sortable>
 				</el-table-column>
-				<el-table-column prop="addr" label="状态" min-width="180" sortable>
+				<el-table-column prop="stateInfo.stateName" label="状态" width="120" sortable>
 				</el-table-column>
-				<el-table-column prop="email" label="邮箱" min-width="180" sortable>
+				<el-table-column prop="isbn" label="图书编码" width="180" sortable>
 				</el-table-column>
-				<el-table-column inline-template :context="_self" label="操作" width="150">
+				<el-table-column inline-template :context="_self" label="操作" min-width="200">
 				<span>
+					<el-button size="small" @click="handleLook(row)">查看</el-button>
 					<el-button size="small" @click="handleEdit(row)">编辑</el-button>
 					<el-button type="danger" size="small" @click="handleDel(row)">删除</el-button>
 				</span>
-</el-table-column>
-</el-table>
-</template>
+				</el-table-column>
+				</el-table>
+		</template>
 
 <!--分页-->
 <el-col :span="24" class="toolbar" style="padding-bottom:10px;">
@@ -47,30 +56,43 @@
 </el-pagination>
 </el-col>
 
-<!--编辑界面-->
+ <!-- 图片上传 -->
+
+<!-- 编辑界面-->
 <el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
-	<el-form :model="editForm" label-width="80px" :rules="editFormRules" ref="editForm">
-		<el-form-item label="姓名" prop="name">
-			<el-input v-model="editForm.name" auto-complete="off"></el-input>
+	<el-form :model="editForm" label-width="80px" ref="editForm">
+		<el-form-item label="图书名称" prop="bookName">
+			<el-input v-model="editForm.bookName" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
-		<el-form-item label="性别">
-			<!--<el-select v-model="editForm.sex" placeholder="请选择性别">
-						<el-option label="男" :value="1"></el-option>
-						<el-option label="女" :value="0"></el-option>
-					</el-select>-->
-			<el-radio-group v-model="editForm.sex">
-				<el-radio class="radio" :label="1">男</el-radio>
-				<el-radio class="radio" :label="0">女</el-radio>
+		<el-form-item label="图书作者" prop="author">
+			<el-input v-model="editForm.author" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
+		</el-form-item>
+		<el-form-item label="图书位置" prop="location">
+			<el-input v-model="editForm.location" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
+		</el-form-item>
+		<el-form-item label="图书类型" prop="typeId">
+			<el-select v-model="editForm.typeId" placeholder="请选择" v-bind:disabled="disabledChange">
+				<el-option
+				v-for="booktype in booktypes"
+				:key="booktype.typeId"
+				:label="booktype.typeName"
+				:value="booktype.typeId">
+				</el-option>
+			</el-select>
+		</el-form-item>
+		<el-form-item label="图书封面" prop="imageUrl">
+			<img v-bind:src="'/public' + this.editForm.imageUrl"  onerror='this.src="../../../static/default.png"'><br>
+  			<el-button type="primary" @click="dialogVisible = true" style="margin-top:1%" >选择图书封面</el-button>
+		</el-form-item>
+		<el-form-item label="图书状态">
+			<el-radio-group v-model="editForm.state" v-bind:disabled="disabledChange">
+				<el-radio :label="0">可借</el-radio>
+				<el-radio :label="1">已借出</el-radio>
+				<el-radio :label="2">已销毁</el-radio>
 			</el-radio-group>
 		</el-form-item>
-		<el-form-item label="年龄">
-			<el-input-number v-model="editForm.age" :min="0" :max="200"></el-input-number>
-		</el-form-item>
-		<el-form-item label="生日">
-			<el-date-picker type="date" placeholder="选择日期" v-model="editForm.birth"></el-date-picker>
-		</el-form-item>
-		<el-form-item label="地址">
-			<el-input type="textarea" v-model="editForm.addr"></el-input>
+		<el-form-item label="图书编码" prop="isbn">
+			<el-input v-model="editForm.isbn" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
 	</el-form>
 	<div slot="footer" class="dialog-footer">
@@ -78,80 +100,153 @@
 		<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{btnEditText}}</el-button>
 	</div>
 </el-dialog>
+
+<el-dialog
+	title="选择图书封面"
+	:visible.sync="dialogVisible"
+	width="1000"
+	>
+	<cropper @transfer="transfer" @isModelShow="isModelShow" style="margin: 1% auto auto auto"></cropper>
+	<span slot="footer" class="dialog-footer">
+		<el-button id="model-close" type="primary" @click="dialogVisible = false" style="display:none">确 定</el-button>
+	</span>
+</el-dialog>
 </section>
 </template>
 
 <script>
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
-	import { getUserListPage, removeUser, editUser, addUser } from '../../api/api';
+	import cropper from '../book/cropper'
+	import { getInitBookList, deleteBook, addBook, updateBook, getBookInfoById, getTypeList } from '../../api/api';
+	import $ from '../../../static/jquery.min.js'
 
 	export default {
+		 components:{
+			cropper
+		},
 		data() {
 			return {
+				dialogVisible:false,     //模态框是否显示
+    			addLoading: false,       //是否显示loading
+				disabledChange: false,
 				filters: {
-					name: ''
+					searchName: '',
+					search:''
 				},
-				users: [],
+				books: [],
+				booktypes:[],
 				total: 0,
-				page: 1,
+				offset: 0,
+				sort: '+book_id',
+				limit: 20,
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
 				editFormTtile: '编辑',//编辑界面标题
 				//编辑界面数据
 				editForm: {
-					id: 0,
-					name: '',
-					sex: -1,
-					age: 0,
-					birth: '',
-					addr: ''
+					opState:0,
+					id:0,  //0为添加表单 1为修改表单
+					bookName:'',
+					author:'',
+					imageUrl:'',
+					location:'',
+					typeId:0,
+					state:-1,
 				},
 				editLoading: false,
 				btnEditText: '提 交',
-				editFormRules: {
-					name: [
-						{ required: true, message: '请输入姓名', trigger: 'blur' }
-					]
-				}
-
+				options: [{
+					value: 'book_name',
+					label: '图书名称'
+					}, {
+					value: 'author',
+					label: '作者姓名'
+					}, {
+					value: 'location',
+					label: '图书位置'
+					}, {
+					value: 'type_name',
+					label: '图书类型'
+					}, {
+					value: 'isbn',
+					label: '国际标准书号(ISBN)'
+					}, {
+					value: 'state',
+					label: '图书状态'
+					}],
 			}
+		},		
+		mounted() {
+			this.getBookList();
+			this.getTypes();
 		},
 		methods: {
-			//性别显示转换
-			formatSex: function (row, column) {
-				return row.sex == 1 ? '男' : row.sex == 0 ? '女' : '未知';
+
+			opendialog:function(){    //代开模态框
+			this.dialogVisible = false
 			},
-			handleCurrentChange(val) {
-				this.page = val;
-				this.getUsers();
+
+			isModelShow (...data) {
+			this.isShow = data[0]
+			if(!data[0]){
+				$('#model-close').click()
+			}
+			console.log(data[0])
 			},
-			//获取用户列表
-			getUsers() {
+			transfer (...data) {
+			this.editForm.imageUrl = data[0]
+			},
+			// 初始化图书列表
+			getBookList(){
 				let para = {
-					page: this.page,
-					name: this.filters.name
+					sort: this.sort,
+					offset: this.offset,
+					limit: this.limit,
+					search: this.filters.search,
+					searchName: this.filters.searchName,
 				};
 				this.listLoading = true;
 				NProgress.start();
-				getUserListPage(para).then((res) => {
+				getInitBookList(para).then((res) => {
 					this.total = res.data.total;
-					this.users = res.data.users;
+					this.books = res.data.rows;
+					console.log(this.books)
 					this.listLoading = false;
 					NProgress.done();
 				});
 			},
-			//删除
+
+			//换页
+			handleCurrentChange(val) {
+				this.offset = (val-1)*20;
+				this.getBookList();
+			},
+
+			//动态获取图书类型
+			getTypes(){
+				let para = {};
+				this.listLoading = true;
+				NProgress.start();
+				getTypeList(para).then((res) => {
+					this.listLoading = false;
+					this.booktypes = res.data.result;
+					console.log(this.booktypes)
+					NProgress.done();
+				});
+			},
+
+			//删除操作 
 			handleDel: function (row) {
-				//console.log(row);
 				var _this = this;
 				this.$confirm('确认删除该记录吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
 					_this.listLoading = true;
 					NProgress.start();
-					let para = { id: row.id };
-					removeUser(para).then((res) => {
+					let para = new FormData();
+					para.append('bookId',row.bookId);
+					deleteBook(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
 						_this.$notify({
@@ -159,24 +254,14 @@
 							message: '删除成功',
 							type: 'success'
 						});
-						_this.getUsers();
+						_this.getBookList();
 					});
 
 				}).catch(() => {
 
 				});
 			},
-			//显示编辑界面
-			handleEdit: function (row) {
-				this.editFormVisible = true;
-				this.editFormTtile = '编辑';
-				this.editForm.id = row.id;
-				this.editForm.name = row.name;
-				this.editForm.sex = row.sex;
-				this.editForm.age = row.age;
-				this.editForm.birth = row.birth;
-				this.editForm.addr = row.addr;
-			},
+
 			//编辑 or 新增
 			editSubmit: function () {
 				var _this = this;
@@ -189,16 +274,19 @@
 							NProgress.start();
 							_this.btnEditText = '提交中';
 
-							if (_this.editForm.id == 0) {
+							if (_this.editForm.opState == 0) {
 								//新增
 								let para = {
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
-									addr: _this.editForm.addr,
+									bookName: _this.editForm.bookName,
+									author: _this.editForm.author,
+									imageUrl: _this.editForm.imageUrl,
+									location: _this.editForm.location,
+									isbn: _this.editForm.isbn,
+									typeId: _this.editForm.typeId,
+									state: _this.editForm.state
 								};
-								addUser(para).then((res) => {
+								addBook(para).then((res) => {
+									console.log(res.data)
 									_this.editLoading = false;
 									NProgress.done();
 									_this.btnEditText = '提 交';
@@ -208,19 +296,22 @@
 										type: 'success'
 									});
 									_this.editFormVisible = false;
-									_this.getUsers();
+									_this.getBookList();
 								});
-							} else {
+							} else if (_this.editForm.opState == 1){
 								//编辑
+								console.log(_this.editForm)
 								let para = {
-									id: _this.editForm.id,
-									name: _this.editForm.name,
-									sex: _this.editForm.sex,
-									age: _this.editForm.age,
-									birth: _this.editForm.birth == '' ? '' : util.formatDate.format(new Date(_this.editForm.birth), 'yyyy-MM-dd'),
-									addr: _this.editForm.addr,
+									bookId: _this.editForm.id,
+									bookName: _this.editForm.bookName,
+									author: _this.editForm.author,
+									imageUrl: _this.editForm.imageUrl,
+									location: _this.editForm.location,
+									isbn: _this.editForm.isbn,
+									typeId: _this.editForm.typeId,
+									state: _this.editForm.state
 								};
-								editUser(para).then((res) => {
+								updateBook(para).then((res) => {
 									_this.editLoading = false;
 									NProgress.done();
 									_this.btnEditText = '提 交';
@@ -230,9 +321,13 @@
 										type: 'success'
 									});
 									_this.editFormVisible = false;
-									_this.getUsers();
+									_this.getBookList();
 								});
 
+							} else if (_this.editForm.opState == 2){
+								//查看
+								_this.editFormVisible = false;
+								_this.getBookList();
 							}
 
 						});
@@ -244,21 +339,55 @@
 			//显示新增界面
 			handleAdd: function () {
 				var _this = this;
-
+				this.disabledChange = false;
 				this.editFormVisible = true;
 				this.editFormTtile = '新增';
-
+				this.editForm.opState = 0;
 				this.editForm.id = 0;
-				this.editForm.name = '';
-				this.editForm.sex = 1;
-				this.editForm.age = 0;
-				this.editForm.birth = '';
-				this.editForm.addr = '';
+				this.editForm.bookName = '';
+				this.editForm.author = '';
+				this.editForm.imageUrl = '';
+				this.editForm.location = '';
+				this.editForm.isbn = '';
+				this.editForm.typeId = '';
+				this.editForm.state = 0;
+			},
+			//显示编辑界面
+			handleEdit: function (row) {
+				console.log(row)
+				this.disabledChange = false;
+				this.editFormVisible = true;
+				this.editFormTtile = '编辑';
+				this.editForm.opState = 1;
+				this.editForm.id = row.bookId;
+				this.editForm.bookName = row.bookName;
+				this.editForm.author = row.author;
+				this.editForm.imageUrl = row.imageUrl;
+				this.editForm.location = row.location;
+				this.editForm.isbn = row.isbn;
+				this.editForm.typeId = row.typeId;
+				this.editForm.state = row.state;
+			},
+			//显示查看界面
+			handleLook: function (row) {
+				console.log(row)
+				this.disabledChange = true;
+				this.editFormVisible = true;
+				this.editFormTtile = '查看';
+				this.editForm.opState = 2;
+				this.editForm.id = row.bookId;
+				this.editForm.bookName = row.bookName;
+				this.editForm.author = row.author;
+				this.editForm.imageUrl = row.imageUrl;
+				this.editForm.location = row.location;
+				this.editForm.isbn = row.isbn;
+				this.editForm.typeId = row.typeId;
+				this.editForm.state = row.state;
+				this.btnEditText = '确 定'
 			}
-		},
-		mounted() {
-			this.getUsers();
 		}
+		
+		
 	}
 </script>
 
