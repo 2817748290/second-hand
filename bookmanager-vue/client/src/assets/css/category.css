@@ -10,7 +10,11 @@
   padding-left: 2rem;
 }
 .category-bar dd {
+	cursor: pointer;
 	padding-left: 1rem;
+}
+.category-bar dd:hover {
+	background: gray;	
 }
 .category-bar a {
 	display: block;

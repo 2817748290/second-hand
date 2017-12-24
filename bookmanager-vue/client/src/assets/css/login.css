@@ -12,7 +12,7 @@
   margin-top: .8rem;
   color: #a6978a;
 }
-.login .login-btn {
+.login .login-btn, .login-ui .login-btn {
   display: block;
   margin-top: auto;
   text-align: center;

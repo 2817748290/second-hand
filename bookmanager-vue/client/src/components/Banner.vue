@@ -2,21 +2,21 @@
 	<div class="banner">
 		<category-list></category-list>
 		<slider></slider>
-		<login></login>
+		<welcome></welcome>
 	</div>
 </template>
 
 <script>
 	import CategoryList from './CategoryList'
 	import Slider from './Slider'
-	import Login from './Login'
+	import welcome from './Welcome'
 
 	export default {
 	  name: 'banner',
 	  components: {
 		  'category-list': CategoryList,
 	  	'slider': Slider,
-	  	'login': Login
+	  	'welcome': welcome
 	  }
 	}
 </script>

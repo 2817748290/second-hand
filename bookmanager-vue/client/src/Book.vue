@@ -1,7 +1,7 @@
 <template>
 	<div id="book">
 		<div class="book-detail">
-	        <img class="cover" v-bind:src="book.cover">
+	        <img class="cover" v-bind:src="'/public/'+book.imageUrl">
 	        <div class="book-info">
 	          <h3 class="name">
 	          	{{ book.bookName }} 
@@ -27,16 +27,24 @@
 </template>
 
 <script>
+	import {getBookInfoById} from './api/api.js'
 	export default {
 		name: 'book',
-		computed: {
-			book() {
-				let id = this.$route.params.id;
-				let books = this.$store.getters.getAllBookList.filter((item, index, array) => {
-					return (item.id == id);
-				});
-				return books[0];
+		data () {
+			return {
+				'book': '',
+				'bookId': ''
 			}
+		},
+		mounted(){
+			this.bookId = this.$route.params.id;
+			console.log(this.$route)
+			console.log(this.bookId+"bookId")
+			let param = new FormData()
+			param.append("bookId",this.bookId)
+			getBookInfoById(param).then((res)=>{
+				this.book = res.data.result
+			})
 		},
 		methods: {
 			addToCart: function(book) {

@@ -4,8 +4,8 @@
     <el-form-item prop="account">
       <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
     </el-form-item>
-    <el-form-item prop="checkPass">
-      <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
+    <el-form-item prop="password">
+      <el-input type="password" v-model="ruleForm2.password" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
     <el-checkbox v-model="checked" checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>
 <el-form-item style="width:100%;">
@@ -23,15 +23,15 @@
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
+          account: 'admin1',
+          password: '123456'
         },
         rules2: {
           account: [
             { required: true, message: '请输入账号', trigger: 'blur' },
             //{ validator: validaePass }
           ],
-          checkPass: [
+          password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
             //{ validator: validaePass2 }
           ]
@@ -45,37 +45,37 @@
       },
       handleSubmit2(ev) {
         var _this = this;
-        this.$router.push({ path: '/' });
-        // this.$refs.ruleForm2.validate((valid) => {
-        //   if (valid) {
-        //     //_this.$router.replace('/table');
-        //     this.logining = true;
-        //     NProgress.start();
-        //     var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-        //     requestLogin(loginParams).then(data => {
-        //       this.logining = false;
-        //       NProgress.done();
-        //       let { msg, code, user } = data;
-        //       if (code !== 200) {
-        //         this.$notify({
-        //           title: '错误',
-        //           message: msg,
-        //           type: 'error'
-        //         });
-        //       } else {
-        //         localStorage.setItem('user', JSON.stringify(user));
-        //         if (this.$route.query.redirect) {
-        //           this.$router.push({ path: this.$route.query.redirect });
-        //         } else {
-        //           this.$router.push({ path: '/' });
-        //         }
-        //       }
-        //     });
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
+        // this.$router.push({ path: '/' });
+        this.$refs.ruleForm2.validate((valid) => {
+          if (valid) {
+            //_this.$router.replace('/table');
+            this.logining = true;
+            NProgress.start();
+            var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.password };
+            requestLogin(loginParams).then(data => {
+              console.log(data)
+              this.logining = false;
+              NProgress.done();
+              if (data.status !== 1) {
+                this.$notify({
+                  title: '错误',
+                  message: msg,
+                  type: 'error'
+                });
+              } else {
+                localStorage.setItem('user', JSON.stringify({'username':loginParams.username}));
+                if (this.$route.query.redirect) {
+                  this.$router.push({ path: this.$route.query.redirect });
+                } else {
+                  this.$router.push({ path: '/user' });
+                }
+              }
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       }
     }
   }

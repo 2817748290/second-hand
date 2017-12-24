@@ -1,117 +1,23 @@
 <template>
-	<section>
-		<!--工具条-->
-		<el-col :span="24" class="toolbar">
-			<el-form :inline="true" :model="filters">
-				<el-select v-model="filters.searchName" placeholder="请选择">
-					<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value">
-					</el-option>
-				</el-select>
-				<el-form-item>
-					<el-input v-model="filters.search" placeholder="请输入查询内容"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" v-on:click="getBookList">查询</el-button>
-				</el-form-item>
-				<el-form-item>
-					<el-button type="primary" @click="handleAdd">新增</el-button>
-				</el-form-item>
-			</el-form>
+	<el-row :gutter="20">
+		<el-col :span="6" v-for="book in books">
+  			<el-card>
+				<img :src="'/public' + book.imageUrl" width="180px" height="240px" class="image" onerror='this.src="../../../static/default.png"'>
+				<div style="padding: 14px;">
+					<span>{{book.bookName}}</span><br>
+					<span>{{book.author}}</span>
+					<div class="bottom clearfix">
+						<time class="time">{{book.createDate}}</time>
+						<p>可借</p>
+						<el-button 
+							class="button"
+							type = "primary"
+						>借阅</el-button>
+					</div>
+				</div>
+			</el-card>		
 		</el-col>
-
-		<!--列表-->
-		<template>
-			<el-table :data="books" highlight-current-row v-loading="listLoading" style="width: 100%;">
-				<el-table-column type="index" width="60">
-				</el-table-column>
-				<el-table-column prop="bookName" label="书名" width="180" sortable>
-				</el-table-column>
-				<el-table-column prop="author" label="作者" width="120" sortable>
-				</el-table-column>
-				<el-table-column prop="location" label="图书位置" width="150" sortable>
-				</el-table-column>
-				<el-table-column prop="type.typeName" label="图书类型" width="150" sortable>
-				</el-table-column>
-				<el-table-column prop="stateInfo.stateName" label="状态" width="120" sortable>
-				</el-table-column>
-				<el-table-column prop="isbn" label="图书编码" width="180" sortable>
-				</el-table-column>
-				<el-table-column inline-template :context="_self" label="操作" min-width="200">
-				<span>
-					<el-button size="small" @click="handleLook(row)">查看</el-button>
-					<el-button size="small" @click="handleEdit(row)">编辑</el-button>
-					<el-button type="danger" size="small" @click="handleDel(row)">删除</el-button>
-				</span>
-				</el-table-column>
-				</el-table>
-		</template>
-
-<!--分页-->
-<el-col :span="24" class="toolbar" style="padding-bottom:10px;">
-<el-pagination layout="prev, pager, next" @current-change="handleCurrentChange" :page-size="20" :total="total" style="float:right;">
-</el-pagination>
-</el-col>
-
- <!-- 图片上传 -->
-
-<!-- 编辑界面-->
-<el-dialog :title="editFormTtile" v-model="editFormVisible" :close-on-click-modal="false">
-	<el-form :model="editForm" label-width="80px" ref="editForm">
-		<el-form-item label="图书名称" prop="bookName">
-			<el-input v-model="editForm.bookName" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
-		</el-form-item>
-		<el-form-item label="图书作者" prop="author">
-			<el-input v-model="editForm.author" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
-		</el-form-item>
-		<el-form-item label="图书位置" prop="location">
-			<el-input v-model="editForm.location" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
-		</el-form-item>
-		<el-form-item label="图书类型" prop="typeId">
-			<el-select v-model="editForm.typeId" placeholder="请选择" v-bind:disabled="disabledChange">
-				<el-option
-				v-for="booktype in booktypes"
-				:key="booktype.typeId"
-				:label="booktype.typeName"
-				:value="booktype.typeId">
-				</el-option>
-			</el-select>
-		</el-form-item>
-		<el-form-item label="图书封面" prop="imageUrl">
-			<img v-bind:src="'/public' + this.editForm.imageUrl"  onerror='this.src="../../../static/default.png"'><br>
-  			<el-button type="primary" @click="dialogVisible = true" style="margin-top:1%" >选择图书封面</el-button>
-		</el-form-item>
-		<el-form-item label="图书状态">
-			<el-radio-group v-model="editForm.state" v-bind:disabled="disabledChange">
-				<el-radio :label="0">可借</el-radio>
-				<el-radio :label="1">已借出</el-radio>
-				<el-radio :label="2">已销毁</el-radio>
-			</el-radio-group>
-		</el-form-item>
-		<el-form-item label="图书编码" prop="isbn">
-			<el-input v-model="editForm.isbn" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
-		</el-form-item>
-	</el-form>
-	<div slot="footer" class="dialog-footer">
-		<el-button @click.native="editFormVisible = false">取 消</el-button>
-		<el-button type="primary" @click.native="editSubmit" :loading="editLoading">{{btnEditText}}</el-button>
-	</div>
-</el-dialog>
-
-<el-dialog
-	title="选择图书封面"
-	:visible.sync="dialogVisible"
-	width="1000"
-	>
-	<cropper @transfer="transfer" @isModelShow="isModelShow" style="margin: 1% auto auto auto"></cropper>
-	<span slot="footer" class="dialog-footer">
-		<el-button id="model-close" type="primary" @click="dialogVisible = false" style="display:none">确 定</el-button>
-	</span>
-</el-dialog>
-</section>
+	</el-row>
 </template>
 
 <script>
@@ -166,7 +72,7 @@
 					value: 'location',
 					label: '图书位置'
 					}, {
-					value: 'type_name',
+					value: 'type_Id',
 					label: '图书类型'
 					}, {
 					value: 'isbn',
@@ -175,6 +81,7 @@
 					value: 'state',
 					label: '图书状态'
 					}],
+
 			}
 		},		
 		mounted() {
@@ -393,3 +300,4 @@
 
 <style scoped>
 </style>
+</script>

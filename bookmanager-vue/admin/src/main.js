@@ -13,7 +13,6 @@ import axios from 'axios'
 
 import Login from './pages/Login.vue'
 import Home from './pages/Home.vue'
-import Main from './pages/Main.vue'
 import Table from './pages/nav1/Table.vue'
 import Form from './pages/nav1/Form.vue'
 import user from './pages/nav1/user.vue'
@@ -21,6 +20,7 @@ import Page4 from './pages/nav2/Page4.vue'
 import Page5 from './pages/nav2/Page5.vue'
 import Page6 from './pages/nav3/Page6.vue'
 import echarts from './pages/charts/echarts.vue'
+import Index from './pages/index.vue'
 import User from './pages/user/index.vue'
 import Book from './pages/book/index.vue'
 import Order from './pages/order/index.vue'
@@ -43,6 +43,15 @@ const routes = [
     path: '/login',
     component: Login,
     hidden: true//不显示在导航中
+  },
+  {
+    path: '/',
+    component: Home,
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-message',//图标样式class
+    children: [
+      { path: '/', component: Index, name: '首页' }
+    ]
   },
   {
     path: '/',
@@ -91,16 +100,17 @@ const routes = [
     children: [
       { path: '/return', component: ReturnBook, name: '还书审核' }
     ]
-  },{
-    path: '/',
-    component: Home,
-    name: '图像裁剪',
-    leaf: true,//只有一个节点    
-    iconCls: 'el-icon-message',//图标样式class
-    children: [
-      { path: '/cropper', component: vueCropper, name: '图像裁剪' }
-    ]
-  },
+  }
+  // ,{
+  //   path: '/',
+  //   component: Home,
+  //   name: '图像裁剪',
+  //   leaf: true,//只有一个节点    
+  //   iconCls: 'el-icon-message',//图标样式class
+  //   children: [
+  //     { path: '/cropper', component: vueCropper, name: '图像裁剪' }
+  //   ]
+  // },
   //{ path: '/main', component: Main },
   // {
   //   path: '/',
@@ -151,7 +161,22 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  next()
+  // next();
+  if(to.fullPath==='/login'){
+    next()
+  }else{
+    var user = localStorage.getItem("user");
+    if(user!==null && user.username!==''){
+      next()
+    }else{
+      next({
+        path: '/login',
+      })
+    }
+  }
+  NProgress.done();   
+  
+
 })
 
 router.afterEach(transition => {
@@ -164,7 +189,7 @@ new Vue({
   router,
   store,
   components: { App }
-  //render: h => h(Login)
+  // render: h => h(Login)
 }).$mount('#app')
 
 //router.replace('/login')

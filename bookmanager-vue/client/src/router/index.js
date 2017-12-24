@@ -10,7 +10,7 @@ Vue.use(Router)
 
 export default new Router({
   base: __dirname,
-  linkActiveClass: 'active',
+  linkActiveClass: 'active',  
   routes: [
     {
       path: '/',
@@ -18,7 +18,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/category/:category',
+      path: '/category',
       name: 'Category',
       component: Category
     },
