@@ -46,7 +46,7 @@
 				disabledChange: false,
 				filters: {
 					searchName: 'state_name',
-					search:'还书审核中'
+					search:'借出审核中'
 				},
 				books: [],
 				booktypes:[],
@@ -132,7 +132,7 @@
 					NProgress.start();
 					let para = {
 						bookId: value,
-						state: 0
+						state: 1
 					};
 					updateBook(para).then((res) => {
 						_this.listLoading = false;
@@ -160,7 +160,7 @@
 					NProgress.start();
 					let para = {
 						bookId: value,
-						state: 6
+						state: 0
 					};
 					updateBook(para).then((res) => {
 						_this.listLoading = false;
@@ -177,7 +177,6 @@
 
 				});
 			},
-
 			
 		}
 		

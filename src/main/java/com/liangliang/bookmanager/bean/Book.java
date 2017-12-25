@@ -128,6 +128,7 @@ public class Book {
         return bookDate;
     }
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public void setBookDate(Date bookDate) {
         this.bookDate = bookDate;
     }

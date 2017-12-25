@@ -26,6 +26,8 @@ import Book from './pages/book/index.vue'
 import Order from './pages/order/index.vue'
 import BorrowBook from './pages/BorrowBook/index.vue'
 import ReturnBook from './pages/ReturnBook/index.vue'
+import AppointmentBook from './pages/AppointmentBook/index.vue'
+import Rights from './pages/Rights/index.vue'
 import vueCropper from './components/vueCropper.vue'
 
 // start mock
@@ -75,11 +77,20 @@ const routes = [
   },{
     path: '/',
     component: Home,
-    name: '预约/借书审核',
+    name: '预约审核',
     leaf: true,//只有一个节点    
     iconCls: 'el-icon-edit',//图标样式class
     children: [
-      { path: '/borrow', component: BorrowBook, name: '预约/借书审核' }
+      { path: '/appointment', component: AppointmentBook, name: '预约审核' }
+    ]
+  },{
+    path: '/',
+    component: Home,
+    name: '借书审核',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-edit',//图标样式class
+    children: [
+      { path: '/borrow', component: BorrowBook, name: '借书审核' }
     ]
   },
   {
@@ -94,11 +105,11 @@ const routes = [
   },{
     path: '/',
     component: Home,
-    name: '图像裁剪',
+    name: '申述审核',
     leaf: true,//只有一个节点    
     iconCls: 'el-icon-message',//图标样式class
     children: [
-      { path: '/cropper', component: vueCropper, name: '图像裁剪' }
+      { path: '/rights', component: Rights, name: '申述审核' }
     ]
   },
   //{ path: '/main', component: Main },

@@ -16,8 +16,8 @@
     </resultMap>
 
     <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
-        INSERT INTO book (book_name,author,image_url,location,type_id,isbn,state)
-        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{typeId},#{isbn},#{state})
+        INSERT INTO book (book_name,author,image_url,location,type_id,isbn,state,book_date)
+        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{typeId},#{isbn},#{state},#{bookDate})
     </insert>
 
     <update id="updateBook" parameterType="com.liangliang.bookmanager.bean.Book">
@@ -49,16 +49,18 @@
     </update>
 
     <select id="searchBook" resultMap="BookMap">
-        SELECT b.*, t.type_name FROM book b, type t
+        SELECT b.*, t.type_name, s.state_name FROM book b, type t, state s
         WHERE ${searchName} LIKE #{search}
         AND b.type_id = t.type_id
+        AND b.state = s.state_id
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
     <select id="searchBookCount" resultType="int">
-        SELECT COUNT(*) FROM book b, type t
+        SELECT COUNT(*) FROM book b, type t, state s
         WHERE ${searchName} LIKE #{search}
         AND b.type_id = t.type_id
+        AND b.state = s.state_id
     </select>
 
     <select id="getBookList"  resultMap="BookMap">
