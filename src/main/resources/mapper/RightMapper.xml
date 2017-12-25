@@ -14,35 +14,33 @@
     </resultMap>
 
     <insert id="addRight" parameterType="com.liangliang.bookmanager.bean.Right">
-        INSERT INTO right (right_title, right_type_id, right_date, right_state_id, order_id, right_content)
+        INSERT INTO `right` (right_title, right_type_id, right_date, right_state_id, order_id, right_content)
         VALUES (#{rightTitle}, #{rightTypeId}, #{rightDate}, #{rightStateId}, #{orderId}, #{rightContent})
     </insert>
 
     <select id="getInitRights" resultMap="RightMap">
-        SELECT r.*, o.* FROM right r, order o
-        WHERE ${searchName} LIKE #{search}
-        AND b.order_id = o.order_id
+        SELECT r.*, o.* FROM `right` r, `order` o
+        WHERE r.order_id = o.order_id
         ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
     </select>
 
     <select id="getInitRightsCount" resultType="int">
-        SELECT COUNT(*) FROM right r, order o
-        WHERE ${searchName} LIKE #{search}
-        AND b.order_id = o.order_id
+        SELECT COUNT(*) FROM `right` r, `order` o
+        WHERE r.order_id = o.order_id
     </select>
 
     <delete id="deleteRight" parameterType="int">
-        DELETE FROM right
+        DELETE FROM `right`
         WHERE right_id=#{rightId}
     </delete>
 
     <select id="getRightInfoById" parameterType="int" resultMap="RightMap">
-        SELECT * FROM right
+        SELECT * FROM `right`
         WHERE right_id=#{rightId}
     </select>
 
     <update id="updateRight" parameterType="com.liangliang.bookmanager.bean.Right">
-        UPDATE right
+        UPDATE `right`
         <set>
             <if test="rightTitle != null">
                 right_title = #{rightTitle},

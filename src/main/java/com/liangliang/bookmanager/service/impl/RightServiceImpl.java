@@ -3,8 +3,10 @@ package com.liangliang.bookmanager.service.impl;
 import com.liangliang.bookmanager.bean.Order;
 import com.liangliang.bookmanager.bean.Right;
 import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.mapper.OrderMapper;
 import com.liangliang.bookmanager.mapper.RightMapper;
+import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.RightService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,9 @@ public class RightServiceImpl implements RightService {
 
     @Autowired
     private OrderMapper orderMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Override
     public Integer addRight(Right right){
@@ -46,6 +51,8 @@ public class RightServiceImpl implements RightService {
                     rightList = rightMapper.getInitRights(tableMessage);
                     for (Right right : rightList) {
                         Order order = orderMapper.getOrderById(right.getOrderId());
+                        User user = userMapper.getUserById(order.getBorrowerId());
+                        order.setBorrower(user);
                         right.setOrder(order);
                     }
                     tableMessage.setRows(rightList);
@@ -56,6 +63,8 @@ public class RightServiceImpl implements RightService {
                     tableMessage.setRows(searchBookList);
                     for (Right right : searchBookList) {
                         Order order = orderMapper.getOrderById(right.getOrderId());
+                        User user = userMapper.getUserById(order.getBorrowerId());
+                        order.setBorrower(user);
                         right.setOrder(order);
                     }
                     tableMessage.setTotal(rightMapper.getInitRightsCount(tableMessage));

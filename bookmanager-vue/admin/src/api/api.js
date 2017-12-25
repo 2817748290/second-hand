@@ -39,9 +39,21 @@ export const updateOrder = params => { return axios.post(`/api/order/updateOrder
 export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params); };
 
 export const addOrder = params => { return axios.post(`/api/order/addOrder`, params); };
-/* borrow */
+
+//borrow 
 export const getOrderListPage1 = params => { return axios.post(`/api/order/getSearchOrder`, params); };
 
 export const updateOrde1r = params => { return axios.post(`/api/order/updateOrder`, params); };
 
 export const deleteOrder1 = params => { return axios.post(`/api/order/deleteOrder`, params); };
+
+//right
+export const getInitRights = params => { return axios.post(`/api/right/getInitRights`, params); };
+
+export const deleteRight = params => { return axios.post(`/api/right/deleteRight`, params); };
+
+export const addRight = params => { return axios.post(`/api/right/addRight`, params); };
+
+export const updateRight = params => { return axios.post(`/api/right/updateRight`, params); };
+
+export const getRightInfoById = params => { return axios.post(`/api/right/getRightInfoById`, params); };
