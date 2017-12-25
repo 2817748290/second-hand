@@ -17,7 +17,7 @@
         SELECT * FROM `order` u
     </select>
     <select id="getOrderById"  resultMap="OrderMap">
-        SELECT * FROM `book` u WHERE `order_id` = #{_parameter}
+        SELECT * FROM `order` u WHERE `order_id` = #{_parameter}
     </select>
     <select id="searchOrder" resultMap="OrderMap">
         SELECT o.*,u.`username`,b.`book_name` FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`

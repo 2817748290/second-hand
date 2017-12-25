@@ -1,14 +1,15 @@
 <template>
 	<el-row :gutter="20">
-		<el-col :span="6" v-for="book in books">
+		<el-col :span="24" v-for="right in rights">
   			<el-card>
-				<img :src="'/public' + book.imageUrl" width="180px" height="240px" class="image" onerror='this.src="../../../static/default.png"' style="margin-left:15%">
-				<div style="padding: 10px;margin-left:15%">
-					<span><strong>图书名称：</strong>{{book.bookName}}</span><br>
-					<span><strong>图书作者：</strong>{{book.author}}</span>
+				<div style="padding: 10px">
+					<span style="margin-right:25px"><strong>申述标题：</strong></span>{{right.rightTitle}}<br>
+					<span style="margin-right:25px"><strong>申述类型：</strong></span>{{right.rightTypeId}}</span><br>
+					<span style="margin-right:25px"><strong>申述内容：</strong></span>{{right.rightContent}}</span><br>
+					<span style="margin-right:25px"><strong>申述人：</strong></span>{{right.order.borrower.nickname}}</span><br>
+					<span style="margin-right:25px"><strong>申述日期：</strong></span>{{right.rightDate}}</span><br>
 					<div class="bottom clearfix">
-						<time class="time">{{book.createDate}}</time>
-						<span><strong>图书状态：</strong>{{book.stateInfo.stateName}}</span><br>
+						<span  style="margin-right:25px"><strong>申述状态：</strong></span>{{right.rightStateId}}<br>
 						<el-button 
 							class="button"
 							type = "primary"
@@ -31,13 +32,11 @@
 <script>
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
-	import cropper from '../book/cropper'
-	import { getInitBookList, deleteBook, addBook, updateBook, getBookInfoById, getTypeList } from '../../api/api';
-	import $ from '../../../static/jquery.min.js'
+	import {getInitRights, deleteRight, addRight, updateRight, getRightInfoById } from '../../api/api';
 
 	export default {
 		 components:{
-			cropper
+			
 		},
 		data() {
 			return {
@@ -45,14 +44,13 @@
     			addLoading: false,       //是否显示loading
 				disabledChange: false,
 				filters: {
-					searchName: 'state_name',
-					search:'还书审核中'
+					searchName: 'right_title',
+					search:''
 				},
-				books: [],
-				booktypes:[],
+				rights: [],
 				total: 0,
 				offset: 0,
-				sort: '+book_id',
+				sort: '+right_id',
 				limit: 20,
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
@@ -75,8 +73,7 @@
 			}
 		},		
 		mounted() {
-			this.getBookList();
-			this.getTypes();
+			this.getRights();
 		},
 		methods: {
 
@@ -90,8 +87,8 @@
 			transfer (...data) {
 			this.editForm.imageUrl = data[0]
 			},
-			// 初始化图书列表
-			getBookList(){
+			// 初始化列表
+			getRights(){
 				let para = {
 					sort: this.sort,
 					offset: this.offset,
@@ -101,23 +98,10 @@
 				};
 				this.listLoading = true;
 				NProgress.start();
-				getInitBookList(para).then((res) => {
+				getInitRights(para).then((res) => {
 					this.total = res.data.total;
-					this.books = res.data.rows;
+					this.rights = res.data.rows;
 					this.listLoading = false;
-					NProgress.done();
-				});
-			},
-
-			//动态获取图书类型
-			getTypes(){
-				let para = {};
-				this.listLoading = true;
-				NProgress.start();
-				getTypeList(para).then((res) => {
-					this.listLoading = false;
-					this.booktypes = res.data.result;
-					console.log(this.booktypes)
 					NProgress.done();
 				});
 			},
@@ -134,7 +118,7 @@
 						bookId: value,
 						state: 0
 					};
-					updateBook(para).then((res) => {
+					updateRight(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
 						_this.$notify({
@@ -142,7 +126,7 @@
 							message: '操作成功',
 							type: 'success'
 						});
-						_this.getBookList();
+						_this.getRights();
 					});
 
 				}).catch(() => {
@@ -162,7 +146,7 @@
 						bookId: value,
 						state: 6
 					};
-					updateBook(para).then((res) => {
+					updateRight(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
 						_this.$notify({

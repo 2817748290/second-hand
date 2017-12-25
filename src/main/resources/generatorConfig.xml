@@ -65,20 +65,20 @@
         </javaClientGenerator>-->
 
 
-        <table schema="" tableName="admin">
+        <table schema="" tableName="right">
         </table>
-        <table schema="" tableName="book">
-        </table>
-        <table schema="" tableName="state">
-        </table>
-        <table schema="" tableName="group">
-        </table>
-        <table schema="" tableName="user_state">
-        </table>
-        <table schema="" tableName="type">
-        </table>
-        <table schema="" tableName="user">
-        </table>
+        <!--<table schema="" tableName="book">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="state">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="group">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="user_state">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="type">-->
+        <!--</table>-->
+        <!--<table schema="" tableName="user">-->
+        <!--</table>-->
 
 
     </context>
