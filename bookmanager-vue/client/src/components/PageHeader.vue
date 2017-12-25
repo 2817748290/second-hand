@@ -74,23 +74,13 @@
 		mounted() {
 			let user = JSON.parse(localStorage.getItem('user'));
 			if(user!==null && user.userId!=='' && user.userId!==undefined){
+				this.username = user.username
 				this.loginState = '退出'
 			}else{
 				this.loginState = '登录'
 			}
 		},
 		methods: {
-			searchBooks(keyword) {
-				if (keyword == '' || keyword == undefined) {
-					this.matchingBooks = [];
-					return;
-				}
-				let lowerCase = keyword.toLowerCase();
-				let allBooks = this.$store.getters.getAllBookList;
-				this.matchingBooks = allBooks.filter((item, index, array)=>{
-					return item.name.toLowerCase().includes(lowerCase) || item.author.toLowerCase().includes(lowerCase);
-				});
-			},
 			closeLogin() {
 				this.isLogined = false;
 			},
@@ -109,7 +99,6 @@
 					'password': this.user.password
 				}
 				requestLogin(param).then((data)=>{
-					console.log(data)
 					if(data.status===1){
 						this.username = this.user.username
 						this.isLogined = false;

@@ -33,7 +33,7 @@
             <p class="author">{{formatStatus(book.state)}}</p>
           </div>
           <div class="col-book-info">
-            <div :ref="'timer'+index">{{formateReadyTime(book,index)}}</div>
+            <div :ref="'timer'+index"></div>
           </div>
           <div class="col-book-info">
             <img @click="handleDelete(book.bookId)" src="static/icons/delete.png" alt="删除">
@@ -50,7 +50,7 @@
 
 <script>
   import axios from 'axios'
-  import {getSearchOrder,getBookInfoById,deleteOrder} from './api/api.js'
+  import {getSearchOrder,getBookInfoById,deleteOrder,updateBook} from './api/api.js'
   export default {
     name: 'cart',
     data () {
@@ -65,59 +65,53 @@
         limit: 10,
         orderList: [],
         bookList: [],
-        leftTime: 0,
         statusArr:[
-					{status:-1,value:'已关闭'},
-          {status:0,value:'预约中'},
-          {status:1,value:'已借'},
-          {status:2,value:'还书审核中'},
-          {status:3,value:'预约审核中'},
-          {status:4,value:'借出审核中'}
+          {status:0,value:'已关闭'},
+          {status:1,value:'已关闭'},
+          {status:2,value:'已关闭'},
+          {status:3,value:'预约中'},
+          {status:4,value:'已关闭'},
+          {status:5,value:'预约审核中'},
+          {status:6,value:'已关闭'}
 				]
       }
     },
     computed: {
 
     },
-    mounted: function() {
-      this.$nextTick(function() {
+    mounted () {
+      this.$nextTick(() => {
         this.user = JSON.parse(localStorage.getItem('user'));
         if(this.user===null || this.user.userId==='' || this.user.userId===undefined){
           alert("您还未登录,请先登录!")
           this.$router.push({path: '/'})
         }else{
           this.getOrderList()
-          console.log('dsads')
-          console.log(this.$refs.timer0)
-                    console.log(this.$refs.timer2)
-
         }
       })
     },
     methods: {
       formatStatus(state) {
         for(let item of this.statusArr){
+          
+            console.log(item.value)
           if(item.status === state){
             return item.value
           }
         }
       },
-      formateReadyTime(book){
+      formateReadyTime(index){
         for(let item of this.orderList){
-          if(item.bookId = book.bookId){
-            console.log(item)
-            return (()=>{
-              // setInterval(() => {
-              //   this.leftTimer(item.readyTime)
-              // },0);
-            })()
-          }
+          let timer = setInterval(() => {
+            this.leftTimer(item.readyTime,`timer${index}`)
+          },13);
         }
 
       },
-      leftTimer(time, ref){
-        console.log(time)
-        var EndTime= new Date(time);
+      leftTimer(readyTime, index){
+       // var index = ref.replace('timer','')
+        var ref = `timer${index}`
+        var EndTime= new Date(readyTime);
         var NowTime = new Date();
         var t =EndTime.getTime() - NowTime.getTime();
         var d=0;
@@ -130,8 +124,12 @@
           m=Math.floor(t/1000/60%60);
           s=Math.floor(t/1000%60);
         }
-        this.$refs.ref = `${m}:${s}`
-        // console.log(this.leftTime)
+        if(m===0 && s===0){
+          clearInterval(this.orderList[index].timer)
+        }
+        console.log('拿到的')
+        console.log(this.$refs[ref])
+        this.$refs[ref][0].innerHTML= `${m}:${s}`
       },
       getOrderList(){
         this.bookList=[]
@@ -144,19 +142,27 @@
 					limit: this.limit
         }
         getSearchOrder(param).then((res)=>{
+
           this.orderList = res.data.rows
           return this.orderList
+
         }).then((data)=>{
-          for(let item of data){
-            let bookId = item.bookId
+
+          for(let i in data){
+            this.orderList[i].timer = setInterval(() => {
+              this.leftTimer(data[i].readyTime, i)
+            },0);
+            let bookId = data[i].bookId
             let formData = new FormData()
             formData.append("bookId",bookId)
             getBookInfoById(formData).then(res=>{
               this.bookList.push(res.data.result)
             })
           }
+
         })
       },
+
       handleDelete(bookId){
         if(confirm('您确定要取消预约吗?')){
           for(let item of this.orderList){
@@ -164,99 +170,34 @@
               let formData = new FormData()
               formData.append('orderId', item.orderId)
               deleteOrder(formData).then(res=>{
+
                 if(res.data.status === 1){
-                  alert('取消预约成功')
-                  this.orderList = []
                   this.getOrderList()
                 }else{
                   alert('取消预约失败')
                 }
+
+              }).then(()=>{
+                
+                let param = {
+                  'bookId': bookId,
+                  'state' : 0
+                }
+                updateBook(param).then(res=>{
+                  console.log('修改书籍结果')
+                  console.log(res.data)
+                  if(res.data.status === 1){
+                    alert('取消预约成功')
+                  }
+                })
+
               })
             }
           }
         }
       }
     }
-    // computed: {
-    //   cartBooks: function() {
-    //     var carts = this.$store.getters.getCartBooks;
-    //     if (carts.length > 0) {
-    //       carts.forEach((item, index, array) => {
-    //         if (typeof item.isChecked == 'undefined') {
-    //           this.$set(item, 'isChecked', true);
-    //         }
-    //       });
-    //     } else {
-    //       this.isCheckedAll = false;
-    //     }
-    //     return carts;
-    //   }
-    // },
-    // methods: {
-    //   /** switchCheckedAll() --> 定义全选按钮切换的功能
-    //    *  选中全选按钮 --> 所有项都被选中
-    //    *  取消选中全选按钮 --> 所有项都不被选中
-    //    */
-    //   switchCheckedAll() {
-    //     if (this.isCheckedAll) {
-    //       this.cartBooks.forEach((item, index, array) => {
-    //         item.isChecked = true;
-    //       });
-    //     } else {
-    //       this.cartBooks.forEach((item, index, array) => {
-    //         item.isChecked = false;
-    //       });
-    //     }
-    //   },
-    //   switchChecked(book) {
-    //     // 只要任意一项未被选中，都让全选按钮处于未选中状态
-    //     if (!book.isChecked) {
-    //       this.isCheckedAll = false;
-    //     }
-    //   },
-    //   // countQuantityAndPrice(): 计算选中的图书数量和总价
-    //   countQuantityAndPrice: function() {
-    //     this.totalPrices = 0;
-    //     var checkedBooks = this.cartBooks.filter((item, index, array) => {
-    //       return item.isChecked;
-    //     });
-    //     this.totalCount = checkedBooks.length;
-    //     checkedBooks.forEach((item, index, array) => {
-    //       this.totalPrices += item.price;
-    //     });
-    //   },
-    //   /** deleteCartBook()：从 store 的 cart 中删除点击的项
-    //    *  index --> 要删除的项在 cartBooks 中的索引
-    //    */
-    //   deleteCartBook: function(book) {
-    //     this.$store.dispatch('deleteCartBook', book);
-    //   },
-    //   // checkout(): 结算，并清空购物车
-    //   checkout: function() {
-    //     this.$store.dispatch('clearCart');
-    //     alert('下单成功！');
-    //   }
-    // },
-    // watch: {
-    //   cartBooks: {
-    //     handler: function() {
-    //       let isChecked = this.cartBooks.every((item, index, array) => {
-    //         return item.isChecked;
-    //       });
-    //       if (isChecked) {
-    //         this.isCheckedAll = true;
-    //       }
-    //       if (this.cartBooks.length == 0) {
-    //         this.isCheckedAll = false;
-    //       }
 
-    //       // 每当 cartBooks 发生变化时，重新计算图书数量和价格
-    //       this.countQuantityAndPrice();
-    //     },
-    //     // 只有将 deep 设为 true，才能监听到 books.isChecked 属性变化
-    //     deep: true
-    //   }
-    // }
   }
 </script>
 
