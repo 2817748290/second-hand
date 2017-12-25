@@ -50,7 +50,7 @@
 
 <script>
   import axios from 'axios'
-  import {getSearchOrder,getBookInfoById,deleteOrder,updateBook} from './api/api.js'
+  import {getSearchOrder,getBookInfoById,deleteOrder,updateBook,updateOrder} from './api/api.js'
   export default {
     name: 'cart',
     data () {
@@ -125,7 +125,26 @@
           s=Math.floor(t/1000%60);
         }
         if(m===0 && s===0){
+
           clearInterval(this.orderList[index].timer)
+          let param = {
+            'orderId' :this.orderList[index].orderId,
+            'status': 0
+          }
+          updateOrder(param).then((res)=>{
+            console.log('修改order结果')
+            console.log(res.data)
+          }).then(()=>{
+            let param = {
+              'bookId': this.orderList[index].bookId,
+              'status': 0
+            }
+            updateBook(param).then(res=>{
+              console.log('修改书籍结果')
+              console.log(res.data)
+            })
+          })
+
         }
         console.log('拿到的')
         console.log(this.$refs[ref])

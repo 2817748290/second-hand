@@ -25,3 +25,5 @@ export const getSearchOrder = params => { return axios.post(`/api/order/getSearc
 export const deleteOrder = params => { return axios.post(`/api/order/deleteOrder`, params)};
 
 export const addOrder = params => { return axios.post(`/api/order/addOrder`, params)};
+
+export const updateOrder = params => { return axios.post(`/api/order/updateOrder`, params)};
