@@ -144,10 +144,7 @@ public class UserServiceImpl implements UserService {
         return userId;
     }
 
-    @Override
-    public void userLoginOut() {
 
-    }
 
 
 }
