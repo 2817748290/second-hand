@@ -7,7 +7,7 @@
 						<span>所有图书</span>
 					</a>
 				</dd>
-				<dd :class="{'active':activeArr[index+1]}" v-for="(item,index) in categoryList">
+				<dd :class="{'active':activeArr[index+1]}" v-for="(item,index) in categoryList" :key="index">
 					<a @click="getSearchBookList(item.typeName,index)">
 						<span class="category-name"> {{ item.typeName }} </span>
 					</a>
@@ -49,7 +49,7 @@
 		},
 		methods: {
 			/*
-				分页组件传递过来的页数 
+				分页组件传递过来的页数
 			 */
 			pageChange (currentPage){
 				this.offset = (currentPage-1)*this.limit
@@ -69,7 +69,7 @@
 				for(let i in this.activeArr){
 					this.activeArr[i] = false
 				}
-				typeName==='' ? this.activeArr[index] = true 
+				typeName==='' ? this.activeArr[index] = true
 				:this.activeArr[index+1] = true
 				this.search = typeName
 				let param = {

@@ -9,7 +9,7 @@
 		<div class="search">
 			<input type="search" v-model="keyword" @input="searchBooks(keyword)"size="70" placeholder="书名、作者">
 			<ul class="matching-books" v-show="isShow">
-				<li v-for="book in matchingBooks" @click="hideMatchingBooks">
+				<li v-for="book in matchingBooks" @click="hideMatchingBooks" >
 					<router-link :to="{name: 'Book', params: {id: book.id}}">
 						<img v-bind:src="book.cover">
 						<div class="book-info">
@@ -72,8 +72,8 @@
 			}
 		},
 		mounted() {
-			let user = localStorage.getItem('user');
-			if(user!==null && user.username!==''){
+			let user = JSON.parse(localStorage.getItem('user'));
+			if(user!==null && user.userId!=='' && user.userId!==undefined){
 				this.loginState = '退出'
 			}else{
 				this.loginState = '登录'
@@ -100,7 +100,7 @@
 			loginInit(){
 				if(this.loginState==='退出'){
 					localStorage.removeItem('user');
-					this.loginState = '登录'					
+					this.loginState = '登录'
 					return;
 				}
 				this.isLogined = true;
@@ -114,7 +114,7 @@
 					console.log(data)
 					if(data.status===1){
 						this.isLogined = false;
-						localStorage.setItem('user',JSON.stringify({'username':param.username}))
+						localStorage.setItem('user',JSON.stringify({'userId':data.result,'username':this.user.username}))
 						this.loginState = '退出';
 					}else{
 						alert('帐号或密码错误!')

@@ -1,11 +1,11 @@
 <template>
 	<div id="page-footer">
-		<p>By <a href="https://github.com/yongchen0/bookstore">Yong Chen</a></p>
+		<p>By <a href="https://github.com/lianglianga/ee">Liang Liang</a></p>
 	</div>
 </template>
 
 <script>
-	
+
 </script>
 
 <style scoped>

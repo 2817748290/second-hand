@@ -1,7 +1,7 @@
 <template>
-	<section id="bookList">
+	<section id="books">
 		<div class="booklist">
-			<div class="book" v-for="(book, index) in bookList">
+			<div class="book" v-for="(book, index) in bookList" :key="index">
 					<div class="cover">
 					<router-link :to="{name: 'Book', params: {id: book.bookId}}">
 							<img class="cover" v-bind:src="'/public/'+book.imageUrl">
@@ -15,7 +15,7 @@
 						<p class="abstruct"> {{ book.abstruct || '这是一本书这是一本书这是一本书'}} </p>
 						<div class="act">
 							<span class="price"> ￥{{ book.price || 100 | formatPrice }} </span>
-							<button class="buy" @click="addToCart(book)">借阅</button>
+							<button class="buy" @click="addToCart(book)">预约</button>
 						</div>
 					</div>
 				</div>
@@ -38,10 +38,9 @@
         		current: 1   // 当前的页数
 			}
 		},
-		mounted(){
-			this.$nextTick(()=>{
+		updated(){
+				console.log(this.bookList)
 				console.log(this.total+'dasd')
-			})
 		},
 		methods: {
 			addToCart: function(book) {
@@ -49,6 +48,7 @@
 				let index = cartBooks.indexOf(book);
 				if (index === -1) {
 					this.$store.dispatch('addToCart', book);
+					alert("预约成功！");
 				}
 			},
 			pageChange:function(currentPage){

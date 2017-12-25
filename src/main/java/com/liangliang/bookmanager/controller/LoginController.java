@@ -46,6 +46,6 @@ public class LoginController {
             return new Message(Message.ERROR,"登录失败！",null);
         }
         request.getSession().setAttribute("userId", userId);
-        return new Message(Message.SUCCESS,"登录成功！",null);
+        return new Message(Message.SUCCESS,"登录成功！",userId);
     }
 }

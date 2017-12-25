@@ -29,6 +29,8 @@ public class Order {
 
     private Book book;
 
+    private Date readyTime;
+
     public Order() {
     }
 
@@ -105,6 +107,14 @@ public class Order {
 
     public void setBook(Book book) {
         this.book = book;
+    }
+
+    public Date getReadyTime() {
+        return readyTime;
+    }
+
+    public void setReadyDate(Date readyTime) {
+        this.readyTime = readyTime;
     }
 
     @Override
