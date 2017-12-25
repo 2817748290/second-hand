@@ -13,7 +13,6 @@ import axios from 'axios'
 
 import Login from './pages/Login.vue'
 import Home from './pages/Home.vue'
-import Main from './pages/Main.vue'
 import Table from './pages/nav1/Table.vue'
 import Form from './pages/nav1/Form.vue'
 import user from './pages/nav1/user.vue'

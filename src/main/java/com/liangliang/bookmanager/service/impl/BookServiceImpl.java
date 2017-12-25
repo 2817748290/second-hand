@@ -127,13 +127,12 @@ public class BookServiceImpl implements BookService{
                     tableMessage.setRows(searchBookList);
                     for (Book book : searchBookList) {
                         int typeId = book.getTypeId();
-                        System.out.println(typeId);
                         Type type = typeMapper.getTypeById(typeId);
-                        System.out.println(type);
                         book.setType(type);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
                     }
+
                     tableMessage.setTotal(bookMapper.searchBookCount(tableMessage));
                 }
 
