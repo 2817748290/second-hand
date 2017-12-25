@@ -1,16 +1,19 @@
 package com.liangliang.bookmanager.service.impl;
 
-import com.liangliang.bookmanager.bean.Book;
-import com.liangliang.bookmanager.bean.TableMessage;
-import com.liangliang.bookmanager.bean.User;
+import com.liangliang.bookmanager.bean.*;
 import com.liangliang.bookmanager.mapper.BookMapper;
+import com.liangliang.bookmanager.mapper.StateMapper;
+import com.liangliang.bookmanager.mapper.TypeMapper;
 import com.liangliang.bookmanager.mapper.UserMapper;
 import com.liangliang.bookmanager.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Component
@@ -21,6 +24,12 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TypeMapper typeMapper;
+
+    @Autowired
+    private StateMapper stateMapper;
 
     @Override
     public List<Book> getBookList() {
@@ -93,6 +102,7 @@ public class BookServiceImpl implements BookService{
     }
 
     @Override
+    @Transactional
     public TableMessage searchBook(TableMessage tableMessage){
 
         List<Book> bookList = new ArrayList<>();
@@ -100,22 +110,29 @@ public class BookServiceImpl implements BookService{
         try {
             bookList = bookMapper.getBookAndUserList(tableMessage);
 
-            for (Book book: bookList) {
-                int userId = book.getUserId();
-                User user = userMapper.getUserById(userId);
-                book.setUser(user);
-            }
             if(tableMessage.getSearch()!=null){
                 if(tableMessage.getSearch().equals("")){
-                    tableMessage.setRows(bookMapper.getBookAndUserList(tableMessage));
+                    bookList = bookMapper.getBookAndUserList(tableMessage);
+                    for (Book book : bookList) {
+                        Type type = typeMapper.getTypeById(book.getTypeId());
+                        book.setType(type);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
+                    }
+                    tableMessage.setRows(bookList);
+                    tableMessage.setTotal(bookMapper.bookCount(tableMessage));
                 }else {
                     tableMessage.setSearch("%"+tableMessage.getSearch()+"%");
                     List<Book> searchBookList = bookMapper.searchBook(tableMessage);
                     tableMessage.setRows(searchBookList);
                     for (Book book : searchBookList) {
-                        int userId = book.getUserId();
-                        User user = userMapper.getUserById(userId);
-                        book.setUser(user);
+                        int typeId = book.getTypeId();
+                        System.out.println(typeId);
+                        Type type = typeMapper.getTypeById(typeId);
+                        System.out.println(type);
+                        book.setType(type);
+                        State state = stateMapper.getStateInfoById(book.getState());
+                        book.setStateInfo(state);
                     }
                     tableMessage.setTotal(bookMapper.searchBookCount(tableMessage));
                 }
@@ -131,5 +148,22 @@ public class BookServiceImpl implements BookService{
         }
 
         return tableMessage;
+    }
+
+    @Override
+    public TableMessageForClient getBookListByType(TableMessageForClient tableMessageForClient) {
+
+        List<Book> bookListForClient = new ArrayList<>();
+
+        try {
+            bookListForClient = bookMapper.getBookListByType(tableMessageForClient);
+            for (Book book :bookListForClient) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 }

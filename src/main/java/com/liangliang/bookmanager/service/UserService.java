@@ -1,6 +1,9 @@
 package com.liangliang.bookmanager.service;
 
+import com.liangliang.bookmanager.bean.TableMessage;
+import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
+import sun.security.util.Password;
 
 import java.util.List;
 
@@ -20,6 +23,13 @@ public interface UserService {
      */
     public User getUserById(Integer id) throws Exception;
 
+    /**
+     * 根据TableMessage获取查询到的用户
+     * @param tableMessage
+     * @return
+     * @throws Exception
+     */
+    public TableMessage searchUser(TableMessageForUser tableMessage) throws Exception;
     /**
      * 新增一个用户
      * @param user
@@ -43,4 +53,12 @@ public interface UserService {
      */
     public boolean deleteUser(Integer id);
 
+    /**
+     * 用户登录验证
+     */
+    public boolean validate(User user);
+
+    public Integer userLogin(User user) throws Exception;
+
+    public void userLoginOut() throws Exception;
 }

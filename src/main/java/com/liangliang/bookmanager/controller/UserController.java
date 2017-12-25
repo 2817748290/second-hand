@@ -1,16 +1,22 @@
 package com.liangliang.bookmanager.controller;
 
 import com.liangliang.bookmanager.bean.Message;
+import com.liangliang.bookmanager.bean.TableMessageForUser;
 import com.liangliang.bookmanager.bean.User;
 import com.liangliang.bookmanager.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.annotation.MultipartConfig;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
+@MultipartConfig
 public class UserController {
 
     @Autowired
@@ -54,15 +60,38 @@ public class UserController {
     }
 
     /**
+     * 根据
+     * @param tableMessage
+     * @return
+     */
+    @RequestMapping(value = "/getSearchUser", method = RequestMethod.POST)
+    @ResponseBody
+    public Map getSearchUser(@RequestBody TableMessageForUser tableMessage) throws Exception{
+        System.out.println(tableMessage);
+        return userService.searchUser(tableMessage).result();
+    }
+    /**
      * 新增用户
-     * @param user
+     * @param request
      * @return
      */
     @RequestMapping(value = "/addUser", method = RequestMethod.POST)
     @ResponseBody
-    public Message addUser(@RequestBody User user){
-
+    public Message addUser(MultipartHttpServletRequest request){
         try {
+            MultipartFile avatarImageFile = request.getFile("avatarImage");
+            String username = request.getParameter("username");
+            String nickname = request.getParameter("nickname");
+            String password = request.getParameter("password");
+            Integer group = Integer.parseInt(request.getParameter("group"));
+            Integer points = Integer.parseInt(request.getParameter("points"));
+            Integer userState = Integer.parseInt(request.getParameter("userState"));
+            String email = request.getParameter("email");
+            String imageName = null;
+            if(avatarImageFile != null && avatarImageFile.getSize() > 0){
+                imageName = avatarImageFile.getOriginalFilename();
+            }
+            User user = new User(null,username,password,nickname,null,points,group,userState,email,imageName,avatarImageFile);
             if(userService.addUser(user)){
                 return new Message(Message.SUCCESS,"新增用户成功！",null);
             }else{
@@ -76,13 +105,28 @@ public class UserController {
 
     /**
      * 修改用户
-     * @param user
+     * @param request
      * @return
      */
     @RequestMapping(value = "/updateUser", method = RequestMethod.POST)
     @ResponseBody
-    public Message updateUser(@RequestBody User user){
+    public Message updateUser(MultipartHttpServletRequest request){
         try {
+            MultipartFile avatarImageFile = request.getFile("avatarImage");
+            String username = request.getParameter("username");
+            String nickname = request.getParameter("nickname");
+            String password = request.getParameter("password");
+            Integer group = Integer.parseInt(request.getParameter("group"));
+            Integer points = Integer.parseInt(request.getParameter("points"));
+            Integer userId = Integer.parseInt(request.getParameter("userId"));
+
+            Integer userState = Integer.parseInt(request.getParameter("userState"));
+            String email = request.getParameter("email");
+            String imageName = null;
+            if(avatarImageFile != null && avatarImageFile.getSize() > 0){
+                imageName = avatarImageFile.getOriginalFilename();
+            }
+            User user = new User(userId,username,password,nickname,null,points,group,userState,email,imageName,avatarImageFile);
             if(userService.updateUser(user)){
                 return new Message(Message.SUCCESS,"修改用户成功！",null);
             }else{

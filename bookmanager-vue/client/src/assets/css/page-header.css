@@ -1,0 +1,55 @@
+#page-header {
+	display: flex;
+	align-items: center;
+	padding: 1rem 0;
+}
+#page-header .logo {
+	display: flex;
+	color: inherit;
+	align-items: center;
+	padding-left: 1rem;
+}
+#page-header .logo span {
+	font-size: 1.8rem;
+}
+
+.search {
+	position: relative;
+	margin-left: auto;
+	margin-right: 8rem;
+}
+.search input {
+	padding: .5rem;
+	border: 1px solid rgb(176, 176, 176);;
+	border-radius: 5px;
+}
+.matching-books {
+	width: 100%;
+	position: absolute;
+	z-index: 3;
+	list-style-type: none;
+	border: 1px solid rgb(176, 176, 176);;
+	border-top: none;
+	background: rgb(251, 250, 248);
+}
+.matching-books li {
+	padding: .5rem;
+	border-bottom: 1px solid rgb(176, 176, 176);;
+}
+.matching-books li:last-child {
+	border: none;
+}
+
+.matching-books a {
+	display: flex;
+}
+.matching-books li img {
+	width: 33px;
+	height: 45px;
+}
+.matching-books .book-info {
+	margin-left: .5rem;
+}
+.matching-books li p {
+	font-size: .8rem;
+}

@@ -1,0 +1,8 @@
+export const SET_HOT_BOOKS = 'SET_HOT_BOOKS';
+export const SET_DISCOUNT_BOOKS = 'SET_DISCOUNT_BOOKS';
+export const SET_NEW_BOOKS = 'SET_NEW_BOOKS';
+export const SET_ALL_BOOKS = 'SET_ALL_BOOKS';
+export const SET_CATEGORY_LIST = "SET_CATEGORY_LIST";
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const DELETE_CART_BOOK = 'DELETE_CART_BOOK';
+export const CLEAR_CART = 'CLEAR_CART';

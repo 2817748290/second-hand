@@ -1,0 +1,29 @@
+#book {
+	width: 1200px;
+	margin: 3rem auto;
+}	
+
+/* book-detail styles */
+.book-detail {
+	width: 800px;
+	margin: 0 auto;
+	display: flex;
+}
+.book-detail .cover {
+	width: 180px;
+	height: 240px;
+}
+.book-detail .book-info {
+	display: flex;
+	flex-direction: column;
+	margin-left: 2rem;
+}
+#book .book-info p {
+	font-size: 1rem;
+	line-height: 1.4;
+	padding: .5rem 0;
+}
+.book-info .act {
+	margin-top: auto;
+}
+

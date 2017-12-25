@@ -1,0 +1,26 @@
+#category {
+	display: flex;
+	margin: 2rem 0;
+}
+.category-bar {
+	width: 240px;
+}
+#books {
+  width: 960px;
+  padding-left: 2rem;
+}
+.category-bar dd {
+	cursor: pointer;
+	padding-left: 1rem;
+}
+.category-bar dd:hover {
+	background: gray;	
+}
+.category-bar a {
+	display: block;
+	padding: .5rem 1rem;
+	color: inherit;
+}
+.category-bar .active {
+	background: gray;
+}

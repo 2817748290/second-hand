@@ -16,33 +16,28 @@ public class Book {
 
     private String location;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date borrowDate;
+    private Integer typeId;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
-    private Date returnDate;
-
-    private Integer type;
+    private Date bookDate;
 
     private String isbn;
 
     private Integer state;
 
-    private Integer userId;
+    private Type type;
 
-    private User user;
+    private State stateInfo;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer type, String isbn, Integer state) {
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state, Date bookDate ) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
-        this.type = type;
+        this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
+        this.bookDate = bookDate;
     }
 
     public Book() {
@@ -89,28 +84,12 @@ public class Book {
         this.location = location == null ? null : location.trim();
     }
 
-    public Date getBorrowDate() {
-        return borrowDate;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public Date getReturnDate() {
-        return returnDate;
-    }
-
-    public void setReturnDate(Date returnDate) {
-        this.returnDate = returnDate;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public String getIsbn() {
@@ -129,19 +108,28 @@ public class Book {
         this.state = state;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public Type getType() {
+        return type;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setType(Type type) {
+        this.type = type;
     }
 
-    public User getUser() {
-        return user;
+    public State getStateInfo() {
+        return stateInfo;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setStateInfo(State stateInfo) {
+        this.stateInfo = stateInfo;
+    }
+
+    public Date getBookDate() {
+        return bookDate;
+    }
+
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    public void setBookDate(Date bookDate) {
+        this.bookDate = bookDate;
     }
 }

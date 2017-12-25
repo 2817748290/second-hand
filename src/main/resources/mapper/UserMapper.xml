@@ -8,23 +8,65 @@
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="nickname" property="nickname"/>
+        <result column="avatar_image" property="avatarImage"/>
         <result column="points" property="points"/>
         <result column="group" property="group"/>
         <result column="user_state" property="userState"/>
-        <result column="e-mail" property="eMail"/>
+        <result column="email" property="email"/>
     </resultMap>
 
     <select id="getUserList"  resultMap="UserMap">
         SELECT * FROM `user` u
     </select>
+
     <select id="getUserById"  resultMap="UserMap">
         SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
     </select>
+    <select id="getByEmailAndPwd" resultMap="UserMap">
+        select u.`user_id`,u.`email`,u.`nickname` from `user` u
+        <where>
+            <if test="email != null">
+                and u.`email` = #{email}
+            </if>
+            <if test="password != null">
+                and u.`password`=#{password}
+            </if>
+        </where>
+    </select>
+
+    <select id="searchUser" resultMap="UserMap">
+        SELECT u.*,g.`user_group_info` FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
+        <where>
+            <if test="groupValue != null and groupValue != ''">
+                AND u.`group` = #{groupValue}
+            </if>
+            <if test="searchName != null and search != null">
+                AND ${searchName} LIKE #{search}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="searchUserCount" resultType="Integer">
+        SELECT COUNT(*) FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
+       <where>
+            <if test="groupValue != null and groupValue != ''">
+                AND u.`group` = #{groupValue}
+            </if>
+            <if test="searchName != null and search != null">
+                AND ${searchName} LIKE #{search}
+            </if>
+        </where>
+    </select>
+
     <insert id="addUser" parameterType="com.liangliang.bookmanager.bean.User">
-        INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`e-mail`)
-        SELECT #{username},#{password},#{nickname},#{points},#{group},#{userState},#{eMail} FROM DUAL
+        INSERT INTO `user` (`username`,`password`,`nickname`,`avatar_image`,`points`,`group`,`user_state`,`email`)
+        SELECT #{username},#{password},#{nickname},#{avatarImage},#{points},#{group},#{userState},#{email} FROM DUAL
         WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `user` WHERE `username`=#{username})a)
     </insert>
+
     <update id="updateUser" parameterType="com.liangliang.bookmanager.bean.User">
         UPDATE `user`
         <set>
@@ -37,6 +79,9 @@
             <if test="nickname != null">
                 `nickname` = #{nickname},
             </if>
+            <if test="avatarImage != null">
+                `avatar_image` = #{avatarImage},
+            </if>
             <if test="group != null">
                 `group` = #{group},
             </if>
@@ -46,19 +91,24 @@
             <if test="userState != null">
                 `user_state` = #{userState},
             </if>
-            <if test="eMail != null">
-                `e-mail` = #{eMail}
+            <if test="email != null">
+                `email` = #{email}
             </if>
         </set>
         where user_id=#{userId}
-        <if test="username != null">
-            and not exists(select 1 from(select 1 from `user` where `username`=#{username})a)
-        </if>
+        <!--<if test="username != null">-->
+            <!--and not exists(select 1 from(select 1 from `user` where `username`=#{username})a)-->
+        <!--</if>-->
     </update>
 
     <delete id="deleteUser">
         DELETE FROM `user`
         WHERE `user_id`=#{_parameter}
     </delete>
+
+    <select id="userLogin" resultMap="UserMap">
+        SELECT * FROM user u
+        WHERE u.username = #{username} and u.password = #{password}
+    </select>
 
 </mapper>

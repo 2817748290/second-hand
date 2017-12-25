@@ -1,0 +1,77 @@
+{
+  "title": "热门图书",
+  "bookList": [
+    {
+			"id": 1001,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1001.jpg",
+			"price": 60.00,
+			"name": "Python核心编程（第3版）",
+			"author": "【美】Wesley Chun",
+			"abstruct": "Python高手进阶之书，详解通用应用和Web开发！"
+		},
+		{
+			"id": 1002,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1002.jpg",
+			"price": 50.00,
+			"name": "掌握需求过程（第3版）",
+			"author": "【英】Suzanne Robertson，James Robertson",
+			"abstruct": "只有弄清楚真正的需求，才能得到创新的解决方案！"
+		},
+    {
+			"id": 2001,
+      "category": "fiction",
+      "cover": "static/data/books/book-cover/2001.jpg",
+			"price": 348,
+			"name": "冰与火之歌（全15册）",
+			"author": "【美】乔治·R.R.马丁",
+			"abstruct": "HBO同名热播美剧原著小说，掀起全球性的“冰与火之歌”热潮！"
+		},
+		{
+			"id": 2002,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2002.jpg",
+			"price": 36.00,
+			"name": "三体（全三册）",
+			"author": "刘慈欣",
+			"abstruct": "他单枪匹马，把中国科幻提升到了世界水平。雷军力荐！"
+		},
+		{
+			"id": 1001,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1001.jpg",
+			"price": 60.00,
+			"name": "Python核心编程（第3版）",
+			"author": "【美】Wesley Chun",
+			"abstruct": "Python高手进阶之书，详解通用应用和Web开发！"
+		},
+		{
+			"id": 1002,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1002.jpg",
+			"price": 50.00,
+			"name": "掌握需求过程（第3版）",
+			"author": "【英】Suzanne Robertson，James Robertson",
+			"abstruct": "只有弄清楚真正的需求，才能得到创新的解决方案！"
+		},
+    {
+			"id": 2001,
+      "category": "fiction",
+      "cover": "static/data/books/book-cover/2001.jpg",
+			"price": 348,
+			"name": "冰与火之歌（全15册）",
+			"author": "【美】乔治·R.R.马丁",
+			"abstruct": "HBO同名热播美剧原著小说，掀起全球性的“冰与火之歌”热潮！"
+		},
+		{
+			"id": 2002,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2002.jpg",
+			"price": 36.00,
+			"name": "三体（全三册）",
+			"author": "刘慈欣",
+			"abstruct": "他单枪匹马，把中国科幻提升到了世界水平。雷军力荐！"
+		}
+  ]
+}
