@@ -10,6 +10,7 @@
         <result column="status" property="status"/>
         <result column="create_date" property="createDate"/>
         <result column="update_date" property="updateDate"/>
+        <result column="ready_time" property="readyTime"/>
     </resultMap>
 
     <select id="getOrderList"  resultMap="OrderMap">
@@ -52,8 +53,8 @@
     </select>
 
     <insert id="addOrder" parameterType="com.liangliang.bookmanager.bean.Order">
-        INSERT INTO `order` (borrower_id, book_id, status, create_date, update_date)
-        VALUES (#{borrowerId},#{bookId},#{status},#{createDate},#{updateDate})
+        INSERT INTO `order` (borrower_id, book_id, status, create_date, update_date,ready_time)
+        VALUES (#{borrowerId},#{bookId},#{status},#{createDate},#{updateDate},#{readyTime})
     </insert>
 
     <update id="updateOrder" parameterType="com.liangliang.bookmanager.bean.Order">

@@ -92,9 +92,10 @@ public class OrderController {
         nowTime.add(Calendar.MINUTE, 15);
         Date readyTime = nowTime.getTime();
 
+        order.setReadyDate(readyTime);
         try {
             if(orderService.addOrder(order)){
-                return new Message(Message.SUCCESS,"新增借阅记录成功！",readyTime);
+                return new Message(Message.SUCCESS,"新增借阅记录成功！", order);
             }else{
                 return new Message(Message.ERROR,"新增借阅记录失败！",null);
             }

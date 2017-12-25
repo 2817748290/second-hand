@@ -27,7 +27,7 @@
 		},
 		data () {
 			return {
-				title: '热门图书',
+				title: '',
 	 			subjects: ['热门图书','新书上架'],
 				// subjects: ['热门图书','特价图书','新书上架'],
 				searchName: '',
@@ -39,12 +39,24 @@
 				bookList: []
 			}
 		},
+		watch: {
+			'$route': 'changeSubject'
+		},
 		mounted(){
 			this.$nextTick(() => {
+				this.changeSubject()
+			});
+		},
+		methods: {
+			changeSubject(){
 				var subject = this.$route.params.subject; 
+								console.log(subject+'dasdasdas')
+
 				switch(subject) {
 					case '热门图书':
-						this.title = '热门图书';
+						console.log('情况1')
+						this.title = '热门图书'
+						this.sort = '-book_id'
 						var param = {
 							searchName: '',
 							search: '',
@@ -56,16 +68,9 @@
 							this.bookList = res.data.rows
 							this.total = res.data.total
 						})
-					case '特价图书':
-						this.title = '特价图书';
-						let discountBooks = this.$store.getters.getDiscountBooks;
-						if (discountBooks.length === 0) {
-							this.$store.dispatch('setDiscountBooks', 'static/data/books/discount-books.json');
-						}
-						
-						this.bookList = discountBooks
-						this.total = discountBooks.length
+						return 
 					case '新书上架':
+					console.log('情况2')
 						this.title = '新书上架';
 						this.sort = '-book_date'
 						var param = {
@@ -79,10 +84,9 @@
 							this.bookList = res.data.rows
 							this.total = res.data.total
 						})
+						return
 				}
-			});
-		},
-		methods: {
+			},
 			/*
 				分页组件传递过来的页数 
 			 */
