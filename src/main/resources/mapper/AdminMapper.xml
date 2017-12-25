@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangliang.bookmanager.mapper.BookMapper">
+    <resultMap id="AdminMap" type="com.liangliang.bookmanager.bean.Admin">
+        <id column="admin_id" property="adminId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+    </resultMap>
+
+    <select id="adminLogin" resultMap="AdminMap">
+        SELECT * FROM admin a
+        WHERE a.username = #{username} and a.password = #{password}
+    </select>
+
+</mapper>

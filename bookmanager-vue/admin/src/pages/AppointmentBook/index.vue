@@ -9,17 +9,17 @@
 					<div class="bottom clearfix">
 						<time class="time">{{book.createDate}}</time>
 						<span><strong>图书状态：</strong>{{book.stateInfo.stateName}}</span><br>
-						<el-button
+						<el-button 
 							class="button"
 							type = "primary"
 							style="margin-left:8%;margin-top:2%;"
-							@click=""
+							@click="handlePass(book.bookId)"
 						>通过</el-button>
-						<el-button
+						<el-button 
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
-							@click=""
+							@click="handleRefuse(book.bookId)"
 						>否决</el-button>
 					</div>
 				</div>
@@ -46,7 +46,7 @@
 				disabledChange: false,
 				filters: {
 					searchName: 'state_name',
-					search:'借出审核中'
+					search:'预约审核中'
 				},
 				books: [],
 				booktypes:[],
@@ -70,7 +70,7 @@
 				},
 				editLoading: false,
 				btnEditText: '提 交',
-
+				
 
 			}
 		},		
@@ -122,7 +122,7 @@
 				});
 			},
 
-			//通过操作
+			//通过操作 
 			handlePass: function (value) {
 				var _this = this;
 				this.$confirm('确认要通过该记录吗?', '提示', {
@@ -132,7 +132,7 @@
 					NProgress.start();
 					let para = {
 						bookId: value,
-						state: 1
+						state: 3
 					};
 					updateBook(para).then((res) => {
 						_this.listLoading = false;
@@ -177,7 +177,8 @@
 
 				});
 			},
-
+			
+			
 		}
 		
 		

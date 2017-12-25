@@ -128,7 +128,7 @@
 				downImg: '#',
 				filters: {
 					searchName: 'nickname',
-					search:'a',
+					search:'',
 					groupValue: ''
 				},
 				users: [],

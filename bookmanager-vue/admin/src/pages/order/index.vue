@@ -14,7 +14,6 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getOrderList">查询</el-button>
-					<el-button type="primary" v-on:click="">新增</el-button>
 				</el-form-item>
 			</el-form>
 		</el-col>
@@ -22,15 +21,13 @@
 		<!--列表-->
 		<template>
 			<el-table :data="orderList" highlight-current-row v-loading="listLoading" style="width: 100%;">
-				<el-table-column prop="orderId" label="借阅记录编号" width="120" sortable>
+				<el-table-column prop="orderId" label="记录编号" width="120" sortable>
 				</el-table-column>
 				<el-table-column prop="borrower.username" label="用户名" min-width="120" sortable>
 				</el-table-column>
-				<el-table-column prop="borrower.nickname" label="昵称" width="120" sortable>
-				</el-table-column>
 				<el-table-column prop="book.bookName" label="书籍名" min-width="150">
 				</el-table-column>
-				<el-table-column prop="status" label="借阅状态" width="120" :formatter="statusFormatter" sortable>
+				<el-table-column prop="status" label="订单状态" width="120" :formatter="statusFormatter" sortable>
 				</el-table-column>
 				<el-table-column prop="createDate" label="借书日期" width="180" :formatter="dateFormatter" sortable>
 				</el-table-column>
@@ -56,8 +53,14 @@
 	<el-form :model="editForm" label-width="80px" ref="editForm">
 		<el-form-item label="借阅状态">
 			<el-radio-group v-model="editForm.status">
-				<el-radio :label="0">未还</el-radio>
-				<el-radio :label="1">已还</el-radio>				
+				<el-radio :label="-1">生成阶段</el-radio>
+				<el-radio :label="0">预约阶段</el-radio>
+				<el-radio :label="1">借出阶段</el-radio>
+				<el-radio :label="2">还书阶段</el-radio>
+				<el-radio :label="3">完成阶段</el-radio>
+				<el-radio :label="4">申述阶段</el-radio>	
+				<el-radio :label="5">取消阶段</el-radio>
+				<el-radio :label="6">借书阶段</el-radio>
 			</el-radio-group>
 		</el-form-item>
 	</el-form>
@@ -73,7 +76,7 @@
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
 	import moment from 'moment'
-	import { getOrderList, getOrderListPage,updateOrder,deleteOrder,addORDER  } from '../../api/api';
+	import { getOrderList, getOrderListPage,updateOrder,deleteOrder,addOrder,updateBook  } from '../../api/api';
 
 	export default {
 		data() {
@@ -96,15 +99,24 @@
 				//编辑界面数据
 				editForm: {
 					id:0,  //0为添加表单 1为修改表单
+					bookId:0,
 					status: '',
 					opState:'',
 				},
 				editLoading: false,
 				btnEditText: '提 交',
 				statusArr:[
-					{status:0,value:'未还'},
-					{status:1,value:'已还'}				
-				]
+					{status:-1,value:'生成阶段'},
+					{status:0,value:'预约阶段'},
+					{status:1,value:'借出阶段'},
+					{status:2,value:'还书阶段'},
+					{status:3,value:'完成阶段'},
+					{status:4,value:'申述阶段'},
+					{status:5,value:'取消阶段'},
+					{status:6,value:'借书阶段'}
+				],
+
+				bookState: -1,
 
 			}
 		},		
@@ -191,6 +203,56 @@
 								updateOrder(para).then((res) => {
 									_this.listLoading = false;
 									NProgress.done();
+									if(this.editForm.status==-1){
+									let param = {
+										state: 5,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==0){
+										let param = {
+										state: 3,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==6){
+										let param = {
+										state: 6,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==1){
+										let param = {
+										state: 1,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==2){
+										let param = {
+										state: 4,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==3){
+										let param = {
+										state: 0,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==5){
+										let param = {
+										state: 0,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}else if(this.editForm.status==4){
+										let param = {
+										state: 2,
+										bookId: _this.editForm.bookId,
+									}
+										updateBook(param)
+									}
+									
 									if(res.data.status===1){
 										_this.editLoading = false;
 										_this.btnEditText = '提 交';
@@ -221,6 +283,7 @@
 			//显示编辑界面
 			handleEdit: function (row) {
 				this.editForm.opState = 0;
+				this.editForm.bookId = row.bookId;
 				this.editFormVisible = true;
 				this.editFormTtile = '编辑';
 				this.editForm.id = row.orderId;

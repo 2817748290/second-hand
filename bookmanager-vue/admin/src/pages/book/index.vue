@@ -36,7 +36,7 @@
 				</el-table-column>
 				<el-table-column prop="type.typeName" label="图书类型" width="150" sortable>
 				</el-table-column>
-				<el-table-column prop="stateInfo.stateName" label="状态" width="120" sortable>
+				<el-table-column prop="stateInfo.stateName" label="图书状态" width="120" sortable>
 				</el-table-column>
 				<el-table-column prop="isbn" label="图书编码" width="180" sortable>
 				</el-table-column>
@@ -82,13 +82,17 @@
 		</el-form-item>
 		<el-form-item label="图书封面" prop="imageUrl">
 			<img v-bind:src="'/public' + this.editForm.imageUrl"  onerror='this.src="../../../static/default.png"'><br>
-  			<el-button type="primary" @click="dialogVisible = true" style="margin-top:1%" >选择图书封面</el-button>
+  			<el-button type="primary" v-bind:disabled="disabledChange" @click="dialogVisible = true" style="margin-top:1%" >选择图书封面</el-button>
 		</el-form-item>
 		<el-form-item label="图书状态">
 			<el-radio-group v-model="editForm.state" v-bind:disabled="disabledChange">
 				<el-radio :label="0">可借</el-radio>
 				<el-radio :label="1">已借出</el-radio>
-				<el-radio :label="2">已销毁</el-radio>
+				<el-radio :label="2">已下架</el-radio>
+				<el-radio :label="3">预约中</el-radio>
+				<el-radio :label="4">还书审核中</el-radio>
+				<el-radio :label="5">预约审核中</el-radio>
+				<el-radio :label="6">借出审核中</el-radio>
 			</el-radio-group>
 		</el-form-item>
 		<el-form-item label="图书编码" prop="isbn">
@@ -172,7 +176,7 @@
 					value: 'isbn',
 					label: '国际标准书号(ISBN)'
 					}, {
-					value: 'state',
+					value: 'state_name',
 					label: '图书状态'
 					}],
 			}
