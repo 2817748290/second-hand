@@ -21,7 +21,7 @@
           </li>
           <li>
             <router-link :to="{name: 'Cart'}">
-              <div>我的借阅</div>
+              <div>我的预约</div>
             </router-link>
           </li>
         </ul>
@@ -34,7 +34,7 @@
         <img src="static/icons/top.png">
       </a>
     </div>
-    
+
   </div>
 </template>
 

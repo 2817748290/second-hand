@@ -9,7 +9,7 @@
 		<div class="search">
 			<input type="search" v-model="keyword" @input="searchBooks(keyword)"size="70" placeholder="书名、作者">
 			<ul class="matching-books" v-show="isShow">
-				<li v-for="book in matchingBooks" @click="hideMatchingBooks">
+				<li v-for="book in matchingBooks" @click="hideMatchingBooks" >
 					<router-link :to="{name: 'Book', params: {id: book.id}}">
 						<img v-bind:src="book.cover">
 						<div class="book-info">
@@ -21,6 +21,7 @@
 			</ul>
 		</div>
 		<div class="login">
+			<span v-show="username">{{'您好,'+username}}</span>
     		<a class="login-btn" @click="loginInit"> {{ loginState }} </a>
 		</div>
 		<div class="login-ui" v-if="isLogined">
@@ -57,9 +58,8 @@
 				isLogined: false,
 				loginState: '登录',
 				user:{
-					username:'',
-					password:''
-				}
+				},
+				username:''
 			}
 		},
 		computed: {
@@ -72,8 +72,8 @@
 			}
 		},
 		mounted() {
-			let user = localStorage.getItem('user');
-			if(user!==null && user.username!==''){
+			let user = JSON.parse(localStorage.getItem('user'));
+			if(user!==null && user.userId!=='' && user.userId!==undefined){
 				this.loginState = '退出'
 			}else{
 				this.loginState = '登录'
@@ -91,16 +91,14 @@
 					return item.name.toLowerCase().includes(lowerCase) || item.author.toLowerCase().includes(lowerCase);
 				});
 			},
-			hideMatchingBooks() {
-				this.matchingBooks = [];
-			},
 			closeLogin() {
 				this.isLogined = false;
 			},
 			loginInit(){
 				if(this.loginState==='退出'){
+					this.username = ''
 					localStorage.removeItem('user');
-					this.loginState = '登录'					
+					this.loginState = '登录'
 					return;
 				}
 				this.isLogined = true;
@@ -113,9 +111,10 @@
 				requestLogin(param).then((data)=>{
 					console.log(data)
 					if(data.status===1){
+						this.username = this.user.username
 						this.isLogined = false;
-						localStorage.setItem('user',JSON.stringify({'username':param.username}))
-						this.loginState = '退出';
+						localStorage.setItem('user',JSON.stringify({'userId':data.result,'username':this.user.username}))
+						this.loginState = `退出`;
 					}else{
 						alert('帐号或密码错误!')
 					}
