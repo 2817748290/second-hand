@@ -39,7 +39,7 @@
 		},
 		mounted(){
 			this.user = JSON.parse(localStorage.getItem('user'));
-
+			console.log(this.user)
 			this.bookId = this.$route.params.id;
 			let param = new FormData()
 			param.append("bookId",this.bookId)
@@ -57,6 +57,7 @@
 				}
 
 				let param = new FormData()
+				console.log("userId:"+this.user.userId)
 				param.append('userId',this.user.userId)
 				getUserById(param).then(res=>{
 					this.user = res.data.result

@@ -8,6 +8,7 @@
         <li class="col-book-info">书名</li>
         <li class="col-book-info">作者</li>
         <li class="col-book-info">状态</li>
+        <li class="col-book-info">剩余时间</li>
         <li class="col-book-info">编辑</li>
       </ul>
       <ul class="items">
@@ -17,7 +18,7 @@
           </div>
           <div class="col-book-info">
             <router-link :to="{name: 'Book', params: {id: book.id}}">
-              <img class="cover" v-bind:src="book.cover">
+              <img class="cover" v-bind:src="'/public/'+book.imageUrl">
             </router-link>
           </div>
           <div class="col-book-info">
@@ -29,9 +30,12 @@
             <p class="author" v-text="book.author"></p>
           </div>
           <div class="col-book-info">
-            <p class="author" v-text="book.state"></p>
+            <p class="author">{{formatStatus(book.state)}}</p>
           </div>
-          <div class="col-edit">
+          <div class="col-book-info">
+            <div :ref="'timer'+index">{{formateReadyTime(book,index)}}</div>
+          </div>
+          <div class="col-book-info">
             <img @click="handleDelete(book.bookId)" src="static/icons/delete.png" alt="删除">
           </div>
         </li>
@@ -60,8 +64,20 @@
 				sort: '-create_date',
         limit: 10,
         orderList: [],
-        bookList: []
+        bookList: [],
+        leftTime: 0,
+        statusArr:[
+					{status:-1,value:'已关闭'},
+          {status:0,value:'预约中'},
+          {status:1,value:'已借'},
+          {status:2,value:'还书审核中'},
+          {status:3,value:'预约审核中'},
+          {status:4,value:'借出审核中'}
+				]
       }
+    },
+    computed: {
+
     },
     mounted: function() {
       this.$nextTick(function() {
@@ -71,10 +87,52 @@
           this.$router.push({path: '/'})
         }else{
           this.getOrderList()
+          console.log('dsads')
+          console.log(this.$refs.timer0)
+                    console.log(this.$refs.timer2)
+
         }
       })
     },
     methods: {
+      formatStatus(state) {
+        for(let item of this.statusArr){
+          if(item.status === state){
+            return item.value
+          }
+        }
+      },
+      formateReadyTime(book){
+        for(let item of this.orderList){
+          if(item.bookId = book.bookId){
+            console.log(item)
+            return (()=>{
+              // setInterval(() => {
+              //   this.leftTimer(item.readyTime)
+              // },0);
+            })()
+          }
+        }
+
+      },
+      leftTimer(time, ref){
+        console.log(time)
+        var EndTime= new Date(time);
+        var NowTime = new Date();
+        var t =EndTime.getTime() - NowTime.getTime();
+        var d=0;
+        var h=0;
+        var m=0;
+        var s=0;
+        if(t>=0){
+          d=Math.floor(t/1000/60/60/24);
+          h=Math.floor(t/1000/60/60%24);
+          m=Math.floor(t/1000/60%60);
+          s=Math.floor(t/1000%60);
+        }
+        this.$refs.ref = `${m}:${s}`
+        // console.log(this.leftTime)
+      },
       getOrderList(){
         this.bookList=[]
         this.orderList=[]
@@ -108,6 +166,7 @@
               deleteOrder(formData).then(res=>{
                 if(res.data.status === 1){
                   alert('取消预约成功')
+                  this.orderList = []
                   this.getOrderList()
                 }else{
                   alert('取消预约失败')
