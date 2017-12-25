@@ -1,25 +1,26 @@
 <template>
 	<el-row :gutter="20">
-		<el-col :span="6" v-for="book in books">
+		<el-col :span="24" v-for="right in rights">
   			<el-card>
-				<img :src="'/public' + book.imageUrl" width="180px" height="240px" class="image" onerror='this.src="../../../static/default.png"' style="margin-left:15%">
-				<div style="padding: 10px;margin-left:15%">
-					<span><strong>图书名称：</strong>{{book.bookName}}</span><br>
-					<span><strong>图书作者：</strong>{{book.author}}</span>
+				<div style="padding: 10px;margin-left:40%">
+					<span style="margin-right:55px"><strong>申述标题：</strong></span>{{right.rightTitle}}<br>
+					<span style="margin-right:55px"><strong>申述类型：</strong></span>{{typeFormatter(right.rightTypeId)}}</span><br>
+					<span style="margin-right:55px"><strong>申述内容：</strong></span>{{right.rightContent}}</span><br>
+					<span style="margin-right:70px"><strong>申述人：</strong></span>{{right.order.borrower.nickname}}</span><br>
+					<span style="margin-right:55px"><strong>申述日期：</strong></span>{{dateFormatter(right.rightDate)}}</span><br>
 					<div class="bottom clearfix">
-						<time class="time">{{book.createDate}}</time>
-						<span><strong>图书状态：</strong>{{book.stateInfo.stateName}}</span><br>
+						<span  style="margin-right:55px"><strong>申述状态：</strong></span>{{stateFormatter(right.rightStateId)}}<br>
 						<el-button 
 							class="button"
 							type = "primary"
-							style="margin-left:8%;margin-top:2%;"
-							@click=""
+							style="margin-left:3%;margin-top:2%;"
+							@click="handlePass(right.rightId)"
 						>通过</el-button>
 						<el-button 
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
-							@click=""
+							@click="handleRefuse(right.rightId)"
 						>否决</el-button>
 					</div>
 				</div>
@@ -31,13 +32,12 @@
 <script>
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
-	import cropper from '../book/cropper'
-	import { getInitBookList, deleteBook, addBook, updateBook, getBookInfoById, getTypeList } from '../../api/api';
-	import $ from '../../../static/jquery.min.js'
+	import moment from 'moment'
+	import {getInitRights, deleteRight, addRight, updateRight, getRightInfoById } from '../../api/api';
 
 	export default {
 		 components:{
-			cropper
+			
 		},
 		data() {
 			return {
@@ -45,14 +45,13 @@
     			addLoading: false,       //是否显示loading
 				disabledChange: false,
 				filters: {
-					searchName: 'state_name',
-					search:'还书审核中'
+					searchName: 'right_title',
+					search:''
 				},
-				books: [],
-				booktypes:[],
+				rights: [],
 				total: 0,
 				offset: 0,
-				sort: '+book_id',
+				sort: '+right_id',
 				limit: 20,
 				listLoading: false,
 				editFormVisible: false,//编辑界面显是否显示
@@ -75,8 +74,7 @@
 			}
 		},		
 		mounted() {
-			this.getBookList();
-			this.getTypes();
+			this.getRights();
 		},
 		methods: {
 
@@ -90,8 +88,8 @@
 			transfer (...data) {
 			this.editForm.imageUrl = data[0]
 			},
-			// 初始化图书列表
-			getBookList(){
+			// 初始化列表
+			getRights(){
 				let para = {
 					sort: this.sort,
 					offset: this.offset,
@@ -101,23 +99,10 @@
 				};
 				this.listLoading = true;
 				NProgress.start();
-				getInitBookList(para).then((res) => {
+				getInitRights(para).then((res) => {
 					this.total = res.data.total;
-					this.books = res.data.rows;
+					this.rights = res.data.rows;
 					this.listLoading = false;
-					NProgress.done();
-				});
-			},
-
-			//动态获取图书类型
-			getTypes(){
-				let para = {};
-				this.listLoading = true;
-				NProgress.start();
-				getTypeList(para).then((res) => {
-					this.listLoading = false;
-					this.booktypes = res.data.result;
-					console.log(this.booktypes)
 					NProgress.done();
 				});
 			},
@@ -131,10 +116,10 @@
 					_this.listLoading = true;
 					NProgress.start();
 					let para = {
-						bookId: value,
-						state: 0
+						rightId: value,
+						rightStateId: 1
 					};
-					updateBook(para).then((res) => {
+					updateRight(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
 						_this.$notify({
@@ -142,7 +127,7 @@
 							message: '操作成功',
 							type: 'success'
 						});
-						_this.getBookList();
+						_this.getRights();
 					});
 
 				}).catch(() => {
@@ -153,16 +138,16 @@
 			//否决操作 
 			handleRefuse: function (value) {
 				var _this = this;
-				this.$confirm('确认要否决该记录吗?', '提示', {
+				this.$confirm('确认要通过该记录吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
 					_this.listLoading = true;
 					NProgress.start();
 					let para = {
-						bookId: value,
-						state: 6
+						rightId: value,
+						rightStateId: 2
 					};
-					updateBook(para).then((res) => {
+					updateRight(para).then((res) => {
 						_this.listLoading = false;
 						NProgress.done();
 						_this.$notify({
@@ -170,12 +155,37 @@
 							message: '操作成功',
 							type: 'success'
 						});
-						_this.getBookList();
+						_this.getRights();
 					});
 
 				}).catch(() => {
 
 				});
+			},
+
+			dateFormatter(value){
+				
+            	return moment(value).format("YYYY-MM-DD HH:mm:ss");  
+			},
+
+			typeFormatter(value){
+				if(value==0){
+					return "还书异常";
+				}else if(value==1){
+					return "借阅记录异常";
+				}else {
+					return "其他异常";
+				}
+			},
+
+			stateFormatter(value){
+            	if(value==0){
+					return "审核中";
+				}else if(value==1){
+					return "通过";
+				}else if(value==2){
+					return "否决";
+				}
 			},
 
 			

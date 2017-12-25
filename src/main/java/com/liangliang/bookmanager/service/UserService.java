@@ -60,5 +60,4 @@ public interface UserService {
 
     public Integer userLogin(User user) throws Exception;
 
-    public void userLoginOut() throws Exception;
 }

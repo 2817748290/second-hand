@@ -13,13 +13,13 @@
 							class="button"
 							type = "primary"
 							style="margin-left:8%;margin-top:2%;"
-							@click=""
+							@click="handlePass(book.bookId)"
 						>通过</el-button>
 						<el-button 
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
-							@click=""
+							@click="handleRefuse(book.bookId)"
 						>否决</el-button>
 					</div>
 				</div>
@@ -160,7 +160,7 @@
 					NProgress.start();
 					let para = {
 						bookId: value,
-						state: 6
+						state: 1
 					};
 					updateBook(para).then((res) => {
 						_this.listLoading = false;
