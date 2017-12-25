@@ -2,25 +2,25 @@
 	<el-row :gutter="20">
 		<el-col :span="24" v-for="right in rights">
   			<el-card>
-				<div style="padding: 10px">
-					<span style="margin-right:25px"><strong>申述标题：</strong></span>{{right.rightTitle}}<br>
-					<span style="margin-right:25px"><strong>申述类型：</strong></span>{{right.rightTypeId}}</span><br>
-					<span style="margin-right:25px"><strong>申述内容：</strong></span>{{right.rightContent}}</span><br>
-					<span style="margin-right:25px"><strong>申述人：</strong></span>{{right.order.borrower.nickname}}</span><br>
-					<span style="margin-right:25px"><strong>申述日期：</strong></span>{{right.rightDate}}</span><br>
+				<div style="padding: 10px;margin-left:40%">
+					<span style="margin-right:55px"><strong>申述标题：</strong></span>{{right.rightTitle}}<br>
+					<span style="margin-right:55px"><strong>申述类型：</strong></span>{{typeFormatter(right.rightTypeId)}}</span><br>
+					<span style="margin-right:55px"><strong>申述内容：</strong></span>{{right.rightContent}}</span><br>
+					<span style="margin-right:70px"><strong>申述人：</strong></span>{{right.order.borrower.nickname}}</span><br>
+					<span style="margin-right:55px"><strong>申述日期：</strong></span>{{dateFormatter(right.rightDate)}}</span><br>
 					<div class="bottom clearfix">
-						<span  style="margin-right:25px"><strong>申述状态：</strong></span>{{right.rightStateId}}<br>
+						<span  style="margin-right:55px"><strong>申述状态：</strong></span>{{stateFormatter(right.rightStateId)}}<br>
 						<el-button 
 							class="button"
 							type = "primary"
-							style="margin-left:8%;margin-top:2%;"
-							@click=""
+							style="margin-left:3%;margin-top:2%;"
+							@click="handlePass(right.rightId)"
 						>通过</el-button>
 						<el-button 
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
-							@click=""
+							@click="handleRefuse(right.rightId)"
 						>否决</el-button>
 					</div>
 				</div>
@@ -32,6 +32,7 @@
 <script>
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
+	import moment from 'moment'
 	import {getInitRights, deleteRight, addRight, updateRight, getRightInfoById } from '../../api/api';
 
 	export default {
@@ -115,8 +116,8 @@
 					_this.listLoading = true;
 					NProgress.start();
 					let para = {
-						bookId: value,
-						state: 0
+						rightId: value,
+						rightStateId: 1
 					};
 					updateRight(para).then((res) => {
 						_this.listLoading = false;
@@ -137,14 +138,14 @@
 			//否决操作 
 			handleRefuse: function (value) {
 				var _this = this;
-				this.$confirm('确认要否决该记录吗?', '提示', {
+				this.$confirm('确认要通过该记录吗?', '提示', {
 					//type: 'warning'
 				}).then(() => {
 					_this.listLoading = true;
 					NProgress.start();
 					let para = {
-						bookId: value,
-						state: 6
+						rightId: value,
+						rightStateId: 2
 					};
 					updateRight(para).then((res) => {
 						_this.listLoading = false;
@@ -154,12 +155,37 @@
 							message: '操作成功',
 							type: 'success'
 						});
-						_this.getBookList();
+						_this.getRights();
 					});
 
 				}).catch(() => {
 
 				});
+			},
+
+			dateFormatter(value){
+				
+            	return moment(value).format("YYYY-MM-DD HH:mm:ss");  
+			},
+
+			typeFormatter(value){
+				if(value==0){
+					return "还书异常";
+				}else if(value==1){
+					return "借阅记录异常";
+				}else {
+					return "其他异常";
+				}
+			},
+
+			stateFormatter(value){
+            	if(value==0){
+					return "审核中";
+				}else if(value==1){
+					return "通过";
+				}else if(value==2){
+					return "否决";
+				}
 			},
 
 			

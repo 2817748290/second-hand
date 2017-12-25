@@ -14,7 +14,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public Integer adminLogin(Admin admin) throws Exception {
+
         int adminId = 0;
+
         Admin admin1 = new Admin();
         try {
             admin1 = adminMapper.adminLogin(admin1);
@@ -31,8 +33,4 @@ public class AdminServiceImpl implements AdminService {
         return adminId;
     }
 
-    @Override
-    public void adminLoginOut() throws Exception {
-
-    }
 }

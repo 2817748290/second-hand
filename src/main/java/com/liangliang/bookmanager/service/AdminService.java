@@ -6,5 +6,4 @@ public interface AdminService {
 
     public Integer adminLogin(Admin admin) throws Exception;
 
-    public void adminLoginOut() throws Exception;
 }
