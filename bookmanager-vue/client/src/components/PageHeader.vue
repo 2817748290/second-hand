@@ -20,16 +20,46 @@
 				</li>
 			</ul>
 		</div>
+		<div class="login">
+    		<a class="login-btn" @click="loginInit"> {{ loginState }} </a>
+		</div>
+		<div class="login-ui" v-if="isLogined">
+			<header>
+				<h3>登录</h3>
+				<a href="javascript:;" @click="closeLogin">
+					<img src="static/icons/close.png">
+				</a>
+			</header>
+			<div class="form">
+					<input type="text" name="username" v-model="user.username" placeholder="用户名/手机号/邮箱">
+					<input type="password" name="password" v-model="user.password" placeholder="请输入密码">
+					<a href="javascript:;">忘记密码?</a>
+					<button class="login-btn" @click="handleSubmit">登录</button>
+			</div>
+			<footer>
+				<p>
+					<a href="javascript:;">没有账号？免费注册 &gt;</a>
+				</p>
+			</footer>
+    	</div>
 	</div>
 </template>
 
 <script>
+	import {requestLogin} from '../api/api.js'
+
 	export default {
 		name: 'page-header',
 		data() {
 			return {
 				keyword: '',
-				matchingBooks: []
+				matchingBooks: [],
+				isLogined: false,
+				loginState: '登录',
+				user:{
+					username:'',
+					password:''
+				}
 			}
 		},
 		computed: {
@@ -39,6 +69,14 @@
 				} else {
 					return false;
 				}
+			}
+		},
+		mounted() {
+			let user = localStorage.getItem('user');
+			if(user!==null && user.username!==''){
+				this.loginState = '退出'
+			}else{
+				this.loginState = '登录'
 			}
 		},
 		methods: {
@@ -55,11 +93,43 @@
 			},
 			hideMatchingBooks() {
 				this.matchingBooks = [];
-			}	
+			},
+			closeLogin() {
+				this.isLogined = false;
+			},
+			loginInit(){
+				if(this.loginState==='退出'){
+					localStorage.removeItem('user');
+					this.loginState = '登录'					
+					return;
+				}
+				this.isLogined = true;
+			},
+			handleSubmit() {
+				let param = {
+					'username': this.user.username,
+					'password': this.user.password
+				}
+				requestLogin(param).then((data)=>{
+					console.log(data)
+					if(data.status===1){
+						this.isLogined = false;
+						localStorage.setItem('user',JSON.stringify({'username':param.username}))
+						this.loginState = '退出';
+					}else{
+						alert('帐号或密码错误!')
+					}
+				})
+			}
 		}
 	}
 </script>
 
 <style scoped>
-	@import '../assets/css/page-header.css'
+	@import '../assets/css/page-header.css';
+	@import '../assets/css/login.css';
+	#page-header .login{
+		height: 100%;
+		background: none;
+	}
 </style>

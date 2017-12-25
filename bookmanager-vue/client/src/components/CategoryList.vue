@@ -2,26 +2,34 @@
   <div class="category-list">
     <h2>图书分类</h2>
     <ul>
-      <li v-for="(category, index) in categoryList">
-        <router-link :to="{name: 'Category', params:{category: category.category}}">
-          {{ category.typeName }} 
-        </router-link>
+      <li v-for="(item, index) in categoryList">
+        <a @click="getSearchBook(item.typeName)">
+          {{ item.typeName }} 
+        </a>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
+  import {getTypeList} from '../api/api.js'
   export default {
     name: 'category-list',
-    computed: {
-      categoryList() {
-        return this.$store.getters.getCategoryList;
+    data(){
+      return {
+        categoryList: []
       }
+    },
+    computed: {
+
     },
     mounted: function() {
       this.$nextTick(function() {
-					this.$store.dispatch('setCategoryList', '/api/type/getTypeList');
+        console.log("mounted")
+        getTypeList().then(res=>{
+          console.log(res.data)
+          this.categoryList = res.data.result
+        });
       });
     }
   }

@@ -58,8 +58,7 @@
 		<el-col :span="24" style="margin-bottom:15px;">
 <strong style="width:200px;float:left;color: #475669;">{{currentPathName}}</strong>
 <el-breadcrumb separator="/" style="float:right;">
-<el-breadcrumb-item :to="{ path: '/table' }">首页</el-breadcrumb-item>
-<el-breadcrumb-item v-if="currentPathNameParent!=''">{{currentPathNameParent}}</el-breadcrumb-item>
+<el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
 <el-breadcrumb-item v-if="currentPathName!=''">{{currentPathName}}</el-breadcrumb-item>
 </el-breadcrumb>
 </el-col>
@@ -79,9 +78,8 @@
 	export default {
 		data() {
 			return {
-				currentPath: '/user',
-				currentPathName: 'user',
-				currentPathNameParent: '用户管理',
+				currentPath: '/',
+				currentPathName: '首页',
 				form: {
 					name: '',
 					region: '',
@@ -123,7 +121,6 @@
 				}).catch(() => {
 
 				});
-
 
 			}
 		}

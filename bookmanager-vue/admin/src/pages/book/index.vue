@@ -179,7 +179,6 @@
 					value: 'state_name',
 					label: '图书状态'
 					}],
-
 			}
 		},		
 		mounted() {

@@ -3,7 +3,7 @@ import axios from 'axios';
 let base = '';
 
 // user
-export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
+export const requestLogin = params => { return axios.post(`/api/login/userLogin`, params).then(res => res.data); };
 
 export const getUserList = params => { return axios.post(`/api/user/getSearchUser`, params); };
 

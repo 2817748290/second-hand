@@ -9,13 +9,13 @@
 					<div class="bottom clearfix">
 						<time class="time">{{book.createDate}}</time>
 						<span><strong>图书状态：</strong>{{book.stateInfo.stateName}}</span><br>
-						<el-button 
+						<el-button
 							class="button"
 							type = "primary"
 							style="margin-left:8%;margin-top:2%;"
 							@click=""
 						>通过</el-button>
-						<el-button 
+						<el-button
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
@@ -70,7 +70,7 @@
 				},
 				editLoading: false,
 				btnEditText: '提 交',
-				
+
 
 			}
 		},		
@@ -122,7 +122,7 @@
 				});
 			},
 
-			//通过操作 
+			//通过操作
 			handlePass: function (value) {
 				var _this = this;
 				this.$confirm('确认要通过该记录吗?', '提示', {
@@ -177,7 +177,7 @@
 
 				});
 			},
-			
+
 		}
 		
 		

@@ -87,7 +87,7 @@ const routes = [
     path: '/',
     component: Home,
     name: '借书审核',
-    leaf: true,//只有一个节点    
+    leaf: true,//只有一个节点
     iconCls: 'el-icon-edit',//图标样式class
     children: [
       { path: '/borrow', component: BorrowBook, name: '借书审核' }
@@ -106,7 +106,7 @@ const routes = [
     path: '/',
     component: Home,
     name: '申述审核',
-    leaf: true,//只有一个节点    
+    leaf: true,//只有一个节点
     iconCls: 'el-icon-message',//图标样式class
     children: [
       { path: '/rights', component: Rights, name: '申述审核' }
@@ -175,7 +175,7 @@ new Vue({
   router,
   store,
   components: { App }
-  //render: h => h(Login)
+  // render: h => h(Login)
 }).$mount('#app')
 
 //router.replace('/login')
