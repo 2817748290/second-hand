@@ -7,6 +7,8 @@ export const requestLogin = params => { return axios.post(`/api/login/userLogin`
 
 export const getUserList = params => { return axios.post(`/api/user/getSearchUser`, params); };
 
+export const getUserById = params => { return axios.post(`/api/user/getUserById`, params); };
+
 export const getUserListPage = params => { return axios.post(`/api/user/getSearchUser`, params); };
 
 export const removeUser = params => { return axios.post(`api/user/deleteUser`, params); };

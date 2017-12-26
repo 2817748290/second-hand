@@ -2,12 +2,11 @@
 	<el-row class="panel">
 		<el-col :span="24" class="panel-top">
 			<el-col :span="20" style="font-size:26px;">
-<img src="../assets/logo4.png" class="logo"> <span>AD<i style="color:#20a0ff">MIN</i>
-</span>
+<span style="margin-left:2%">图书管理系统</span>
 </el-col>
 <el-col :span="4" class="rightbar">
 	<el-dropdown trigger="click">
-		<span class="el-dropdown-link" style="color:#c0ccda;cursor: pointer;"><img src="../assets/user.png" class="head"> 张某某
+		<span class="el-dropdown-link" style="color:#c0ccda;cursor: pointer;"><img v-bind:src="'/public/' + this.imageUrl"  onerror='this.src="../../static/default.png"' class="head"> {{user.username}}
 </span>
 <el-dropdown-menu slot="dropdown">
 	<el-dropdown-item>我的消息</el-dropdown-item>
@@ -75,6 +74,8 @@
 </template>
 
 <script>
+	import { getUserById } from '../api/api';
+
 	export default {
 		data() {
 			return {
@@ -89,8 +90,15 @@
 					type: [],
 					resource: '',
 					desc: ''
-				}
+				},
+				user:{},
+				imageUrl:''
 			}
+		},
+		mounted(){
+            this.user = JSON.parse(localStorage.getItem('user'));
+			console.log(this.user)
+			this.getUserInfo()
 		},
 		watch: {
 			'$route'(to, from) {//监听路由改变
@@ -100,6 +108,15 @@
 			}
 		},
 		methods: {
+			getUserInfo(){
+				let params = new FormData()
+				params.append("userId", this.user.userId);
+				getUserById(params).then((res) => {
+					this.imageUrl = res.data.result.avatarImage;
+					console.log(this.imageUrl)
+				});
+			},
+
 			onSubmit() {
 				console.log('submit!');
 			},
