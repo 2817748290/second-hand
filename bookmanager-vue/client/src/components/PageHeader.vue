@@ -26,7 +26,7 @@
 		</div>
 		<div class="login-ui" v-if="isModalShow">
 			<header>
-				<h3>登录</h3>
+				<h3>{{btnText}}</h3>
 				<a href="javascript:;" @click="closeLogin">
 					<img src="static/icons/close.png">
 				</a>
