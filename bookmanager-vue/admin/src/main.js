@@ -162,8 +162,22 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   NProgress.start();
   next()
+  // next();
+  if(to.fullPath==='/login'){
+    next()
+  }else{
+    var user = localStorage.getItem("user");
+    if(user!==null && user.username!==''){
+      next()
+    }else{
+      next({
+        path: '/login',
+      })
+    }
+  }
+  NProgress.done();   
+  
 })
-
 router.afterEach(transition => {
   NProgress.done();
 });

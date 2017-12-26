@@ -4,16 +4,16 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
+				<el-select v-model="filters.searchName" placeholder="请选择">
+					<el-option
+					v-for="item in options"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value">
+					</el-option>
+				</el-select>
 				<el-form-item>
 					<el-input v-model="filters.search" placeholder="昵称"></el-input>
-				</el-form-item>
-				<el-form-item>
-					<el-select v-model="filters.groupValue" placeholder="请选择用户组">
-						<el-option label="超级管理员" value="0"></el-option>
-						<el-option label="普通管理员" value="1"></el-option>
-						<el-option label="普通用户" value="2"></el-option>
-						<el-option label="全部" value=""></el-option>
-					</el-select>
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" v-on:click="getUsers">查询</el-button>
@@ -35,9 +35,9 @@
 				</el-table-column>
 				<el-table-column prop="points" label="积分" width="100" sortable>
 				</el-table-column>
-				<el-table-column prop="group" label="用户组" width="120" :formatter="groupFormatter" sortable>
-				</el-table-column>
-				<el-table-column prop="userState" label="状态" width="80" :formatter="statusFormatter" sortable>
+				<!-- <el-table-column prop="group" label="用户组" width="120" :formatter="groupFormatter" sortable>
+				</el-table-column> -->
+				<el-table-column prop="userState" label="状态" width="100" :formatter="statusFormatter" sortable>
 				</el-table-column>
 				<el-table-column prop="email" label="邮箱" width="180" sortable>
 				</el-table-column>
@@ -180,7 +180,17 @@
 					{status:0,value:'审核中'},
 					{status:1,value:'通过'},
 					{status:2,value:'封禁'}
-				]
+				],
+				options: [{
+					value: 'nickname',
+					label: '昵称'
+					}, {
+					value: 'username',
+					label: '账号'
+					}, {
+					value: 'points',
+					label: '积分'
+					}],
 
 			}
 		},	
