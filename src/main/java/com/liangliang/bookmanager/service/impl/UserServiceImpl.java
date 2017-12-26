@@ -74,8 +74,8 @@ public class UserServiceImpl implements UserService {
             if(user.getAvatarImageFile() != null && user.getAvatarImageFile().getSize() > 0) {
                 String fileName = FileUtil.save(user.getAvatarImageFile(), FileUtil.WINDOWS_PATH);
                 user.setAvatarImage(fileName);
-                state = userMapper.addUser(user) == 1;
             }
+            state = userMapper.addUser(user) == 1;
         }catch (Exception e){
             e.printStackTrace();
             return false;

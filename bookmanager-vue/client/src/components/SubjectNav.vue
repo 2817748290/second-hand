@@ -10,7 +10,7 @@
     </div>
     <div class="books">
       <div class="book" v-for="(book, index) in books" :key="index">
-        <div>
+        <div> 
           <router-link :to="{name: 'Book', params: {id: book.bookId}}">
             <img class="cover" v-bind:src="'public/'+book.imageUrl">
             <p class="name"> {{ book.bookName }} </p>

@@ -7,6 +7,8 @@ export const getUserById = params => { return axios.post(`/api/user/getUserById`
 
 export const updateUser = params => { return axios.post(`/api/user/updateUser`, params)};
 
+export const addUser = params => { return axios.post(`/api/user/addUser`, params)};
+
 //book
 export const getSearchBook = params => { return axios.post(`/api/book/getInitBookList`, params)};
 

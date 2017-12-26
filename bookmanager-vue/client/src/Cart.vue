@@ -129,9 +129,8 @@
           clearInterval(this.orderList[index].timer)
           let param = {
             'orderId' :this.orderList[index].orderId,
-            'status': 0
           }
-          updateOrder(param).then((res)=>{
+          deleteOrder(param).then((res)=>{
             console.log('修改order结果')
             console.log(res.data)
           }).then(()=>{
