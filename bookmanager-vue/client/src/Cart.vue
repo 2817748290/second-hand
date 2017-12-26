@@ -72,7 +72,7 @@
           {status:3,value:'预约中'},
           {status:4,value:'已关闭'},
           {status:5,value:'预约审核中'},
-          {status:6,value:'已关闭'}
+          {status:6,value:'预约中'}
 				]
       }
     },
