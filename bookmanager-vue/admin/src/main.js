@@ -106,7 +106,7 @@ const routes = [
     component: Home,
     name: '申述审核',
     leaf: true,//只有一个节点
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-setting',//图标样式class
     children: [
       { path: '/rights', component: Rights, name: '申述审核' }
     ]
