@@ -14,5 +14,8 @@ new Vue({
   router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App },
+  mounted(){
+    console.log(1)
+  }
 })

@@ -83,9 +83,9 @@ public class UserController {
             String username = request.getParameter("username");
             String nickname = request.getParameter("nickname");
             String password = request.getParameter("password");
-            Integer group = Integer.parseInt(request.getParameter("group"));
-            Integer points = Integer.parseInt(request.getParameter("points"));
-            Integer userState = Integer.parseInt(request.getParameter("userState"));
+            Integer group = request.getParameter("group")==null ? 2 : Integer.parseInt(request.getParameter("group"));
+            Integer points = request.getParameter("points")==null ? 100 : Integer.parseInt(request.getParameter("points"));
+            Integer userState = request.getParameter("userState")==null ? 1 : Integer.parseInt(request.getParameter("userState"));
             String email = request.getParameter("email");
             String imageName = null;
             if(avatarImageFile != null && avatarImageFile.getSize() > 0){

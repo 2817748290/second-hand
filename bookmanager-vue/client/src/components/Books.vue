@@ -11,11 +11,11 @@
 						<router-link :to="{name: 'Book', params: {id: book.bookId}}">
 							<p class="name"> {{ book.bookName }} </p>
 						</router-link>
-						<p class="author"> {{ book.author }} </p>
-						<p class="abstruct"> {{ book.abstruct || '这是一本书这是一本书这是一本书'}} </p>
+						<p class="author">作者: {{ book.author }} </p>
+						<p class="abstruct"> 简介: {{ book.abstruct || '这是一本书这是一本书这是一本书'}} </p>
 						<div class="act">
-							<span class="price"> ￥{{ book.price || 100 | formatPrice }} </span>
-							<button class="buy" @click="handleAdd(book)">预约</button>
+							<!-- <span class="price"> 状态{{book.state}} </span> -->
+							<!-- <button class="buy" @click="handleAdd(book)">预约</button> -->
 						</div>
 					</div>
 				</div>

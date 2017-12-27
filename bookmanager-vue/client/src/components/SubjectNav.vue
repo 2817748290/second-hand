@@ -10,16 +10,16 @@
     </div>
     <div class="books">
       <div class="book" v-for="(book, index) in books" :key="index">
-        <div>
-          <router-link :to="{name: 'Book', params: {id: book.id}}">
-            <img class="cover" v-bind:src="book.imageUrl">
+        <div> 
+          <router-link :to="{name: 'Book', params: {id: book.bookId}}">
+            <img class="cover" v-bind:src="'public/'+book.imageUrl">
             <p class="name"> {{ book.bookName }} </p>
           </router-link>
         </div>
         <p>
           <span class="original-price" v-bind:class="{sale: isSale}"> {{ book.author }} </span>
           <!-- <span class="sale-price"> {{ book.author }} </span> -->
-          <button class="buy" @click="addToCart(book)">预约</button>
+          <!-- <button class="buy" @click="addToCart(book)">预约</button> -->
         </p>
       </div>
     </div>

@@ -268,7 +268,7 @@
 
 							if (_this.editForm.id == 0) {
 								//新增
-								if(_this.editForm.img==''){
+								if(_this.editForm.avatarImage==''){
 
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
@@ -288,6 +288,7 @@
 										para.append('avatarImage',data);
 										console.log(data)  
 										addUser(para).then((res) => {
+											console.log(res.data)
 											_this.editLoading = false;
 											NProgress.done();
 											_this.btnEditText = '提 交';
@@ -312,7 +313,7 @@
 								
 							} else {
 								//编辑
-								if(_this.editForm.img==''){
+								if(_this.editForm.avatarImage==''){
 
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
@@ -335,6 +336,7 @@
 										// do something
 										para.append('avatarImage',data);
 										updateUser(para).then((res) => {
+											console.log(res.data)
 											_this.editLoading = false;
 											NProgress.done();
 											_this.btnEditText = '提 交';
@@ -344,6 +346,7 @@
 													message: '修改成功',
 													type: 'success'
 												});
+												_this.getUsers();
 											}else{
 												_this.$notify({
 													title: '失败',
@@ -352,7 +355,6 @@
 												});
 											}
 											_this.editFormVisible = false;
-											_this.getUsers();
 										})
 									});
 								}

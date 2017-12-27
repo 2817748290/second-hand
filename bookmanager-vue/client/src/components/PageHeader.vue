@@ -24,22 +24,25 @@
 			<span v-show="username">{{'您好,'+username}}</span>
     		<a class="login-btn" @click="loginInit"> {{ loginState }} </a>
 		</div>
-		<div class="login-ui" v-if="isLogined">
+		<div class="login-ui" v-if="isModalShow">
 			<header>
-				<h3>登录</h3>
+				<h3>{{btnText}}</h3>
 				<a href="javascript:;" @click="closeLogin">
 					<img src="static/icons/close.png">
 				</a>
 			</header>
 			<div class="form">
-					<input type="text" name="username" v-model="user.username" placeholder="用户名/手机号/邮箱">
+					<input type="text" name="username" v-model="user.username" placeholder="用户名">
 					<input type="password" name="password" v-model="user.password" placeholder="请输入密码">
+					<input v-show="!isLoginState" type="password" name="repassword" v-model="user.repassword" placeholder="请再次输入密码">
+					<input v-show="!isLoginState" type="text" name="nickname" v-model="user.nickname" placeholder="昵称">
+					<input v-show="!isLoginState" type="text" name="email" v-model="user.email" placeholder="邮箱">
 					<a href="javascript:;">忘记密码?</a>
-					<button class="login-btn" @click="handleSubmit">登录</button>
+					<button class="login-btn" @click="handleSubmit">{{btnText}}</button>
 			</div>
 			<footer>
 				<p>
-					<a href="javascript:;">没有账号？免费注册 &gt;</a>
+					<a href="javascript:;" @click="modalInit">{{changeText}} &gt;</a>
 				</p>
 			</footer>
     	</div>
@@ -47,7 +50,7 @@
 </template>
 
 <script>
-	import {requestLogin} from '../api/api.js'
+	import {requestLogin,addUser} from '../api/api.js'
 
 	export default {
 		name: 'page-header',
@@ -55,11 +58,14 @@
 			return {
 				keyword: '',
 				matchingBooks: [],
-				isLogined: false,
+				isModalShow: false,
+				isLoginState: true,
 				loginState: '登录',
 				user:{
 				},
-				username:''
+				username:'',
+				changeText: '没有账号？免费注册',
+				btnText: '登录'
 			}
 		},
 		computed: {
@@ -74,25 +80,26 @@
 		mounted() {
 			let user = JSON.parse(localStorage.getItem('user'));
 			if(user!==null && user.userId!=='' && user.userId!==undefined){
+				this.username = user.username
 				this.loginState = '退出'
 			}else{
 				this.loginState = '登录'
 			}
 		},
 		methods: {
-			searchBooks(keyword) {
-				if (keyword == '' || keyword == undefined) {
-					this.matchingBooks = [];
-					return;
+			modalInit(){
+				if(this.isLoginState){
+					this.isLoginState = false
+					this.changeText = '已有帐号,前往登录'
+					this.btnText = '注册'
+				}else{
+					this.isLoginState = true
+					this.changeText = '没有账号？免费注册'
+					this.btnText = '登录'
 				}
-				let lowerCase = keyword.toLowerCase();
-				let allBooks = this.$store.getters.getAllBookList;
-				this.matchingBooks = allBooks.filter((item, index, array)=>{
-					return item.name.toLowerCase().includes(lowerCase) || item.author.toLowerCase().includes(lowerCase);
-				});
 			},
 			closeLogin() {
-				this.isLogined = false;
+				this.isModalShow = false;
 			},
 			loginInit(){
 				if(this.loginState==='退出'){
@@ -101,24 +108,47 @@
 					this.loginState = '登录'
 					return;
 				}
-				this.isLogined = true;
+				this.isModalShow = true;
 			},
 			handleSubmit() {
-				let param = {
-					'username': this.user.username,
-					'password': this.user.password
-				}
-				requestLogin(param).then((data)=>{
-					console.log(data)
-					if(data.status===1){
-						this.username = this.user.username
-						this.isLogined = false;
-						localStorage.setItem('user',JSON.stringify({'userId':data.result,'username':this.user.username}))
-						this.loginState = `退出`;
-					}else{
-						alert('帐号或密码错误!')
+				if(this.btnText === '登录'){
+
+					let param = {
+						'username': this.user.username,
+						'password': this.user.password
 					}
-				})
+					requestLogin(param).then((data)=>{
+						if(data.status===1){
+							this.username = this.user.username
+							this.isModalShow = false;
+							localStorage.setItem('user',JSON.stringify({'userId':data.result,'username':this.user.username}))
+							this.loginState = `退出`;
+						}else{
+							alert('帐号或密码错误!')
+						}
+					})
+
+				}else if(this.btnText === '注册'){
+
+					let param = new FormData()
+					param.append('username', this.user.username)
+					param.append('password', this.user.password)
+					param.append('nickname', this.user.nickname)
+					param.append('email', this.user.email)
+					addUser(param).then(res=>{
+						console.log('注册信息')
+						if(res.data.status===1){
+							alert('注册成功')
+							this.isLoginState = true
+							this.changeText = '没有账号？免费注册'
+							this.btnText = '登录'
+						}else{
+							alert('注册失败')
+						}
+					})
+
+				}
+				
 			}
 		}
 	}
