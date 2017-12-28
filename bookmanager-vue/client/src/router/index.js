@@ -5,6 +5,7 @@ import Category from '@/Category'
 import Cart from '@/Cart'
 import Book from '@/Book'
 import Subjects from '@/Subjects'
+import ReturnBook from '@/ReturnBook'
 
 Vue.use(Router)
 
@@ -36,6 +37,11 @@ export default new Router({
       path: '/subjects/:subject',
       name: 'Subjects',
       component: Subjects
+    },
+    {
+      path: '/returnBook',
+      name: 'ReturnBook',
+      component: ReturnBook
     }
   ]
 })

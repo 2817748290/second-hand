@@ -89,7 +89,7 @@ public class OrderController {
 
         //预约时间15分钟
         Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE, 15);
+        nowTime.add(Calendar.MINUTE, 2);
         Date readyTime = nowTime.getTime();
 
         order.setReadyDate(readyTime);

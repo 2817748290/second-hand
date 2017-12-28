@@ -79,13 +79,13 @@
 						addOrder(param).then(res => {
 							let readyTime = res.data.result
 							console.log(readyTime)
-							alert('预约成功,请在15分钟之内到图书馆借书处借书,否则预约将自动取消!')
-							let timer = setInterval(() => {
-								if(new Date().getTime() >= readyTime){
-									console.log("预约成功了")
-									clearInterval(timer)
-								}
-							},13)
+							alert('预约成功,请在2分钟之内到图书馆借书处借书,否则预约将自动取消!')
+							// let timer = setInterval(() => {
+							// 	if(new Date().getTime() >= readyTime){
+							// 		console.log("预约成功了")
+							// 		clearInterval(timer)
+							// 	}
+							// },13)
 						}).then(()=>{
 							this.user.points -= 10
 							let param = new FormData()
