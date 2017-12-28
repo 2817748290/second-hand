@@ -92,11 +92,16 @@
 
 							let param = {
 								'bookId': book.bookId,
-								'status': 5
+								'status': -1
 							}
 							addOrder(param).then(res => {
-								let readyTime = res.data.result
-								alert('预约成功,请在2分钟之内到图书馆借书处借书,否则预约将自动取消!')
+								console.log('相应')
+								console.log(res.data)
+								if(res.data.status === 1){
+									alert('预约成功,请在2分钟之内到图书馆借书处借书,否则预约将自动取消!')
+								}else{
+									alert('预约失败!')
+								}
 								
 							}).then(()=>{
 								this.user.points -= 10

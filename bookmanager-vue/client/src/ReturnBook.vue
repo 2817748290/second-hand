@@ -11,7 +11,7 @@
         <li class="col-book-info">编辑</li>
       </ul>
       <ul class="items">
-        <li class="item-book" v-for="(book,index) in bookList" :key="index">
+        <li class="item-book" v-show="book.state!==3 && book.state!==6&&　book.state!==5" v-for="(book,index) in bookList" :key="index">
           <div class="col-select-btn">
             <input v-model="book.isChecked" type="checkbox">
           </div>
@@ -64,11 +64,11 @@
         statusArr:[
           {status:0,value:'已还'},
           {status:1,value:'待还'},
-          // {status:2,value:'已关闭'},
-          // {status:3,value:'预约中'},
-          {status:4,value:'还书审核中'}
-          // {status:5,value:'预约审核中'},
-          // {status:6,value:'预约中'}
+          {status:2,value:'还书审核中'},
+          {status:3,value:'预约中'},
+          {status:4,value:'还书审核中'},
+          {status:5,value:'预约审核中'},
+          {status:6,value:'借出审核中'}
 		   ]
       }
     },
@@ -127,7 +127,7 @@
             if(item.bookId === bookId){
               let param = {
                 'orderId': item.orderId,
-                'status': 4
+                'status': 2
               }
               updateOrder(param).then(res=>{
                 

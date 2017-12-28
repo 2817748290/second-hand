@@ -72,28 +72,30 @@ public class OrderController {
     @RequestMapping(value = "/addOrder", method = RequestMethod.POST)
     @ResponseBody
     public Message addOrder(HttpServletRequest request, @RequestBody Order order){
-
-        int userId = (int)request.getSession().getAttribute("userId");
-
-        //借书时间最多为60天
-        order.setCreateDate(new Date());
-        order.setBorrowerId(userId);
-        Date upDate = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(upDate);
-        calendar.add(Calendar.DATE, 60);//+1今天的时间加一天
-        upDate = calendar.getTime();
-
-        order.setCreateDate(new Date());
-        order.setUpdateDate(upDate);
-
-        //预约时间15分钟
-        Calendar nowTime = Calendar.getInstance();
-        nowTime.add(Calendar.MINUTE, 2);
-        Date readyTime = nowTime.getTime();
-
-        order.setReadyDate(readyTime);
         try {
+            if (request.getSession().getAttribute("userId")==null){
+                return new Message(Message.ERROR,"用户未登录！", null);
+            }
+            int userId = (int)request.getSession().getAttribute("userId");
+
+            //借书时间最多为60天
+            order.setCreateDate(new Date());
+            order.setBorrowerId(userId);
+            Date upDate = new Date();
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(upDate);
+            calendar.add(Calendar.DATE, 60);//+1今天的时间加一天
+            upDate = calendar.getTime();
+
+            order.setCreateDate(new Date());
+            order.setUpdateDate(upDate);
+
+            //预约时间15分钟
+            Calendar nowTime = Calendar.getInstance();
+            nowTime.add(Calendar.MINUTE, 15);
+            Date readyTime = nowTime.getTime();
+
+            order.setReadyDate(readyTime);
             if(orderService.addOrder(order)){
                 return new Message(Message.SUCCESS,"新增借阅记录成功！", order);
             }else{

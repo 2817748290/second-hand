@@ -12,7 +12,7 @@
         <li class="col-book-info">编辑</li>
       </ul>
       <ul class="items">
-        <li class="item-book" v-for="(book,index) in bookList" :key="index">
+        <li v-show="book.state!==0" class="item-book" v-for="(book,index) in bookList" :key="index">
           <div class="col-select-btn">
             <input v-model="book.isChecked" type="checkbox">
           </div>
@@ -160,48 +160,51 @@
 					limit: this.limit
         }
         getSearchOrder(param).then((res)=>{
-
           this.orderList = res.data.rows
+          console.log('this.orderList ')
+          console.log(this.orderList )
           return this.orderList
 
         }).then((data)=>{
 
           for(let i in data){
             //如果预约已经过期
-            if(data[i].readyTime<new Date().getTime()){
-              let param = {
-                'orderId' :data[i].orderId,
-              }
-              deleteOrder(param).then((res)=>{
-                console.log('修改order结果')
-                console.log(res.data)
-              }).then(()=>{
-                let param = {
-                  'bookId': this.orderList[index].bookId,
-                  'status': 0
-                }
-                updateBook(param).then(res=>{
-                  console.log('修改书籍结果')
-                  console.log(res.data)
-                })
-              })
-              return
-            }
+            // if(data[i].readyTime<new Date().getTime()){
+            //   let param = new FormData()
+            //   param.append('orderId', data[i].orderId)
+            //   deleteOrder(param).then((res)=>{
+            //     console.log('修改order结果')
+            //     console.log(res.data)
+            //   }).then(()=>{
+            //     let param = {
+            //       'bookId': this.orderList[index].bookId,
+            //       'status': 0
+            //     }
+            //     updateBook(param).then(res=>{
+            //       console.log('修改书籍结果')
+            //       console.log(res.data)
+            //     })
+            //   })
+            //   return
+            // }
             // 如果预约已经关闭
             let orderStatus =  data[i].status
-            if(orderStatus === 0 || orderStatus === 1 || orderStatus === 2 || orderStatus === 4){
+            if( orderStatus === 1 || orderStatus === 2 || orderStatus === 4){
               console.log("status")
               console.log(orderStatus)
               let param = {
                 'orderId' :data[i].orderId,
               }
               deleteOrder(param).then((res)=>{
+
                 console.log('修改order结果')
                 console.log(res.data)
+
               }).then(()=>{
+
                 let param = {
                   'bookId': this.orderList[index].bookId,
-                  'status': 0
+                  'status': -1
                 }
                 updateBook(param).then(res=>{
                   console.log('修改书籍结果')
