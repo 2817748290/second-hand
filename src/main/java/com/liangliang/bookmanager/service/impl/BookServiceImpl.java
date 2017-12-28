@@ -1,11 +1,9 @@
 package com.liangliang.bookmanager.service.impl;
 
 import com.liangliang.bookmanager.bean.*;
-import com.liangliang.bookmanager.mapper.BookMapper;
-import com.liangliang.bookmanager.mapper.StateMapper;
-import com.liangliang.bookmanager.mapper.TypeMapper;
-import com.liangliang.bookmanager.mapper.UserMapper;
+import com.liangliang.bookmanager.mapper.*;
 import com.liangliang.bookmanager.service.BookService;
+import com.liangliang.bookmanager.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -30,6 +28,9 @@ public class BookServiceImpl implements BookService{
 
     @Autowired
     private StateMapper stateMapper;
+
+    @Autowired
+    private OrderService orderService;
 
     @Override
     public List<Book> getBookList() {
@@ -106,7 +107,7 @@ public class BookServiceImpl implements BookService{
     public TableMessage searchBook(TableMessage tableMessage){
 
         List<Book> bookList = new ArrayList<>();
-
+        int orderStatusId = 0;
         try {
             bookList = bookMapper.getBookAndUserList(tableMessage);
 
@@ -118,6 +119,23 @@ public class BookServiceImpl implements BookService{
                         book.setType(type);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
+                        if(book.getState()==5){
+                            orderStatusId = -1;
+                        }else if(book.getState()==3){
+                            orderStatusId = 0;
+                        }else if(book.getState()==6){
+                            orderStatusId = 6;
+                        }else if(book.getState()==1){
+                            orderStatusId = 1;
+                        }else if(book.getState()==4){
+                            orderStatusId = 2;
+                        }else if(book.getState()==0){
+                            orderStatusId = 3;
+                        }else if(book.getState()==2){
+                            orderStatusId = 4;
+                        }
+                        List<Order> order = orderService.getOrderByMore(book.getBookId(), orderStatusId);
+                        book.setOrder(order);
                     }
                     tableMessage.setRows(bookList);
                     tableMessage.setTotal(bookMapper.bookCount(tableMessage));
@@ -131,6 +149,23 @@ public class BookServiceImpl implements BookService{
                         book.setType(type);
                         State state = stateMapper.getStateInfoById(book.getState());
                         book.setStateInfo(state);
+                        if(book.getState()==5){
+                            orderStatusId = -1;
+                        }else if(book.getState()==3){
+                            orderStatusId = 0;
+                        }else if(book.getState()==6){
+                            orderStatusId = 6;
+                        }else if(book.getState()==1){
+                            orderStatusId = 1;
+                        }else if(book.getState()==4){
+                            orderStatusId = 2;
+                        }else if(book.getState()==0){
+                            orderStatusId = 3;
+                        }else if(book.getState()==2){
+                            orderStatusId = 4;
+                        }
+                        List<Order> order = orderService.getOrderByMore(book.getBookId(), orderStatusId );
+                        book.setOrder(order);
                     }
 
                     tableMessage.setTotal(bookMapper.searchBookCount(tableMessage));
@@ -149,20 +184,6 @@ public class BookServiceImpl implements BookService{
         return tableMessage;
     }
 
-    @Override
-    public TableMessageForClient getBookListByType(TableMessageForClient tableMessageForClient) {
 
-        List<Book> bookListForClient = new ArrayList<>();
 
-        try {
-            bookListForClient = bookMapper.getBookListByType(tableMessageForClient);
-            for (Book book :bookListForClient) {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
 }

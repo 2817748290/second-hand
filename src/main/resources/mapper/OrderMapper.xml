@@ -72,4 +72,14 @@
         WHERE `order_id`=#{_parameter}
     </delete>
 
+    <select id="getOrderByMore" resultMap="OrderMap">
+        SELECT * FROM `order`
+        <where>
+            `book_id` = #{bookId}
+            <if test="#{status} != null">
+                AND `status` = #{status}
+            </if>
+        </where>
+    </select>
+
 </mapper>

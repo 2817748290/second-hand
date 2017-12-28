@@ -20,4 +20,5 @@ public interface OrderService {
 
     public TableMessage searchOrder(TableMessageForOrder tableMessage) throws Exception;
 
+    public List<Order> getOrderByMore(int bookId, int status) throws Exception;
 }
