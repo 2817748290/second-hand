@@ -96,7 +96,7 @@
 							}
 							addOrder(param).then(res => {
 								let readyTime = res.data.result
-								alert('预约成功,请在24小时之内到图书馆借书处借书,否则预约将自动取消!')
+								alert('预约成功,请在2分钟之内到图书馆借书处借书,否则预约将自动取消!')
 								
 							}).then(()=>{
 								this.user.points -= 10
