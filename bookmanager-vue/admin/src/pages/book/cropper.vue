@@ -1,12 +1,12 @@
 <template>
 	<div class="wrapper">
-		<div class="model" v-show="model" @click="model = false">
-			<div class="model-show">
+		<div class="model" style="width:100%;height:100%;" v-show="model" @click="model = false">
+			<div class="model-show" style="width:100%;height:70%;">
 				<img :src="modelSrc" alt="">
 			</div>
-			<div class="container" style="width:20%;margin-top:-10%;margin-left:44%" v-show="modelBtn" @click="modelBtn = false" >
-				<div style="margin-left:-25%;margin-top:-2%" ><font size="2" color="#ffffff" face="微软雅黑">✱ 【确定】后将会上传图片为图书【封面】</font><br></div>
-				<div style="margin-top:4%" >
+			<div class="container" style="margin-left:32%" v-show="modelBtn" @click="modelBtn = false" >
+				<div style="" ><font size="2" color="#ffffff" face="微软雅黑">✱ 【确定】后将会上传图片为图书【封面】</font><br></div>
+				<div style="margin-left:2%;margin-top:4%" >
 					<button class="btn btn-info" @click="addDB" >确定</button>
 					<button class="btn btn-success" style="margin-left:5%" >取消</button>
 				</div>
@@ -200,7 +200,6 @@ export default {
 	.content {
 		margin: auto;
 		max-width: 80%;
-		margin-bottom: 100px;
 	}
 
 	.des {
@@ -219,9 +218,7 @@ export default {
 		white-space: pre;
 	}
 
-	.show-info {
-		margin-bottom: 50px;
-	}
+	
 
 	.show-info h2 {
 		line-height: 50px;
@@ -262,8 +259,8 @@ export default {
 
 	.model-show {
 		display: flex;
-    justify-content: center;
-    align-items: center;
+		justify-content: center;
+		align-items: center;
 		width: 100%;
 		height: 100%;
 	}

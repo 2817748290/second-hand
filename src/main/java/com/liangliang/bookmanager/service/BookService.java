@@ -21,6 +21,5 @@ public interface BookService {
 
     public TableMessage searchBook(TableMessage tableMessage) throws Exception;
 
-    public TableMessageForClient getBookListByType(TableMessageForClient tableMessageForClient) throws Exception;
 
 }

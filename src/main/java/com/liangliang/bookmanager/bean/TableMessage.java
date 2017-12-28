@@ -17,6 +17,7 @@ public class TableMessage {
     private Object rows;    //rows放返回数据
     private int status;
     private int tags;
+    private int orderStatus;
 
 
     public Map result(){
@@ -123,4 +124,11 @@ public class TableMessage {
         this.status = status;
     }
 
+    public int getOrderStatus() {
+        return orderStatus;
+    }
+
+    public void setOrderStatus(int orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 }

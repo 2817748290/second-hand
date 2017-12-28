@@ -24,8 +24,10 @@ import User from './pages/user/index.vue'
 import Book from './pages/book/index.vue'
 import Order from './pages/order/index.vue'
 import BorrowBook from './pages/BorrowBook/index.vue'
+import BorrowBookAfter from './pages/BorrowBookAfter/index.vue'
 import ReturnBook from './pages/ReturnBook/index.vue'
 import AppointmentBook from './pages/AppointmentBook/index.vue'
+import AppointmentBookAfter from './pages/AppointmentBookAfter/index.vue'
 import Rights from './pages/Rights/index.vue'
 import vueCropper from './components/vueCropper.vue'
 
@@ -85,11 +87,29 @@ const routes = [
   },{
     path: '/',
     component: Home,
+    name: '预约中审核',
+    leaf: true,//只有一个节点    
+    iconCls: 'el-icon-edit',//图标样式class
+    children: [
+      { path: '/appointmentAfter', component: AppointmentBookAfter, name: '预约中审核' }
+    ]
+  },{
+    path: '/',
+    component: Home,
     name: '借书审核',
     leaf: true,//只有一个节点
     iconCls: 'el-icon-edit',//图标样式class
     children: [
       { path: '/borrow', component: BorrowBook, name: '借书审核' }
+    ]
+  },{
+    path: '/',
+    component: Home,
+    name: '还书',
+    leaf: true,//只有一个节点
+    iconCls: 'el-icon-edit',//图标样式class
+    children: [
+      { path: '/borrowBookAfter', component: BorrowBookAfter, name: '还书' }
     ]
   },
   {
@@ -106,7 +126,7 @@ const routes = [
     component: Home,
     name: '申述审核',
     leaf: true,//只有一个节点
-    iconCls: 'el-icon-message',//图标样式class
+    iconCls: 'el-icon-setting',//图标样式class
     children: [
       { path: '/rights', component: Rights, name: '申述审核' }
     ]

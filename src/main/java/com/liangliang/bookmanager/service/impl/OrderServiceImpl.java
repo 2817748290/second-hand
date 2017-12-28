@@ -98,7 +98,6 @@ public class OrderServiceImpl implements OrderService{
                 Integer bookId = order.getBookId();
                 order.setBorrower(userMapper.getUserById(userId));
                 order.setBook(bookMapper.getBookInfoById(bookId));
-                System.out.println("日期:"+order.getCreateDate());
             }
             tableMessage.setRows(orderList);
             Integer total = orderMapper.searchOrderCount(tableMessage);
@@ -108,5 +107,17 @@ public class OrderServiceImpl implements OrderService{
             return null;
         }
         return tableMessage;
+    }
+
+    @Override
+    public List<Order> getOrderByMore(int bookId, int status) throws Exception {
+
+        List<Order> orderList = orderMapper.getOrderByMore(bookId, status);
+
+        for (Order order:orderList) {
+            User user = userMapper.getUserById(order.getBorrowerId());
+            order.setBorrower(user);
+        }
+        return orderList;
     }
 }

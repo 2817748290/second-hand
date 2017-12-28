@@ -87,16 +87,6 @@
         WHERE book_id=#{bookId}
     </select>
 
-    <select id="getBookListByType" resultMap="BookMap">
-        SELECT * FROM book b
-        WHERE type_id=#{typeId}
-        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
-    </select>
 
-    <select id="getBookListByTypeCount" resultType="int">
-        SELECT COUNT(*) FROM book b
-        WHERE type_id=#{typeId}
-        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
-    </select>
 
 </mapper>

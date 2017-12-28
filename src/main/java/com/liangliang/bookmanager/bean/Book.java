@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.liangliang.bookmanager.config.CustomJsonDateDeserializer;
 
 import java.util.Date;
+import java.util.List;
 
 public class Book {
     private Integer bookId;
@@ -27,6 +28,8 @@ public class Book {
     private Type type;
 
     private State stateInfo;
+
+    private List<Order> order;
 
     public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state, Date bookDate ) {
         this.bookId = bookId;
@@ -131,5 +134,13 @@ public class Book {
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public void setBookDate(Date bookDate) {
         this.bookDate = bookDate;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
     }
 }

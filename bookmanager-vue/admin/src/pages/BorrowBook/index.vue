@@ -5,21 +5,23 @@
 				<img :src="'/public' + book.imageUrl" width="180px" height="240px" class="image" onerror='this.src="../../../static/default.png"' style="margin-left:15%">
 				<div style="padding: 10px;margin-left:15%">
 					<span><strong>图书名称：</strong>{{book.bookName}}</span><br>
-					<span><strong>图书作者：</strong>{{book.author}}</span>
+					<span><strong>图书作者：</strong>{{book.author}}</span><br>
+					<span><strong>预约人：</strong>{{book.order[0].borrower.nickname}}</span>
+
 					<div class="bottom clearfix">
 						<time class="time">{{book.createDate}}</time>
 						<span><strong>图书状态：</strong>{{book.stateInfo.stateName}}</span><br>
-						<el-button
+						<el-button 
 							class="button"
 							type = "primary"
 							style="margin-left:8%;margin-top:2%;"
-							@click="handlePass(book.bookId)"
+							@click="handlePass(book.bookId, book.order[0].orderId)"
 						>通过</el-button>
-						<el-button
+						<el-button 
 							class="button"
 							type = "danger"
 							style="margin-left:2%;margin-top:2%;"
-							@click="handleRefuse(book.bookId)"
+							@click="handleRefuse(book.bookId, book.order[0].orderId)"
 						>否决</el-button>
 					</div>
 				</div>
@@ -32,7 +34,7 @@
 	import util from '../../common/util'
 	import NProgress from 'nprogress'
 	import cropper from '../book/cropper'
-	import { getInitBookList, deleteBook, addBook, updateBook, getBookInfoById, getTypeList } from '../../api/api';
+	import { getInitBookList, deleteBook, addBook, updateBook, getBookInfoById, getTypeList, updateOrder } from '../../api/api';
 	import $ from '../../../static/jquery.min.js'
 
 	export default {
@@ -52,6 +54,7 @@
 				booktypes:[],
 				total: 0,
 				offset: 0,
+				orderStatus:-1,
 				sort: '+book_id',
 				limit: 20,
 				listLoading: false,
@@ -68,9 +71,10 @@
 					typeId:0,
 					state:-1,
 				},
+				orderId:0,
 				editLoading: false,
 				btnEditText: '提 交',
-
+				
 
 			}
 		},		
@@ -98,6 +102,7 @@
 					limit: this.limit,
 					search: this.filters.search,
 					searchName: this.filters.searchName,
+					orderStatus: this.orderStatus,
 				};
 				this.listLoading = true;
 				NProgress.start();
@@ -106,6 +111,7 @@
 					this.books = res.data.rows;
 					this.listLoading = false;
 					NProgress.done();
+					
 				});
 			},
 
@@ -122,8 +128,8 @@
 				});
 			},
 
-			//通过操作
-			handlePass: function (value) {
+			//通过操作 
+			handlePass: function (value, value1) {
 				var _this = this;
 				this.$confirm('确认要通过该记录吗?', '提示', {
 					//type: 'warning'
@@ -142,7 +148,12 @@
 							message: '操作成功',
 							type: 'success'
 						});
+						let param = {
+							orderId: value1,
+							status: 1
+						};
 						_this.getBookList();
+						updateOrder(param)
 					});
 
 				}).catch(() => {
@@ -151,7 +162,7 @@
 			},
 
 			//否决操作 
-			handleRefuse: function (value) {
+			handleRefuse: function (value, value1) {
 				var _this = this;
 				this.$confirm('确认要否决该记录吗?', '提示', {
 					//type: 'warning'
@@ -160,7 +171,7 @@
 					NProgress.start();
 					let para = {
 						bookId: value,
-						state: 3
+						state: 0
 					};
 					updateBook(para).then((res) => {
 						_this.listLoading = false;
@@ -170,14 +181,20 @@
 							message: '操作成功',
 							type: 'success'
 						});
+						let param = {
+							orderId: value1,
+							status: 5
+						};
 						_this.getBookList();
+						updateOrder(param)
 					});
 
 				}).catch(() => {
 
 				});
 			},
-
+			
+			
 		}
 		
 		

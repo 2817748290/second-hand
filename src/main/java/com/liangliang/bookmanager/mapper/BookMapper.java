@@ -28,7 +28,4 @@ public interface BookMapper {
 
     public Integer bookCount(TableMessage tableMessage) throws Exception;
 
-    public List<Book> getBookListByType(TableMessageForClient tableMessageForClient) throws Exception;
-
-    public Integer getBookListByTypeCount(TableMessageForClient tableMessageForClient) throws Exception;
 }

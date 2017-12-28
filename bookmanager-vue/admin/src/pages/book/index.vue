@@ -316,6 +316,8 @@
 									state: _this.editForm.state
 								};
 								updateBook(para).then((res) => {
+
+									
 									_this.editLoading = false;
 									NProgress.done();
 									_this.btnEditText = '提 交';
