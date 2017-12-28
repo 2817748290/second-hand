@@ -24,6 +24,11 @@
               <div>我的预约</div>
             </router-link>
           </li>
+          <li>
+            <router-link :to="{name: 'ReturnBook'}">
+              <div>还书</div>
+            </router-link>
+          </li>
         </ul>
       </nav>
       <router-view></router-view>
