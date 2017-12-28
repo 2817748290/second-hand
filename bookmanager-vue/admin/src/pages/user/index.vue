@@ -4,12 +4,12 @@
 		<!--工具条-->
 		<el-col :span="24" class="toolbar">
 			<el-form :inline="true" :model="filters">
-				<el-select v-model="filters.searchName" placeholder="请选择">
+				<el-select v-model="filters.groupValue" placeholder="请选择">
 					<el-option
-					v-for="item in options"
-					:key="item.value"
-					:label="item.label"
-					:value="item.value">
+					v-for="item in groups"
+					:key="item.group"
+					:label="item.value"
+					:value="item.group">
 					</el-option>
 				</el-select>
 				<el-form-item>
@@ -35,8 +35,8 @@
 				</el-table-column>
 				<el-table-column prop="points" label="积分" width="100" sortable>
 				</el-table-column>
-				<!-- <el-table-column prop="group" label="用户组" width="120" :formatter="groupFormatter" sortable>
-				</el-table-column> -->
+				<el-table-column prop="group" label="用户组" width="120" :formatter="groupFormatter" sortable>
+				</el-table-column>
 				<el-table-column prop="userState" label="状态" width="100" :formatter="statusFormatter" sortable>
 				</el-table-column>
 				<el-table-column prop="email" label="邮箱" width="180" sortable>
@@ -70,7 +70,7 @@
 			<el-input type="password" v-model="editForm.password" auto-complete="off" v-bind:disabled="disabledChange"></el-input>
 		</el-form-item>
 		<el-form-item label="头像" prop="avatarImage" v-bind:disabled="disabledChange">
-			<img v-bind:src="editForm.avatarImage"  onerror='this.src="../../../static/default-avatar.jpg"' width="200px" height="200px"><br>
+			<img v-show="editForm.avatarImage" :src="editForm.avatarImage"  width="200px" height="200px"><br>
   			<el-button type="primary" v-show="btnChooseShow" @click="choose" style="margin-top:1%">选择用户头像</el-button>
 		</el-form-item>
 		<el-form-item label="用户组">
@@ -146,7 +146,7 @@
 					username: '',
 					nickname: '',
 					password: '',
-					avatarImage: 'https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191',
+					avatarImage: '',
 					group: 0,
 					userState: 0,
 					points: '',
@@ -268,7 +268,7 @@
 
 							if (_this.editForm.id == 0) {
 								//新增
-								if(_this.editForm.avatarImage==''){
+								if(_this.editForm.avatarImage===''){
 
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
@@ -313,8 +313,7 @@
 								
 							} else {
 								//编辑
-								if(_this.editForm.avatarImage==''){
-
+								if(_this.editForm.avatarImage===''){
 									_this.$message.error('您没有选择头像哦!');
 									_this.editLoading = false;
 									_this.btnEditText = '提 交';
@@ -329,12 +328,13 @@
 									para.append('userState', _this.editForm.userState);
 									para.append('points', _this.editForm.points);
 									para.append('email', _this.editForm.email);
+									console.log('this.$refs.c：')
 									console.log(this.$refs.c)
 									console.log(this.$refs.c2)
-
-									this.$refs.c.$refs.cropper.getCropBlob((data) => {
-										// do something
-										para.append('avatarImage',data);
+									//判断cropper是否选择过图片
+									// todo:重复代码需要优化
+									if(this.$refs.c===undefined){
+										para.append('avatarImage',this.editForm.avatarImage);
 										updateUser(para).then((res) => {
 											console.log(res.data)
 											_this.editLoading = false;
@@ -356,7 +356,36 @@
 											}
 											_this.editFormVisible = false;
 										})
-									});
+
+									}else{
+
+										this.$refs.c.$refs.cropper.getCropBlob((data) => {
+											para.append('avatarImage',data);
+											//console.log('data1111111:')
+											updateUser(para).then((res) => {
+												console.log(res.data)
+												_this.editLoading = false;
+												NProgress.done();
+												_this.btnEditText = '提 交';
+												if(res.data.status === 1){
+													_this.$notify({
+														title: '成功',
+														message: '修改成功',
+														type: 'success'
+													});
+													_this.getUsers();
+												}else{
+													_this.$notify({
+														title: '失败',
+														message: '修改失败',
+														type: 'error'
+													});
+												}
+												_this.editFormVisible = false;
+											})
+										});
+									}
+									
 								}
 							}
 

@@ -167,6 +167,25 @@
         }).then((data)=>{
 
           for(let i in data){
+            if(data[i].readyTime<new Date().getTime()){
+              let param = {
+                'orderId' :data[i].orderId,
+              }
+              deleteOrder(param).then((res)=>{
+                console.log('修改order结果')
+                console.log(res.data)
+              }).then(()=>{
+                let param = {
+                  'bookId': this.orderList[index].bookId,
+                  'status': 0
+                }
+                updateBook(param).then(res=>{
+                  console.log('修改书籍结果')
+                  console.log(res.data)
+                })
+              })
+              return
+            }
             this.orderList[i].timer = setInterval(() => {
               this.leftTimer(data[i].readyTime, i)
             },0);
