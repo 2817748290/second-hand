@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangliang.bookmanager.mapper.OrderMapper">
+    <resultMap id="OrderMap" type="com.liangliang.bookmanager.bean.Order">
+        <id column="order_id" property="orderId"/>
+        <result column="borrower_id" property="borrowerId"/>
+        <result column="book_id" property="bookId"/>
+        <result column="status" property="status"/>
+        <result column="create_date" property="createDate"/>
+        <result column="update_date" property="updateDate"/>
+        <result column="ready_time" property="readyTime"/>
+    </resultMap>
+
+    <select id="getOrderList"  resultMap="OrderMap">
+        SELECT * FROM `order` u
+    </select>
+    <select id="getOrderById"  resultMap="OrderMap">
+        SELECT * FROM `order` u WHERE `order_id` = #{_parameter}
+    </select>
+    <select id="searchOrder" resultMap="OrderMap">
+        SELECT o.*,u.`username`,b.`book_name` FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`
+        LEFT JOIN `book` b ON b.`book_id` = o.`book_id`
+        <where>
+            <if test="searchName != null and searchName != '' and search != null and search != ''">
+                AND ${searchName} LIKE #{search}
+            </if>
+            <if test="usernameValue != null and usernameValue != ''">
+                AND ${USERNAME} LIKE #{usernameValue}
+            </if>
+            <if test="bookNameValue != null and bookNameValue != ''">
+                AND ${BOOKNAME} LIKE #{bookNameValue}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
+    </select>
+    
+    <select id="searchOrderCount" resultType="Integer">
+        SELECT COUNT(*) FROM `order` o LEFT JOIN `user` u ON u.`user_id` =  o.`borrower_id`
+        LEFT JOIN `book` b ON b.`book_id` = o.`book_id`
+        <where>
+            <if test="searchName != null and searchName != '' and search != null and search != ''">
+                AND ${searchName} LIKE #{search}
+            </if>
+            <if test="usernameValue != null and usernameValue != ''">
+                AND ${USERNAME} LIKE #{usernameValue}
+            </if>
+            <if test="bookNameValue != null and bookNameValue != ''">
+                AND ${BOOKNAME} LIKE #{bookNameValue}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addOrder" parameterType="com.liangliang.bookmanager.bean.Order">
+        INSERT INTO `order` (borrower_id, book_id, status, create_date, update_date,ready_time)
+        VALUES (#{borrowerId},#{bookId},#{status},#{createDate},#{updateDate},#{readyTime})
+    </insert>
+
+    <update id="updateOrder" parameterType="com.liangliang.bookmanager.bean.Order">
+        UPDATE `order`
+        <set>
+            <if test="status != null">
+                `status` = #{status},
+            </if>
+        </set>
+        where order_id=#{orderId}
+    </update>
+
+    <delete id="deleteOrder">
+        DELETE FROM `order`
+        WHERE `order_id`=#{_parameter}
+    </delete>
+
+    <select id="getOrderByMore" resultMap="OrderMap">
+        SELECT * FROM `order`
+        <where>
+            `book_id` = #{bookId}
+            <if test="#{status} != null">
+                AND `status` = #{status}
+            </if>
+        </where>
+    </select>
+
+</mapper>

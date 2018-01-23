@@ -1,0 +1,5 @@
+.banner {
+	display: flex;
+	justify-content: space-between;
+	padding: .5rem 0;
+}

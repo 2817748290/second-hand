@@ -1,0 +1,30 @@
+/* subject nav style */
+#subjects {
+  display: flex;
+  margin: 2rem 0;
+}
+#subjects-nav {
+  width: 240px;
+  border-right: 1px solid rgb(176, 176, 176);
+}
+#subjects-nav li {
+  list-style-type: none;
+}
+#subjects-nav li a {
+  display: block;
+  text-align: center;
+  padding: .5rem 0;
+}
+#subjects-nav li .active {
+  color: #ed6c00;
+  border-right: 4px solid #ed6c00;
+  background: #f4f2ef;
+}
+
+#subjects-books {
+  width: 960px;
+  padding: 0 1rem 0 2rem;
+}
+#subjects-books > h2 {
+  padding: .5rem 0;
+}

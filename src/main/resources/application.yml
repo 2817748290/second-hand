@@ -6,7 +6,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: 123456
-    url: jdbc:mysql://localhost/bookmanager?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    url: jdbc:mysql://101.132.140.132/bookmanager?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
     ip: localhost
     port: 3306
     database: bookmanager
@@ -20,7 +20,6 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.liangliang.bookmanager.mapper
@@ -30,4 +29,9 @@ mybatis:
 com:
   liangliang:
     custom:
-      windows-path: d:/liangliang
+      windows-path: d:/liangliang/
+      linux-path: /liangliang
+      images-path: file:d:/liangliang/     #访问外部静态文件的路径
+
+
+

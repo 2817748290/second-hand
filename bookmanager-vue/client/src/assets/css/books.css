@@ -1,0 +1,51 @@
+#books .booklist {
+  display: flex;
+  flex-wrap: wrap;
+}
+#books .book {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 50%;
+  margin: 1rem 0;
+}
+#books .cover {
+  width: 96px;
+  height: 128px;
+}
+#books .cover img {
+  width: 100%;
+  height: 100%;
+}
+
+#books .book-info {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+}
+#books .name {
+  font-size: .9rem;
+  line-height: 2;
+}
+#books .author,
+#books .abstruct {
+  font-size: .8rem;
+  line-height: 1.5;
+}
+#books .act {
+  margin-top: auto;
+}
+#books .price {
+  margin-right: 1rem;
+}
+#books .buy {
+  font-size: .8rem;
+  color: #666;
+  padding: .3rem 1rem;
+  border: 1px solid rgb(176, 176, 176);
+  border-radius: 4px;
+}
+#books .buy:hover {
+  color: #fff;
+  border: 1px solid #3d76de;
+  background: #4d87de;
+}

@@ -1,0 +1,77 @@
+{
+  "title": "新书上架",
+  "bookList": [
+    {
+			"id": 1005,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1005.jpg",
+			"price": 50.00,
+			"name": "CSS揭秘",
+			"author": "【希】韦鲁",
+			"abstruct": "CSS一姐Lea Verou作品！"
+		},
+		{
+			"id": 1006,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1006.jpg",
+			"price": 25.00,
+			"name": "CSS设计指南（第3版）",
+			"author": "【英】Charles Wyke-Smith",
+			"abstruct": "不容错过的CSS经典好书，涵盖响应式设计！"
+		},
+    {
+			"id": 2005,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2005.jpg",
+			"price": 18.00,
+			"name": "被伤害与侮辱的人们（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部描写小人物的力作！内附8幅精美黑白插图！"
+		},
+		{
+			"id": 2006,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2006.jpg",
+			"price": 12.00,
+			"name": "茶花女（译文名著精选）",
+			"author": "【法】小仲马",
+			"abstruct": "可可·香奈尔一生最爱的枕边书，小仲马笔下催人泪下的爱情传奇，舞台上长盛不衰的经典剧目月亮和六便士（毛姆文集）"
+		},
+		{
+			"id": 1005,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1005.jpg",
+			"price": 50.00,
+			"name": "CSS揭秘",
+			"author": "【希】韦鲁",
+			"abstruct": "CSS一姐Lea Verou作品！"
+		},
+		{
+			"id": 1006,
+			"category": "computer",
+			"cover": "static/data/books/book-cover/1006.jpg",
+			"price": 25.00,
+			"name": "CSS设计指南（第3版）",
+			"author": "【英】Charles Wyke-Smith",
+			"abstruct": "不容错过的CSS经典好书，涵盖响应式设计！"
+		},
+    {
+			"id": 2005,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2005.jpg",
+			"price": 18.00,
+			"name": "被伤害与侮辱的人们（陀思妥耶夫斯基文集）",
+			"author": "【俄】陀思妥耶夫斯基",
+			"abstruct": "一部描写小人物的力作！内附8幅精美黑白插图！"
+		},
+		{
+			"id": 2006,
+			"category": "fiction",
+			"cover": "static/data/books/book-cover/2006.jpg",
+			"price": 12.00,
+			"name": "茶花女（译文名著精选）",
+			"author": "【法】小仲马",
+			"abstruct": "可可·香奈尔一生最爱的枕边书，小仲马笔下催人泪下的爱情传奇，舞台上长盛不衰的经典剧目月亮和六便士（毛姆文集）"
+		}
+  ]
+}

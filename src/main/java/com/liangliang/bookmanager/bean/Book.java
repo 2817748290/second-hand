@@ -1,6 +1,10 @@
 package com.liangliang.bookmanager.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.liangliang.bookmanager.config.CustomJsonDateDeserializer;
+
 import java.util.Date;
+import java.util.List;
 
 public class Book {
     private Integer bookId;
@@ -13,24 +17,30 @@ public class Book {
 
     private String location;
 
-    private Date borrowDate;
+    private Integer typeId;
 
-    private Integer type;
+    private Date bookDate;
 
     private String isbn;
 
     private Integer state;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Integer type, String isbn, Integer state) {
+    private Type type;
+
+    private State stateInfo;
+
+    private List<Order> order;
+
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Integer typeId, String isbn, Integer state, Date bookDate ) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
-        this.borrowDate = borrowDate;
-        this.type = type;
+        this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
+        this.bookDate = bookDate;
     }
 
     public Book() {
@@ -77,20 +87,12 @@ public class Book {
         this.location = location == null ? null : location.trim();
     }
 
-    public Date getBorrowDate() {
-        return borrowDate;
+    public Integer getTypeId() {
+        return typeId;
     }
 
-    public void setBorrowDate(Date borrowDate) {
-        this.borrowDate = borrowDate;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public String getIsbn() {
@@ -107,5 +109,38 @@ public class Book {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    public State getStateInfo() {
+        return stateInfo;
+    }
+
+    public void setStateInfo(State stateInfo) {
+        this.stateInfo = stateInfo;
+    }
+
+    public Date getBookDate() {
+        return bookDate;
+    }
+
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    public void setBookDate(Date bookDate) {
+        this.bookDate = bookDate;
+    }
+
+    public List<Order> getOrder() {
+        return order;
+    }
+
+    public void setOrder(List<Order> order) {
+        this.order = order;
     }
 }
