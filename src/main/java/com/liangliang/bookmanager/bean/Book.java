@@ -1,5 +1,8 @@
 package com.liangliang.bookmanager.bean;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.liangliang.bookmanager.config.CustomJsonDateDeserializer;
+
 import java.util.Date;
 
 public class Book {
@@ -13,22 +16,33 @@ public class Book {
 
     private String location;
 
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date borrowDate;
 
-    private Integer type;
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+    private Date returnDate;
+
+    private Integer typeId;
 
     private String isbn;
 
     private Integer state;
 
-    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Integer type, String isbn, Integer state) {
+    private Integer userId;
+
+    private User user;
+
+    private Type type;
+
+    public Book(Integer bookId, String bookName, String author, String imageUrl, String location, Date borrowDate, Date returnDate, Integer typeId, String isbn, Integer state) {
         this.bookId = bookId;
         this.bookName = bookName;
         this.author = author;
         this.imageUrl = imageUrl;
         this.location = location;
         this.borrowDate = borrowDate;
-        this.type = type;
+        this.returnDate = returnDate;
+        this.typeId = typeId;
         this.isbn = isbn;
         this.state = state;
     }
@@ -85,12 +99,20 @@ public class Book {
         this.borrowDate = borrowDate;
     }
 
-    public Integer getType() {
-        return type;
+    public Date getReturnDate() {
+        return returnDate;
     }
 
-    public void setType(Integer type) {
-        this.type = type;
+    public void setReturnDate(Date returnDate) {
+        this.returnDate = returnDate;
+    }
+
+    public Integer getTypeId() {
+        return typeId;
+    }
+
+    public void setTypeId(Integer typeId) {
+        this.typeId = typeId;
     }
 
     public String getIsbn() {
@@ -107,5 +129,29 @@ public class Book {
 
     public void setState(Integer state) {
         this.state = state;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 }

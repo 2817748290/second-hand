@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liangliang.bookmanager.mapper.BookMapper">
+    <resultMap id="BookMap" type="com.liangliang.bookmanager.bean.Book">
+        <id column="book_id" property="bookId"/>
+        <result column="book_name" property="bookName"/>
+        <result column="author" property="author"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="location" property="location"/>
+        <result column="borrow_date" property="borrowDate"/>
+        <result column="return_date" property="returnDate"/>
+        <result column="type_id" property="typeId"/>
+        <result column="isbn" property="isbn"/>
+        <result column="state" property="state"/>
+    </resultMap>
+
+    <insert id="addBook" parameterType="com.liangliang.bookmanager.bean.Book">
+        INSERT INTO book (book_name,author,image_url,location,borrow_date,return_date,type_id,isbn)
+        VALUES (#{bookName},#{author},#{imageUrl},#{location},#{borrowDate},#{returnDate},#{typeId},#{isbn})
+    </insert>
+
+    <update id="updateBook" parameterType="com.liangliang.bookmanager.bean.Book">
+        UPDATE book
+        <set>
+            <if test="bookName != null">
+                book_name = #{bookName}
+            </if>
+            <if test="author != null">
+                author = #{author}
+            </if>
+            <if test="imageUrl != null">
+                image_url = #{imageUrl}
+            </if>
+            <if test="location != null">
+                location = #{location}
+            </if>
+            <if test="borrowDate != null">
+                borrow_date = #{borrowDate}
+            </if>
+            <if test="returnDate != null">
+                return_date = #{returnDate}
+            </if>
+            <if test="typeId != null">
+                type_id = #{typeId}
+            </if>
+            <if test="isbn != null">
+                isbn = #{isbn}
+            </if>
+        </set>
+        WHERE book_id = #{bookId}
+    </update>
+
+    <select id="searchBook" resultMap="BookMap">
+        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        AND ${searchName} LIKE #{search}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="searchBookCount" resultMap="BookMap">
+        SELECT COUNT(*) FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        AND ${searchName} LIKE #{search}
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="getBookList"  resultMap="BookMap">
+        SELECT * FROM book b
+    </select>
+
+    <select id="getBookAndUserList"  resultMap="BookMap">
+        SELECT b.*, r.*,u.nickname FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+    <select id="bookCount" >
+        SELECT COUNT(*) FROM book b, user_book r, user u
+        WHERE b.book_id = r.book_id
+        AND r.user_id = u.user_id
+        ORDER BY ${sort} ${order} LIMIT #{offset},#{limit}
+    </select>
+
+
+    <delete id="deleteBook" parameterType="int">
+        DELETE FROM book
+        WHERE book_id=#{bookId}
+    </delete>
+
+    <select id="getBookInfoById" parameterType="int" resultMap="BookMap">
+        SELECT * FROM book b
+        WHERE book_id=#{bookId}
+    </select>
+</mapper>

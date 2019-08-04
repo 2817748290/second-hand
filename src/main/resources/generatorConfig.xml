@@ -71,6 +71,10 @@
         </table>
         <table schema="" tableName="state">
         </table>
+        <table schema="" tableName="group">
+        </table>
+        <table schema="" tableName="user_state">
+        </table>
         <table schema="" tableName="type">
         </table>
         <table schema="" tableName="user">
